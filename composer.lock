@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4a16c3c541bd99241cab1c21ce8e83ac",
+    "content-hash": "5bc9b85bafc09eca243ceded7a7e009b",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -1130,6 +1130,64 @@
             "time": "2021-03-02T16:53:12+00:00"
         },
         {
+            "name": "laravel/ui",
+            "version": "v3.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laravel/ui.git",
+                "reference": "a1f82c6283c8373ea1958b8a27c3d5c98cade351"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laravel/ui/zipball/a1f82c6283c8373ea1958b8a27c3d5c98cade351",
+                "reference": "a1f82c6283c8373ea1958b8a27c3d5c98cade351",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/console": "^8.0",
+                "illuminate/filesystem": "^8.0",
+                "illuminate/support": "^8.0",
+                "php": "^7.3|^8.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.x-dev"
+                },
+                "laravel": {
+                    "providers": [
+                        "Laravel\\Ui\\UiServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Laravel\\Ui\\": "src/",
+                    "Illuminate\\Foundation\\Auth\\": "auth-backend/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Taylor Otwell",
+                    "email": "taylor@laravel.com"
+                }
+            ],
+            "description": "Laravel UI utilities and presets.",
+            "keywords": [
+                "laravel",
+                "ui"
+            ],
+            "support": {
+                "issues": "https://github.com/laravel/ui/issues",
+                "source": "https://github.com/laravel/ui/tree/v3.2.0"
+            },
+            "time": "2021-01-06T19:20:22+00:00"
+        },
+        {
             "name": "league/commonmark",
             "version": "1.5.8",
             "source": {
@@ -1625,6 +1683,125 @@
                 "source": "https://github.com/nikic/PHP-Parser/tree/v4.10.4"
             },
             "time": "2020-12-20T10:01:03+00:00"
+        },
+        {
+            "name": "openfoodfacts/openfoodfacts-laravel",
+            "version": "v0.2.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/openfoodfacts/openfoodfacts-laravel.git",
+                "reference": "b24a680deeeafc897da43eef494e5d1e94014002"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/openfoodfacts/openfoodfacts-laravel/zipball/b24a680deeeafc897da43eef494e5d1e94014002",
+                "reference": "b24a680deeeafc897da43eef494e5d1e94014002",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": "^6.3.1|^7.0",
+                "illuminate/support": "5.7.x|5.8.x|^6.0|^7.0|^8.0",
+                "openfoodfacts/openfoodfacts-php": "^0.2.4",
+                "php": ">=7.2.5"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^3.7|4.*|5.*|6.*",
+                "phpunit/phpunit": "^7.5|^8.4|^9.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "OpenFoodFacts\\Laravel\\OpenFoodFactsServiceProvider"
+                    ],
+                    "aliases": {
+                        "OpenFoodFacts": "OpenFoodFacts\\Laravel\\Facades\\OpenFoodFacts"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "OpenFoodFacts\\Laravel\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Eddie Palmans",
+                    "email": "eddie@palmans.nl"
+                }
+            ],
+            "description": "Open Food Facts API wrapper for Laravel",
+            "homepage": "https://github.com/openfoodfacts/openfoodfacts-laravel",
+            "keywords": [
+                "laravel",
+                "openfoodfacts",
+                "php"
+            ],
+            "support": {
+                "issues": "https://github.com/openfoodfacts/openfoodfacts-laravel/issues",
+                "source": "https://github.com/openfoodfacts/openfoodfacts-laravel/tree/v0.2.1"
+            },
+            "time": "2020-11-11T07:04:28+00:00"
+        },
+        {
+            "name": "openfoodfacts/openfoodfacts-php",
+            "version": "0.2.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/openfoodfacts/openfoodfacts-php.git",
+                "reference": "e48e090d6049c3e6a4f3684b4893762e80d54c1e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/openfoodfacts/openfoodfacts-php/zipball/e48e090d6049c3e6a4f3684b4893762e80d54c1e",
+                "reference": "e48e090d6049c3e6a4f3684b4893762e80d54c1e",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "ext-json": "*",
+                "guzzlehttp/guzzle": "^6.3|^7.0",
+                "php": ">=7.1",
+                "psr/log": "^1.0",
+                "psr/simple-cache": "^1.0"
+            },
+            "require-dev": {
+                "ext-gd": "*",
+                "monolog/monolog": "^1.23",
+                "phpunit/phpunit": "^7.0",
+                "symfony/cache": "^4.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "OpenFoodFacts\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Roberto Moreno",
+                    "email": "rmorenp@rampmaster.org",
+                    "homepage": "http://www.rampmaster.org",
+                    "role": "Wrapper Developer"
+                }
+            ],
+            "description": "Open Food Facts API Wrapper, the open database about food.",
+            "homepage": "https://world.openfoodfacts.org/",
+            "support": {
+                "chat": "https://slack.openfoodfacts.org/",
+                "email": "rmorenp@rampamster.org",
+                "issues": "https://github.com/openfoodfacts/openfoodfacts-php/issues",
+                "source": "https://github.com/openfoodfacts/openfoodfacts-php"
+            },
+            "time": "2020-11-10T20:35:10+00:00"
         },
         {
             "name": "opis/closure",
