@@ -13,10 +13,15 @@ class RecipeController extends Controller
     }
 
     public function index() {
-        return Recipe::all();
+        $recipes = Recipe::all();
+        return view('recipe.indexAll', compact($recipes));
     }
 
-    public function create(Request $request) {
+    public function create()
+    {
+        return view('recipe.create');
+    }
+    public function store(Request $request) {
         $recipe = new Recipe();
         $recipe->user_id = Auth::id();
         $recipe->share = $request->share;
@@ -29,10 +34,12 @@ class RecipeController extends Controller
         // needs to connect with storage "small/big_image"
         //$recipe->products()->attach($request->products);//ids
         $recipe->save();
+        return redirect()->route('recipe.index');
+
     }
 
     public function edit(Recipe $recipe) {
-        return $recipe;
+        return view('recipe.edit', compact('recipe'));
     }
 
     public function update(Recipe $recipe, Request $request) {

@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\RecipeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('homepage');
 });
 
 Route::get('/test', function () {
@@ -24,3 +26,11 @@ Route::get('/test', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::get('/product/create', [ProductController::class, 'create'])->name('product.create');
+Route::post('/product/store', [ProductController::class, 'store'])->name('product.store');
+
+Route::get('/recipe/show', [RecipeController::class, 'show'])->name('recipe.show');
+Route::get('/recipe/all', [RecipeController::class, 'index'])->name('recipe.index');
+Route::get('/recipe/create', [RecipeController::class, 'create'])->name('recipe.create');
+Route::get('/recipe/store', [RecipeController::class, 'store'])->name('recipe.store');
