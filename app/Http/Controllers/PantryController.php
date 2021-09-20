@@ -15,9 +15,12 @@ class PantryController extends Controller
         return redirect()->route('pantry');
     }
  
-    public function addProductToPantry(Product $product, Pantry $pantry)
+    public function addProductToPantry(Product $product, Pantry $pantry, Request $request)
     {
         $pantry = Pantry::findOrFail($pantry->id);
-        $pantry->products()->attach($product->id);
+        for($i = 0; $i < count($request->product_id); $i++){
+            $product = $pantry->products()->attach($request->product_id[$i]);
+            $product->quantity = $request->product_id[$i][1];
+        }
     }
 }

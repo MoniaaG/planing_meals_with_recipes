@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use Exception;
 use Illuminate\Http\Request;
 use OpenFoodFacts\Laravel\Facades\OpenFoodFacts;
 
@@ -15,12 +16,16 @@ class ProductController extends Controller
         $products = Product::all();
     }
 
-    public function searchProducts(string $searchingProduct)
+    public function searchProducts(Request $request)
     {
-        $productsFromAPI = OpenFoodFacts::find($searchingProduct);
-        $productsFromDB = Product::where('name', '=', $searchingProduct);
-        return view('welcome', compact('productsFromAPI', 'productsFromDB'));
-        
+        try {
+                $searchText = $request->value;
+                $productsFromAPI = OpenFoodFacts::find($searchText);
+                $productsFromDB = Product::where('name', '=', $searchText)->get();
+            return response()->json(['status' => 'success', 'productsFromAPI' => $productsFromAPI, 'productsFromDB' => $productsFromDB]);
+        } catch (Exception $error) {
+            return response()->json(['status' => 'fail'], 404);
+        }
     }
 
     public function create()

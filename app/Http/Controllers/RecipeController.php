@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
+use App\Models\Product;
 use App\Models\Recipe;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -19,12 +21,16 @@ class RecipeController extends Controller
 
     public function create()
     {
-        return view('recipe.create');
+        $categories = Category::all();
+        return view('recipe.create', compact('categories'));
     }
     public function store(Request $request) {
         $recipe = new Recipe();
         $recipe->user_id = Auth::id();
-        $recipe->share = $request->share;
+        if($request->share == "on")
+            $recipe->share = true;
+        else 
+            $recipe->share = false;
         $recipe->description = $request->description;
         $recipe->short_description = $request->short_description;
         $recipe->name = $request->name;
@@ -34,6 +40,13 @@ class RecipeController extends Controller
         // needs to connect with storage "small/big_image"
         //$recipe->products()->attach($request->products);//ids
         $recipe->save();
+        dd($request);
+        if($request->product != null) {
+            foreach($request->product as $key => $product) {
+                $product = Product::findOrFail($product[$key]['id']);
+                
+            }
+        }
         return redirect()->route('recipe.index');
 
     }

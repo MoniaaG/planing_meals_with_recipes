@@ -38,7 +38,6 @@ class CommentController extends Controller
     }
 
     public function delete(Comment $comment, Request $request) {
-        //before deleting comment add recipes from that to another !!!!
         $comment->delete();
     }
 }

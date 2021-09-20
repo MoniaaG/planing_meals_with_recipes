@@ -20,17 +20,25 @@ Route::get('/', function () {
 });
 
 Route::get('/test', function () {
-    return OpenFoodFacts::find('');//['quantity'];//['categories'];
+    //return OpenFoodFacts::find('pomidor');//['quantity'];//['categories'];
+    return OpenFoodFacts::barcode('5906827012705');
 });
 
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::get('/product/create', [ProductController::class, 'create'])->name('product.create');
-Route::post('/product/store', [ProductController::class, 'store'])->name('product.store');
+Route::group(['middleware' => ['auth']], function(){
+    Route::get('/product/create', [ProductController::class, 'create'])->name('product.create');
+    Route::post('/product/store', [ProductController::class, 'store'])->name('product.store');
 
-Route::get('/recipe/show', [RecipeController::class, 'show'])->name('recipe.show');
-Route::get('/recipe/all', [RecipeController::class, 'index'])->name('recipe.index');
-Route::get('/recipe/create', [RecipeController::class, 'create'])->name('recipe.create');
-Route::get('/recipe/store', [RecipeController::class, 'store'])->name('recipe.store');
+
+    Route::get('/recipe/show', [RecipeController::class, 'show'])->name('recipe.show');
+    Route::get('/recipe/all', [RecipeController::class, 'index'])->name('recipe.index');
+    Route::get('/recipe/create', [RecipeController::class, 'create'])->name('recipe.create');
+    Route::post('/recipe/store', [RecipeController::class, 'store'])->name('recipe.store');
+});
+
+Route::get('/testt', function() {
+    return view('recipe.xdd');
+});
