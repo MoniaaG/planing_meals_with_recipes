@@ -6,7 +6,7 @@
 <div class="container">
     <div class="row justify-content-center col-6">
         <div class="col-12">
-            <form class="d-flex" style="flex-direction: columns;" action="{{ route('recipe.store')}}" method="post">
+            <form class="d-flex" style="flex-direction: columns;" action="{{ route('recipe.store')}}" method="post" enctype="multipart/form-data">
             @csrf
             <div class="col-6 mr-5">
                 <div class="form-group">
