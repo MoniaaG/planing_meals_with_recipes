@@ -21,7 +21,7 @@ class ProductController extends Controller
         try {
                 $searchText = $request->value;
                 $productsFromAPI = OpenFoodFacts::find($searchText);
-                $productsFromDB = Product::where('name', '=', $searchText)->get();
+                $productsFromDB = Product::where('name', 'like', '%' . $searchText . '%')->get();
             return response()->json(['status' => 'success', 'productsFromAPI' => $productsFromAPI, 'productsFromDB' => $productsFromDB]);
         } catch (Exception $error) {
             return response()->json(['status' => 'fail'], 404);

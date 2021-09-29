@@ -89,10 +89,13 @@ $(document).ready(function() {
         let select = $('#products');
         let sectionWithProductQuantity = $('#quantitySection');
         console.log();
-        sectionWithProductQuantity.append(`<div class="d-flex" style="flex-direction: columns;"><input class="form-control col-12 mr-2" id="product[${i}][name]" name="product[${i}][name]" value="${select.children('option:selected')[0]['text']}">
-        <input class="form-control col-12 mr-2" id="product[${i}][barcode]" name="product[${i}][barcode]" value="${select.children('option:selected')[0]['dataset']['barcode']}" type="hidden">
-        <input class="form-control col-12 mr-2" id="product[${i}][id]" name="product[${i}][id]" value="${select.children('option:selected')[0]['value']}" type="hidden">
-        <input class="form-control col-12" id="product[${i}][quantity]" name="product[${i}][quantity]"> jednostka</div>`)
+        sectionWithProductQuantity.append(`
+        <div class="d-flex" style="flex-direction: columns;">
+            <input class="form-control col-12 mr-2" id="product[${i}][name]" name="product[${i}][name]" value="${select.children('option:selected')[0]['text']}">
+            <input class="form-control col-12 mr-2" id="product[${i}][barcode]" name="product[${i}][barcode]" value="${select.children('option:selected')[0]['dataset']['barcode']}" type="hidden">
+            <input class="form-control col-12 mr-2" id="product[${i}][id]" name="product[${i}][id]" value="${select.children('option:selected')[0]['value']}" type="hidden">
+            <input class="form-control col-12" id="product[${i}][quantity]" name="product[${i}][quantity]"> jednostka
+        </div>`)
         console.log(select.children('option:selected')[0]['text']);
         i++;
     });
@@ -109,8 +112,6 @@ $(document).ready(function() {
             type: 'POST',
             data: 'value=' + searchText,
             success: function(data) {
-              //console.log('udalo sie');
-              //console.log(data);
               let select = $('#products');
               select.children().remove();
               if(data.productsFromDB != null){
@@ -131,8 +132,10 @@ $(document).ready(function() {
                 }
               }
               /*if(data.productsFromDB != null){
-                  console.log('xd');
-              data.productsFromDB.forEach(group => {
+                  console.log('xd'+ data.productsFromDB);
+              }
+              
+              /*data.productsFromDB.forEach(group => {
                     console.log(group);
                     });
               }
