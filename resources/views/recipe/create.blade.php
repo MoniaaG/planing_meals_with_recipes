@@ -2,8 +2,16 @@
 
 
 @section('content')
-
 <div class="container">
+@if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
     <div class="row justify-content-center col-6">
         <div class="col-12">
             <form class="d-flex" style="flex-direction: columns;" action="{{ route('recipe.store')}}" method="post" enctype="multipart/form-data">
@@ -72,7 +80,12 @@
     </div>
     
 </div>
+
+<!--<div id="aapp">
+   <example-component></example-component>
+</div>-->
 @section('scripts')
+<!--<script src="{{ mix('js/app.js') }}"></script>-->
 <script>
 $(document).ready(function() {
     $('#findProduct').click(function(e){
@@ -94,7 +107,8 @@ $(document).ready(function() {
             <input class="form-control col-12 mr-2" id="product[${i}][name]" name="product[${i}][name]" value="${select.children('option:selected')[0]['text']}">
             <input class="form-control col-12 mr-2" id="product[${i}][barcode]" name="product[${i}][barcode]" value="${select.children('option:selected')[0]['dataset']['barcode']}" type="hidden">
             <input class="form-control col-12 mr-2" id="product[${i}][id]" name="product[${i}][id]" value="${select.children('option:selected')[0]['value']}" type="hidden">
-            <input class="form-control col-12" id="product[${i}][quantity]" name="product[${i}][quantity]"> jednostka
+            <input class="form-control col-12" id="product[${i}][quantity]" name="product[${i}][quantity]"> ${select.children('option:selected')[0]['dataset']['unit_name']}
+            <input class="form-control col-12" id="product[${i}][unit_name]" name="product[${i}][unit_name]" value="${select.children('option:selected')[0]['dataset']['unit_name']}" type="hidden">
         </div>`)
         console.log(select.children('option:selected')[0]['text']);
         i++;
@@ -120,15 +134,23 @@ $(document).ready(function() {
                     console.log(data.productsFromDB[i]['id']);
                     console.log(data.productsFromDB[i]['name']);
                     console.log(data.productsFromDB[i]['barcode']);
-                    select.append(`<option data-barcode="${data.productsFromDB[i]['barcode']}" value="${data.productsFromDB[i]['id']}" data-unit="${data.productsFromDB[i]['unit_id']}">${data.productsFromDB[i]['name']}</option>`);
+                    console.log(data.productsFromDB[i]['unit']['unit'] + 'unit')
+                    select.append(`<option data-barcode="${data.productsFromDB[i]['barcode']}" value="${data.productsFromDB[i]['id']}" data-unit="${data.productsFromDB[i]['unit_id']}" data-unit_name="${data.productsFromDB[i]['unit']['unit']}">${data.productsFromDB[i]['name']} </option>`);
                 }
               }
               if(data.productsFromAPI != null){
                 for(let i = 0; i < data.productsFromAPI.length; i++)
                 {
+                    let unit = 'g';
+                    data.productsFromAPI[i]['quantity'] != null ? unit = data.productsFromAPI[i]['quantity'] : unit = 'g';
+                    if(unit.includes('kg') || unit.includes('g')) { unit = 'g' }
+                    else if(unit.includes('l') || unit.includes('ml')) { unit = 'ml' }
+                    else if(unit.includes('g') && unit.includes('ml')) { unit = 'ml' }
+                    else if(unit.includes('szt')) { unit = 'szt'}
+                    console.log(unit+" każda jednostka xd " + i );
                     console.log(data.productsFromAPI[i]['_id']);
                     console.log(data.productsFromAPI[i]['product_name']);
-                    select.append(`<option data-barcode="${data.productsFromAPI[i]['_id']}" value="${data.productsFromAPI[i]['_id']}">${data.productsFromAPI[i]['product_name']}</option>`);
+                    select.append(`<option data-barcode="${data.productsFromAPI[i]['_id']}" value="${data.productsFromAPI[i]['_id']}" data-unit_name="${unit}">${data.productsFromAPI[i]['product_name']}</option>`);
                 }
               }
               /*if(data.productsFromDB != null){

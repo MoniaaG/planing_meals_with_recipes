@@ -21,7 +21,7 @@ Route::get('/', function () {
 
 Route::get('/test', function () {
     //return OpenFoodFacts::find('pomidor');//['quantity'];//['categories'];
-    return OpenFoodFacts::barcode('5906827012705');
+    return OpenFoodFacts::barcode('5900259115379');
 });
 
 Auth::routes();

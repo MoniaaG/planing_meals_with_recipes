@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AddRecipeRequest;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\Recipe;
+use App\Models\Unit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -25,7 +27,7 @@ class RecipeController extends Controller
         $categories = Category::all();
         return view('recipe.create', compact('categories'));
     }
-    public function store(Request $request) {
+    public function store(AddRecipeRequest $request) {
         $recipe = new Recipe();
         $recipe->user_id = Auth::id();
         $request->share ? $recipe->share = true : $recipe->share = false;
@@ -46,14 +48,29 @@ class RecipeController extends Controller
             $file->storeAs('/public/recipe/big_image', $filename);
             $recipe->big_image = '/storage/recipe/big_image/' . $filename;
         }
-        //$recipe->products()->attach($request->products);//ids
         $recipe->save();
-        dd($request, $recipe->small_image);
-        if($request->product != null) {
-            foreach($request->product as $key => $product) {
-                $product = Product::findOrFail($product[$key]['id']);
-                
+        foreach($request->product as $product) {
+            $savedProduct = $product;
+            
+            if($product['barcode'] != "null")
+            {
+                $productFromAPI = Product::where('barcode', $product['barcode'])->count();
+                if(!$productFromAPI)
+                {
+                    $newProduct = new Product();
+                    $newProduct->name = $product['name'];
+                    $newProduct->barcode = $product['barcode'];
+                    $newProduct->image = 'image';
+                    $newProduct->unit_id = Unit::where('unit', $product['unit_name'])->first()->id;
+                    $newProduct->save();
+                    dump($newProduct);
+                    $savedProduct = $newProduct;
+                }
+            }else {
+                $savedProduct = Product::findOrFail($product['id']);
             }
+            $recipe->products()->attach($savedProduct->id, ['quantity' => $product['quantity']]);
+
         }
         return redirect()->route('recipe.index');
 
