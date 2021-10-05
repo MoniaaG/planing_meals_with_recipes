@@ -65,6 +65,8 @@ class RecipeController extends Controller
                     $newProduct->save();
                     dump($newProduct);
                     $savedProduct = $newProduct;
+                }else {
+                    $savedProduct = Product::where('barcode', $product['barcode'])->first();
                 }
             }else {
                 $savedProduct = Product::findOrFail($product['id']);
