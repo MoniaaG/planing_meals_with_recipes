@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Models\Unit;
 use Exception;
 use Illuminate\Http\Request;
 use OpenFoodFacts\Laravel\Facades\OpenFoodFacts;
@@ -30,7 +31,8 @@ class ProductController extends Controller
 
     public function create()
     {
-        return view('product.create');
+        $units = Unit::all();
+        return view('product.create', compact('units'));
     }
 
     
@@ -41,8 +43,13 @@ class ProductController extends Controller
         $product->name = $request->name;
         $product->unit_id = $request->unit_id;
         $product->added = true;
+        if($request->image) {
+            $file = $request->file('image');
+            $filename = time() . '.' . $file->getClientOriginalExtension();
+            $file->storeAs('/public/product/image', $filename);
+            $recipe->image = '/storage/product/image/' . $filename;
+        }
         $product->save();
-        //image needs to store in storage !!!!
         return redirect()->route('product.index');
     }
 
@@ -58,6 +65,12 @@ class ProductController extends Controller
         $product->name = $request->name;
         $product->unit_id = $request->unit_id;
         $product->added = true;
+        if($request->image) {
+            $file = $request->file('image');
+            $filename = time() . '.' . $file->getClientOriginalExtension();
+            $file->storeAs('/public/product/image', $filename);
+            $recipe->image = '/storage/product/image/' . $filename;
+        }
         $product->save();
         return redirect()->route('product.update');
     }

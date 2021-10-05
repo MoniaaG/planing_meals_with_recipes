@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RecipeController;
+use App\Http\Controllers\CalendarController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -37,6 +38,8 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('/recipe/all', [RecipeController::class, 'index'])->name('recipe.index');
     Route::get('/recipe/create', [RecipeController::class, 'create'])->name('recipe.create');
     Route::post('/recipe/store', [RecipeController::class, 'store'])->name('recipe.store');
+
+    Route::get('/calendar/show', [CalendarController::class, 'show'])->name('calendar.show');
 });
 
 Route::get('/testt', function() {

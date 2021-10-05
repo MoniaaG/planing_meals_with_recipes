@@ -12,8 +12,9 @@
             <div class="form-group">
                 <label for="unit_id">Jednostka</label>
                 <select class="form-control" id="unit_id" name="unit_id">
-                <option value="1">ml</option>
-                <option value="2">g</option>
+                @foreach($units as $unit)
+                    <option value="{{ $unit->id }}">{{ $unit->unit }}</option>
+                @endforeach
                 </select>
             </div>
             <div class="form-group">
