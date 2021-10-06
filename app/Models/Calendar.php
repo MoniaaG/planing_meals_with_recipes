@@ -8,4 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Calendar extends Model
 {
     use HasFactory;
+
+    public $timestamps = TRUE;
+
+    protected $fillable = [
+        'owner_id',
+    ];
 }

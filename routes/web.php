@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RecipeController;
 use App\Http\Controllers\CalendarController;
+use App\Models\Recipe;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,7 +18,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('homepage');
+    $recipes = Recipe::where('share', 1)->get();
+    return view('homepage', compact('recipes'));
 });
 
 Route::get('/test', function () {
@@ -38,6 +40,7 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('/recipe/all', [RecipeController::class, 'index'])->name('recipe.index');
     Route::get('/recipe/create', [RecipeController::class, 'create'])->name('recipe.create');
     Route::post('/recipe/store', [RecipeController::class, 'store'])->name('recipe.store');
+    //Route::get('/recipes/{option}', [RecipeController::class, 'index'])->name('recipe.index');
 
     Route::get('/calendar/show', [CalendarController::class, 'show'])->name('calendar.show');
 });

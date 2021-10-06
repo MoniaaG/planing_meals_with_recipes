@@ -13,6 +13,10 @@ const mix = require('laravel-mix');
 
 mix.js('resources/js/app.js', 'public/js')
     .js('resources/js/calendar.js', 'public/js')
+    .js('resources/js/fullcalendar/main.js', 'public/fullcalendar')
     .vue()
     .sass('resources/sass/app.scss', 'public/css')
-    .sass('resources/sass/calendar.scss', 'public/css');
+    .sass('resources/sass/calendar.scss', 'public/css')
+    .sass('resources/sass/homepage.scss', 'public/css')
+    .css('resources/css/fullcalendar/main.css', 'public/fullcalendar');
+

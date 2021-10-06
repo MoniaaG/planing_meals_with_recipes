@@ -5,11 +5,13 @@ namespace App\Http\Controllers;
 use App\Http\Requests\AddRecipeRequest;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\ProductCategory;
 use App\Models\Recipe;
 use App\Models\Unit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use OpenFoodFacts\Laravel\Facades\OpenFoodFacts;
 
 class RecipeController extends Controller
 {
@@ -18,8 +20,8 @@ class RecipeController extends Controller
     }
 
     public function index() {
-        $recipes = Recipe::all();
-        return view('recipe.indexAll', compact($recipes));
+        $recipes = Recipe::where('user_id', Auth::id())->get();
+        return view('recipe.indexAll', compact('recipes'));
     }
 
     public function create()
@@ -57,11 +59,20 @@ class RecipeController extends Controller
                 $productFromAPI = Product::where('barcode', $product['barcode'])->count();
                 if(!$productFromAPI)
                 {
+                    $productBarcode = strtolower(strtok(OpenFoodFacts::barcode($product['barcode'])['categories'], ','));
                     $newProduct = new Product();
                     $newProduct->name = $product['name'];
                     $newProduct->barcode = $product['barcode'];
                     $newProduct->image = 'image';
                     $newProduct->unit_id = Unit::where('unit', $product['unit_name'])->first()->id;
+                    if(ProductCategory::where('name', 'like', $productBarcode)->count()) {
+                        $newProduct->product_category_id = ProductCategory::where('name', 'like', $productBarcode)->first()->id;
+                    }else {
+                        $productCategory = ProductCategory::create([
+                            'name' => $productBarcode,
+                        ]);
+                        $newProduct->product_category_id = $productCategory->id;
+                    }
                     $newProduct->save();
                     dump($newProduct);
                     $savedProduct = $newProduct;

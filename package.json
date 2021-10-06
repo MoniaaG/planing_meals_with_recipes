@@ -25,7 +25,10 @@
         "vue-template-compiler": "^2.6.10"
     },
     "dependencies": {
+        "@fortawesome/fontawesome-free": "^5.15.4",
         "compose-function": "^3.0.3",
-        "cross-env": "^7.0.3"
+        "cross-env": "^7.0.3",
+        "font-awesome": "^4.7.0",
+        "fullcalendar": "^5.9.0"
     }
 }

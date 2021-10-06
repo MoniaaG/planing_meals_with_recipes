@@ -9,29 +9,23 @@
                 <tr>
                 <th scope="col">Nazwa przepisu</th>
                 <th scope="col">Kategoria przepisu</th>
-                <th scope="col">Wyświetl</th>
-                <th scope="col">Handle</th>
+                <th scope="col">Udostepniony</th>
+                <th scope="col">Akcje</th>
                 </tr>
             </thead>
             <tbody>
+            @foreach($recipes as $recipe)
                 <tr>
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
+                <th scope="row">{{ $recipe->name }}</th>
+                <td>{{ $recipe->category->name}}</td>
+                <td>@if($recipe->share) tak @else nie @endif</td>
+                <td>
+                <i class="fas fa-eye"></i>
+                <i class="fas fa-edit"></i>
+                <i class="fas fa-trash"></i>
+                </td>
                 </tr>
-                <tr>
-                <th scope="row">2</th>
-                <td>Jacob</td>
-                <td>Thornton</td>
-                <td>@fat</td>
-                </tr>
-                <tr>
-                <th scope="row">3</th>
-                <td>Larry</td>
-                <td>the Bird</td>
-                <td>@twitter</td>
-                </tr>
+            @endforeach
             </tbody>
             </table>
         </div>
