@@ -59,7 +59,7 @@ class RecipeController extends Controller
                 $productFromAPI = Product::where('barcode', $product['barcode'])->count();
                 if(!$productFromAPI)
                 {
-                    $productBarcode = strtolower(strtok(OpenFoodFacts::barcode($product['barcode'])['categories'], ','));
+                    $productBarcode = strtolower(strtok(isset(OpenFoodFacts::barcode($product['barcode'])['categories']) ? OpenFoodFacts::barcode($product['barcode'])['categories'] : 'inna', ','));
                     $newProduct = new Product();
                     $newProduct->name = $product['name'];
                     $newProduct->barcode = $product['barcode'];

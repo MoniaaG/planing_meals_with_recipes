@@ -43,6 +43,10 @@ Route::group(['middleware' => ['auth']], function(){
     //Route::get('/recipes/{option}', [RecipeController::class, 'index'])->name('recipe.index');
 
     Route::get('/calendar/show', [CalendarController::class, 'show'])->name('calendar.show');
+    Route::get('/calendar/index', [CalendarController::class, 'index'])->name('calendar.index');
+    Route::post('/calendar_day', [CalendarController::class, 'calendar_day'])->name('calendar_day');
+    Route::post('/calendar_recipe/store', [CalendarController::class, 'calendar_recipe_store'])->name('calendar_recipe.store');
+    Route::delete('/calendar/destory/{id}', [CalendarController::class, 'delete_recipe'])->name('calendar.delete_recipe');
 });
 
 Route::get('/testt', function() {
