@@ -12,6 +12,7 @@
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
     
+    
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
@@ -19,6 +20,55 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/homepage.css') }}" rel="stylesheet">
+
+    <script>
+        $(document).ready(function() {
+            //
+            // Append ToolTip into elements with data-toggle equal tooltip
+            //
+            $('[data-toggle="tooltip"]').tooltip();
+
+            //
+            // Ajax request setup
+            //
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+            //
+            // Bootstrap Bootbox Modal setup
+            //
+            bootbox.setDefaults({
+                locale: "",
+                backdrop: true,
+                centerVertical: true,
+            });
+
+            //
+            // Logout submit
+            //
+            $("#logout").click(function() {
+                $("#logout-form").submit();
+            });
+
+            //
+            // Append redirect into nav items and buttons with param href
+            //
+            $("nav li[href], button[href]").click(function() {
+                $(location).attr("href", $(this).attr("href"));
+            });
+
+            //
+            // Append red * into required form items
+            //
+            $("input, select, textarea").filter('[required]:visible').each(function() {
+                $("label[for='" + $(this).attr("id") + "']").not(".prepend").not(".append").append('<span class="text-danger font-weight-bold">*</span>');
+            });
+        });
+
+    </script>
     @yield('scripts-start')
 </head>
 <body>

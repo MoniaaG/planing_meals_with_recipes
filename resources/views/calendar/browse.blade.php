@@ -4,6 +4,7 @@
 <script src="https://cdn.jsdelivr.net/npm/fullcalendar-scheduler@5.3.0/main.min.js"></script>
 <link href="{{asset('fullcalendar/main.css')}}" rel='stylesheet' />
 <script src="{{asset('fullcalendar/main.js')}}"></script>
+<script src="{{asset('js/delete/calendar_recipe.js')}}" defer></script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     var calendarEl = document.getElementById('calendar');
@@ -56,7 +57,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     else {
                         events.forEach(recipe => {
                             let el = `<tr><td style="background-color: ${recipe.color}; color: ${recipe.textColor};">${recipe.title}</td>`;
-                            el += `<td><a href="calendar/delete_recipe/${recipe.id}"><i class="fas fa-trash"></i></a></td></tr>`;
+                            el += `<td><button data-toggle="tooltip" data-delete-href="{{URL::to('calendar/destory/${recipe.id}')}}/"><i class="fas fa-trash"></i></button></td></tr>`;
                             tbody.append(el);
                         })
                     }

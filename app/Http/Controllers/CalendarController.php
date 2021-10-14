@@ -57,9 +57,13 @@ class CalendarController extends Controller
         return response()->json($events);
     }
 
-    public function delete_recipe(Int $id)
+    public function delete_recipe(int $id)
     {
-        $this->calendar->recipes()->detach($id);
-        return redirect()->back();
+        try {
+            $this->calendar->recipes()->wherePivot('id', $id)->detach();
+            return response()->json(['status' => 'success'], 200);
+        } catch (Exception $error) {
+            return response()->json(['status' => 'fail'], 404);
+        }
     }
 }
