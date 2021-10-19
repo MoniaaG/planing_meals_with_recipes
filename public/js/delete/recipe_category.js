@@ -1,7 +1,7 @@
 /******/ (() => { // webpackBootstrap
 var __webpack_exports__ = {};
 /*!************************************************!*\
-  !*** ./resources/js/delete/calendar_recipe.js ***!
+  !*** ./resources/js/delete/recipe_category.js ***!
   \************************************************/
 $(document).ready(function () {
   $(document).on('click', "[data-delete-href]", function () {
@@ -9,14 +9,14 @@ $(document).ready(function () {
     console.log(url);
     bootbox.confirm({
       title: 'title',
-      message: "<div class=\"modal-icon\"><i class=\"far fa-trash-alt\"></i><span>confitm text</span></div>",
+      message: "<div class=\"modal-icon\"><i class=\"far fa-trash-alt\"></i><span>Czy chcesz usun\u0105\u0107 kategori\u0119 przepisu?</span></div>",
       buttons: {
         confirm: {
-          label: "<i class=\"fa fa-check mr-1\"></i> usu\u0144",
+          label: "<i class=\"fa fa-check mr-1\"></i> Usu\u0144",
           className: 'btn-danger'
         },
         cancel: {
-          label: "<i class=\"fa fa-times mr-1\"></i> zamknij",
+          label: "<i class=\"fa fa-times mr-1\"></i> Zamknij",
           className: 'btn-success'
         }
       },
@@ -27,16 +27,16 @@ $(document).ready(function () {
             type: 'DELETE',
             success: function success(result) {
               bootbox.alert({
-                title: 'przepis usuniety',
-                message: "<div class=\"modal-icon\"><i class=\"fa fa-check text-success\"></i><span>usunieto</span></div>",
+                title: 'Kategoria przepisu usunieta',
+                message: "<div class=\"modal-icon\"><i class=\"fa fa-check text-success\"></i><span>Usunieto</span></div>",
                 callback: function callback(confirm) {
-                  $(location).attr("href", '/calendar/show');
+                  $(location).attr("href", '/recipe_category/index');
                 }
               });
             },
             error: function error() {
               bootbox.alert({
-                title: 'nie mozna usunac',
+                title: 'Nie mozna usunac',
                 message: "<div class=\"modal-icon\"><i class=\"fa fa-times text-danger\"></i><span></span></div>"
               });
             }

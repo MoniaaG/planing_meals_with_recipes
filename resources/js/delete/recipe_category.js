@@ -4,14 +4,14 @@ $(document).ready(function() {
         console.log(url);
         bootbox.confirm({
             title: 'title',
-            message: `<div class="modal-icon"><i class="far fa-trash-alt"></i><span>confitm text</span></div>`,
+            message: `<div class="modal-icon"><i class="far fa-trash-alt"></i><span>Czy chcesz usunąć kategorię przepisu?</span></div>`,
             buttons: {
                 confirm: {
-                    label: `<i class="fa fa-check mr-1"></i> usuń`,
+                    label: `<i class="fa fa-check mr-1"></i> Usuń`,
                     className: 'btn-danger',
                 },
                 cancel: {
-                    label: `<i class="fa fa-times mr-1"></i> zamknij`,
+                    label: `<i class="fa fa-times mr-1"></i> Zamknij`,
                     className: 'btn-success',
                 },
             },
@@ -22,16 +22,16 @@ $(document).ready(function() {
                         type: 'DELETE',
                         success: function(result) {
                             bootbox.alert({
-                                title: 'przepis usuniety',
-                                message: `<div class="modal-icon"><i class="fa fa-check text-success"></i><span>usunieto</span></div>`,
+                                title: 'Kategoria przepisu usunieta',
+                                message: `<div class="modal-icon"><i class="fa fa-check text-success"></i><span>Usunieto</span></div>`,
                                 callback: function(confirm) {
-                                    $(location).attr("href", '/calendar/show');
+                                    $(location).attr("href", '/recipe_category/index');
                                 },
                             });
                         },
                         error: function() {
                             bootbox.alert({
-                                title: 'nie mozna usunac',
+                                title: 'Nie mozna usunac',
                                 message: `<div class="modal-icon"><i class="fa fa-times text-danger"></i><span></span></div>`,
                             });
                         },
