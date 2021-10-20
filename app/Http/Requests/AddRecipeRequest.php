@@ -31,7 +31,7 @@ class AddRecipeRequest extends FormRequest
             'category_id' => 'required',
             'small_image' => 'required|file',
             'big_image' => 'required|file',
-            'product' => 'required|min:1'
+            'products' => 'required|min:1'
         ];
     }
 }

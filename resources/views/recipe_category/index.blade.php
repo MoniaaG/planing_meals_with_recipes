@@ -19,8 +19,8 @@
                 <tr>
                 <th scope="row">{{ $recipe_category->name }}</th>
                 <td>
-                <i class="fas fa-edit"></i>
-                <a class="delete btn-danger" class=""title="Usuń kategorię przepisu" data-toggle="tooltip" data-placement="bottom" data-delete-href="{{ route('recipe_category.destroy', ['recipe_category' => $recipe_category]) }}">
+                <a href="{{ route('recipe_category.edit', ['recipe_category' => $recipe_category])}}" class="btn btn-success"><i class="fas fa-edit"></i></a>
+                <a class="delete btn-danger" title="Usuń kategorię przepisu" data-toggle="tooltip" data-placement="bottom" data-delete-href="{{ route('recipe_category.destroy', ['recipe_category' => $recipe_category]) }}">
                 <i class="fas fa-trash"></i></a>
                 </td>
                 </tr>

@@ -96,8 +96,14 @@
             <li class="nav-item">
                 <a class="nav-link" href="{{ route('calendar.show') }}">Kalendarz</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Spiżarnia</a>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Spiżarnia
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="#">Moje produkty</a>
+                <a class="dropdown-item" href="{{ route('pantry.addProduct_create') }}">Dodaj</a>
+                </div>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#">Listy zakupów</a>
@@ -110,6 +116,9 @@
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="{{ route('product_category.index') }}">Kategorie produktów</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Produkty</a>
             </li>
             </ul>
             <form class="form-inline my-2 my-lg-0">

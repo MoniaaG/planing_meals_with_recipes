@@ -14,4 +14,9 @@ class Pantry extends Model
     protected $fillable = [
         'owner_id',
     ];
+
+    public function products()
+    {
+        return $this->belongsToMany('App\Models\Product')->withPivot('quantity');
+    }
 }

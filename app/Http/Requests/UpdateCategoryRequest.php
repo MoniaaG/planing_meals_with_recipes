@@ -29,7 +29,7 @@ class UpdateCategoryRequest extends FormRequest
         // sprawdzenie unikalności nazwy kategorii
         \Validator::extend('unique_name',
             function ($attribute, $value, $parameters, $validator) {
-                $result = Category::/*withTrashed()->*/where('id', '!=', $this->category->id)
+                $result = Category::/*withTrashed()->*/where('id', '!=', $this->recipe_category->id)
                     ->where('name', $value)->count();
                 return $result === 0;
             },

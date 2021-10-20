@@ -4,12 +4,18 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use App\Models\Unit;
+use App\Repositories\Interfaces\ProductRepositoryInterface;
 use Exception;
 use Illuminate\Http\Request;
 use OpenFoodFacts\Laravel\Facades\OpenFoodFacts;
-
 class ProductController extends Controller
 {
+    public $product_repository;
+
+    public function __construct(ProductRepositoryInterface $product_repository)
+    {
+        $this->product_repository = $product_repository;
+    }
     public function index()
     {
         // zapytanie do bazy plus zapytanie do API
@@ -20,10 +26,16 @@ class ProductController extends Controller
     public function searchProducts(Request $request)
     {
         try {
-                $searchText = $request->value;
-                $productsFromAPI = OpenFoodFacts::find($searchText);
-                $productsFromDB = Product::where('name', 'like', '%' . $searchText . '%')->with('unit')->get();
-            return response()->json(['status' => 'success', 'productsFromAPI' => $productsFromAPI, 'productsFromDB' => $productsFromDB]);
+            $searchText = $request->value;
+            $productsFromAPI = OpenFoodFacts::find($searchText);
+            $productsFromDB = Product::where('name', 'like', '%' . $searchText . '%')->with('unit')->get();
+            $productFromDBBarcode = $productsFromDB->pluck('barcode');
+            $array = [];
+            $productsFromAPI = $productsFromAPI->whereNotIn('_id', $productFromDBBarcode);
+            foreach($productsFromAPI as $api)
+                $array[] = $api;
+            $productsFromAPI = $array;
+            return response()->json(['status' => 'success', 'productsFromAPI' => $productsFromAPI, 'productsFromDB' => $productsFromDB->count() == 0 ? null : $productsFromDB]);
         } catch (Exception $error) {
             return response()->json(['status' => 'fail'], 404);
         }
@@ -38,18 +50,7 @@ class ProductController extends Controller
     
     public function store(Request $request)
     {
-        $product = new Product();
-        $product->barcode = null;
-        $product->name = $request->name;
-        $product->unit_id = $request->unit_id;
-        $product->added = true;
-        if($request->image) {
-            $file = $request->file('image');
-            $filename = time() . '.' . $file->getClientOriginalExtension();
-            $file->storeAs('/public/product/image', $filename);
-            $recipe->image = '/storage/product/image/' . $filename;
-        }
-        $product->save();
+        
         return redirect()->route('product.index');
     }
 
@@ -60,25 +61,13 @@ class ProductController extends Controller
 
     public function update(Product $product, Request $request)
     {
-        $product = Product::findOrFail($product->id); 
-        $product->barcode = null;
-        $product->name = $request->name;
-        $product->unit_id = $request->unit_id;
-        $product->added = true;
-        if($request->image) {
-            $file = $request->file('image');
-            $filename = time() . '.' . $file->getClientOriginalExtension();
-            $file->storeAs('/public/product/image', $filename);
-            $recipe->image = '/storage/product/image/' . $filename;
-        }
-        $product->save();
-        return redirect()->route('product.update');
+        $this->product_repository->update($request, $product);
+        return redirect()->route('product.index');
     }
 
     public function delete(Product $product)
     {
-        $product = Product::findOrFail($product->id);
-        $product->delete();
+        $this->product_repository->destroy($product);
         return redirect()->route('product.index');
     }
 

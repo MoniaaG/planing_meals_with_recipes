@@ -4,6 +4,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RecipeController;
 use App\Http\Controllers\CalendarController;
 use App\Http\Controllers\CategoriesController;
+use App\Http\Controllers\PantryController;
 use App\Http\Controllers\ProductCategoriesController;
 use App\Models\ProductCategory;
 use App\Models\Recipe;
@@ -66,6 +67,10 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('/recipe_category/edit/{recipe_category}', [CategoriesController::class, 'edit'])->name('recipe_category.edit');
     Route::put('/recipe_category/update/{recipe_category}', [CategoriesController::class, 'update'])->name('recipe_category.update');
     Route::delete('/recipe_category/destroy/{recipe_category}', [CategoriesController::class, 'destroy'])->name('recipe_category.destroy');
+
+    /*Pantry*/
+    Route::get('/pantry/add_products', [PantryController::class, 'addProductToPantryBlade'])->name('pantry.addProduct_create');
+    Route::post('/pantry/add_products', [PantryController::class, 'addProductToPantry'])->name('pantry.storeProduct');
 });
 
 Route::get('/testt', function() {

@@ -14,52 +14,13 @@
 @endif
     <div class="row justify-content-center col-12">
         <div class="col-12">
-            <form action="{{ route('recipe.store')}}" method="post" enctype="multipart/form-data">
+            <form action="{{ route('pantry.storeProduct')}}" method="post" enctype="multipart/form-data">
             @csrf
-            <div class="col-12 mr-5">
-                <div class="form-group">
-                    <label for="name">Nazwa przepisu</label>
-                    <input type="name" class="form-control" id="name" name="name" placeholder="Podaj nazwę przepisu">
-                </div>
-
-                <div class="form-group">
-                    <label for="short_description">Krótki opis przepisu</label>
-                    <input type="short_description" class="form-control" id="short_description" name="short_description" placeholder="Podaj krótki opis przepisu">
-                </div>
-                <div class="form-group">
-                    <label for="description">Opis przepisu</label>
-                    <input type="description" class="form-control" id="description" name="description" placeholder="Podaj opis przepisu">
-                </div>
-                <div class="form-group">
-                    <label for="category_id">Kategoria przepisu</label>
-                    <select class="form-control" id="category_id" name="category_id">
-                    @foreach ($categories as $category)
-                        <option value="{{$category->id}}">{{$category->name}}</option>
-                    @endforeach
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="small_image">Małe zdjęcię dania</label>
-                    <input type="file" class="form-control-file" id="small_image" name="small_image">
-                </div>
-                <div class="form-group">
-                    <label for="big_image">Duże zdjęcie dania</label>
-                    <input type="file" class="form-control-file" id="big_image" name="big_image">
-                </div>
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <div class="input-group-text">
-                        <input class="mr-3" type="checkbox" name="share" id="share" aria-label="Czy idostępnic przepis publicznie?">
-                        Czy udostępnić przepis publicznie?
-                        </div>
-                    </div>
-                </div>
-            </div>
             <div class="col-12 my-3">
                 <div class="form-group ingredients">
-                    <label for="searchProduct">Składniki</label>
+                    <label for="searchProduct">Produkty</label>
                     <input class="form-control" id="searchProductText" placeholder="Podaj nazwę szukanego składnika/produktu">
-                    <span class="btn btn-info mt-2" id="findProduct" data-route="{{ route('searchProduct')}}">Szukaj składnika</span>
+                    <span class="btn btn-info mt-2" id="findProduct" data-route="{{ route('searchProduct')}}">Szukaj produktu</span>
                 </div>
 
                 <select class="custom-select" id="products" aria-label="Default select example">
@@ -68,15 +29,13 @@
                 <a class="btn btn-warning mt-2" id="add">Dodaj składnik</a>
 
                 <div id="quantitySection">
-                    <h1 class="my-3">Składniki</h1>
-                    <h5>W tym miejscu wymagane jest podanie ilości wybranych składników</h5>
+                    <h1 class="my-3">Produkty</h1>
+                    <h5>W tym miejscu wymagane jest podanie ilości wybranych produktów, które chcesz dodać do spiżarni</h5>
                 </div>
             </div>
 
-            <button type="submit" class="btn btn-primary col-12 mx-4 my-3">Dodaj przepis</button>
+            <button type="submit" class="btn btn-primary col-12 mx-4 my-3">Dodaj produkty do spiżarni</button>
             </form>
-
-            
         </div>
        
     </div>
@@ -152,23 +111,6 @@ $(document).ready(function() {
                     select.append(`<option data-barcode="${data.productsFromAPI[i]['_id']}" value="${data.productsFromAPI[i]['_id']}" data-unit_name="${unit}">${data.productsFromAPI[i]['product_name']}</option>`);
                 }
               }
-              /*if(data.productsFromDB != null){
-                  console.log('xd'+ data.productsFromDB);
-              }
-              
-              /*data.productsFromDB.forEach(group => {
-                    console.log(group);
-                    });
-              }
-              console.log(data.status);
-              console.log(data.productsFromAPI);*/
-                /*$('.total1').html(el + resu
-                lt.total.toFixed(2)+"zł");
-                $('.total').html(result.total.toFixed(2)+"zł");
-                $(`#quantity${id}`).html(result.quantity);
-                $(`#sell${id}`).html(result.sell.toFixed(2)+"zł");
-                if(result.quantity > 1)$(`[data-product-minus=${id}]`).removeAttr('disabled');
-                else $(`[data-product-minus=${id}]`).prop('disabled', 'disabled');*/
             },
             error: function(result) {
                 /*bootbox.alert({

@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use OpenFoodFacts\Laravel\Facades\OpenFoodFacts;
+use App\Statements\ConstProductCategory;
 
 class RecipeController extends Controller
 {
@@ -51,7 +52,7 @@ class RecipeController extends Controller
             $recipe->big_image = '/storage/recipe/big_image/' . $filename;
         }
         $recipe->save();
-        foreach($request->product as $product) {
+        foreach($request->products as $product) {
             $savedProduct = $product;
             
             if($product['barcode'] != "null")
@@ -59,7 +60,7 @@ class RecipeController extends Controller
                 $productFromAPI = Product::where('barcode', $product['barcode'])->count();
                 if(!$productFromAPI)
                 {
-                    $productBarcode = strtolower(strtok(isset(OpenFoodFacts::barcode($product['barcode'])['categories']) ? OpenFoodFacts::barcode($product['barcode'])['categories'] : 'inna', ','));
+                    $productBarcode = strtolower(strtok(isset(OpenFoodFacts::barcode($product['barcode'])['categories']) ? OpenFoodFacts::barcode($product['barcode'])['categories'] : ConstProductCategory::constProductCategory(), ','));
                     $newProduct = new Product();
                     $newProduct->name = $product['name'];
                     $newProduct->barcode = $product['barcode'];

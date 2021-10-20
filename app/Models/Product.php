@@ -18,4 +18,9 @@ class Product extends Model
     {
         return $this->belongsToMany('App\Models\Recipe');
     }
+
+    public function pantries() 
+    {
+        return $this->belongsToMany('App\Models\Pantries');
+    }
 }
