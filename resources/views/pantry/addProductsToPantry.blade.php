@@ -12,6 +12,16 @@
         </ul>
     </div>
 @endif
+
+<div class="col-12">
+            <form action="{{ route('pantry.whatNeedToBuy')}}" method="post" enctype="multipart/form-data">
+            @csrf
+            <input type="date" name="start">
+            <input type="date" name="end">
+
+            <button type="submit" class="btn btn-primary col-12 mx-4 my-3">What to buy</button>
+            </form>
+        </div>
     <div class="row justify-content-center col-12">
         <div class="col-12">
             <form action="{{ route('pantry.storeProduct')}}" method="post" enctype="multipart/form-data">
@@ -65,11 +75,12 @@ $(document).ready(function() {
         console.log();
         sectionWithProductQuantity.append(`
         <div class="d-flex my-2" style="flex-direction: columns;">
-            <input class="form-control col-6 mr-2" id="products[${i}][name]" name="products[${i}][name]" value="${select.children('option:selected')[0]['text']}">
-            <input class="form-control col-6 mr-2" id="products[${i}][barcode]" name="products[${i}][barcode]" value="${select.children('option:selected')[0]['dataset']['barcode']}" type="hidden">
-            <input class="form-control col-6 mr-2" id="products[${i}][id]" name="products[${i}][id]" value="${select.children('option:selected')[0]['value']}" type="hidden">
-            <input class="form-control col-6" id="products[${i}][quantity]" name="products[${i}][quantity]"> ${select.children('option:selected')[0]['dataset']['unit_name']}
-            <input class="form-control col-6" id="products[${i}][unit_name]" name="products[${i}][unit_name]" value="${select.children('option:selected')[0]['dataset']['unit_name']}" type="hidden">
+            <input class="form-control col-4 mr-2" id="products[${i}][name]" name="products[${i}][name]" value="${select.children('option:selected')[0]['text']}">
+            <input class="form-control col-4 mr-2" id="products[${i}][barcode]" name="products[${i}][barcode]" value="${select.children('option:selected')[0]['dataset']['barcode']}" type="hidden">
+            <input class="form-control col-4 mr-2" id="products[${i}][id]" name="products[${i}][id]" value="${select.children('option:selected')[0]['value']}" type="hidden">
+            <input class="form-control col-4" id="products[${i}][quantity]" name="products[${i}][quantity]"> ${select.children('option:selected')[0]['dataset']['unit_name']}
+            <input class="form-control col-4" id="products[${i}][unit_name]" name="products[${i}][unit_name]" value="${select.children('option:selected')[0]['dataset']['unit_name']}" type="hidden">
+            <input class="form-control col-3 ml-2" type="date" id="products[${i}][expiration_date]" name="products[${i}][expiration_date]">
         </div>`)
         console.log(select.children('option:selected')[0]['text']);
         i++;
@@ -93,7 +104,7 @@ $(document).ready(function() {
               if(data.productsFromDB != null){
                   for(let j = 0; j < data.productsFromDB.length; j++)
                 {
-                    select.append(`<option data-barcode="${data.productsFromDB[i]['barcode']}" value="${data.productsFromDB[i]['id']}" data-unit="${data.productsFromDB[i]['unit_id']}" data-unit_name="${data.productsFromDB[i]['unit']['unit']}">${data.productsFromDB[i]['name']} </option>`);
+                    select.append(`<option data-barcode="${data.productsFromDB[j]['barcode']}" value="${data.productsFromDB[j]['id']}" data-unit="${data.productsFromDB[j]['unit_id']}" data-unit_name="${data.productsFromDB[j]['unit']['unit']}">${data.productsFromDB[j]['name']} </option>`);
                 }
               }
               if(data.productsFromAPI != null){

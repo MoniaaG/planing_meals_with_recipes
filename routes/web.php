@@ -71,6 +71,7 @@ Route::group(['middleware' => ['auth']], function(){
     /*Pantry*/
     Route::get('/pantry/add_products', [PantryController::class, 'addProductToPantryBlade'])->name('pantry.addProduct_create');
     Route::post('/pantry/add_products', [PantryController::class, 'addProductToPantry'])->name('pantry.storeProduct');
+    Route::post('/pantry/whatNeedToBuy', [PantryController::class, 'whatNeedToBuy'])->name('pantry.whatNeedToBuy');
 });
 
 Route::get('/testt', function() {

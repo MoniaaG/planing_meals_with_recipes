@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use OpenFoodFacts\Laravel\Facades\OpenFoodFacts;
 use App\Statements\ConstProductCategory;
+use App\Statements\ProductsFromAPI;
 
 class RecipeController extends Controller
 {
@@ -60,7 +61,7 @@ class RecipeController extends Controller
                 $productFromAPI = Product::where('barcode', $product['barcode'])->count();
                 if(!$productFromAPI)
                 {
-                    $productBarcode = strtolower(strtok(isset(OpenFoodFacts::barcode($product['barcode'])['categories']) ? OpenFoodFacts::barcode($product['barcode'])['categories'] : ConstProductCategory::constProductCategory(), ','));
+                    $productBarcode = strtolower(strtok(ProductsFromAPI::getAPIProductCategory($product['barcode']), ','));
                     $newProduct = new Product();
                     $newProduct->name = $product['name'];
                     $newProduct->barcode = $product['barcode'];
@@ -75,7 +76,6 @@ class RecipeController extends Controller
                         $newProduct->product_category_id = $productCategory->id;
                     }
                     $newProduct->save();
-                    dump($newProduct);
                     $savedProduct = $newProduct;
                 }else {
                     $savedProduct = Product::where('barcode', $product['barcode'])->first();

@@ -134,7 +134,7 @@ $(document).ready(function() {
               if(data.productsFromDB != null){
                   for(let j = 0; j < data.productsFromDB.length; j++)
                 {
-                    select.append(`<option data-barcode="${data.productsFromDB[i]['barcode']}" value="${data.productsFromDB[i]['id']}" data-unit="${data.productsFromDB[i]['unit_id']}" data-unit_name="${data.productsFromDB[i]['unit']['unit']}">${data.productsFromDB[i]['name']} </option>`);
+                    select.append(`<option data-barcode="${data.productsFromDB[j]['barcode']}" value="${data.productsFromDB[j]['id']}" data-unit="${data.productsFromDB[j]['unit_id']}" data-unit_name="${data.productsFromDB[j]['unit']['unit']}">${data.productsFromDB[j]['name']} </option>`);
                 }
               }
               if(data.productsFromAPI != null){

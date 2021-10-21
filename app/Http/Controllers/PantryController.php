@@ -2,18 +2,22 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Calendar;
 use App\Models\Pantry;
 use App\Models\Product;
 use App\Models\ProductCategory;
 use App\Models\Unit;
 use App\Models\User;
 use App\Statements\ConstProductCategory;
+use App\Statements\ProductsFromAPI;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Date;
 use OpenFoodFacts\Laravel\Facades\OpenFoodFacts;
 
 class PantryController extends Controller
 {
+    
     public function index(User $owner)
     {
         $panrty = Pantry::where('owner_id', $owner->id);
@@ -37,7 +41,7 @@ class PantryController extends Controller
                 $productFromAPI = Product::where('barcode', $product['barcode'])->count();
                 if(!$productFromAPI)
                 {
-                    $productBarcode = strtolower(strtok(isset(OpenFoodFacts::barcode($product['barcode'])['categories']) ? OpenFoodFacts::barcode($product['barcode'])['categories'] : ConstProductCategory::constProductCategory(), ','));
+                    $productBarcode = strtolower(strtok(ProductsFromAPI::getAPIProductCategory($product['barcode']), ','));
                     $newProduct = new Product();
                     $newProduct->name = $product['name'];
                     $newProduct->barcode = $product['barcode'];
@@ -52,7 +56,6 @@ class PantryController extends Controller
                         $newProduct->product_category_id = $productCategory->id;
                     }
                     $newProduct->save();
-                    dump($newProduct);
                     $savedProduct = $newProduct;
                 }else {
                     $savedProduct = Product::where('barcode', $product['barcode'])->first();
@@ -60,15 +63,28 @@ class PantryController extends Controller
             }else {
                 $savedProduct = Product::findOrFail($product['id']);
             }
-            $pantry->products()->attach($savedProduct->id, ['quantity' => $product['quantity']]);
+            $pantry->products()->attach($savedProduct->id, ['quantity' => $product['quantity'], 'expiration_date' => $product['expiration_date']]);
 
         }
         return redirect()->back();
+    }
 
+    public function whatNeedToBuy(Request $request)
+    {
+        $start = $request->start;
+        $end = $request->end;
+        $user_calendar = Calendar::where('owner_id', Auth::id())->first();
+        $recipes_between_dates = $user_calendar->recipes()->whereBetween('start_at', [$start, $end])->get();
+        $array = [];
+        foreach($recipes_between_dates as $recipe) {
+            foreach($recipe->products()->get() as $product) {
+                $array[] = $product;
+            }
+        }
+        
 
-        /*for($i = 0; $i < count($request->product_id); $i++){
-            $product = $pantry->products()->attach($request->product_id[$i]);
-            $product->quantity = $request->product_id[$i][1];
-        }*/
+        $array[0]->pivot;
+        dd(collect($array)->where('id',1));//->where('attributes.id', 1)->get());
+
     }
 }
