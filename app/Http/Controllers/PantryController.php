@@ -81,10 +81,33 @@ class PantryController extends Controller
                 $array[] = $product;
             }
         }
-        
+        $arrayOfProductsWithQuantity = [];
+        //$array[0]->pivot;
+        //dd(collect($array)->where('id',1));//->where('attributes.id', 1)->get());
+        foreach(collect($array) as $key => $col)
+        {
+            $licznik = 0;
+            if(collect($arrayOfProductsWithQuantity)->where('id', $col->id)->count() > 0){
+                continue;
+            }else {
+                $arrayOfProductsWithQuantity[$key]['id'] = $col->id;
+                $products = collect($array)->where('id',$col->id);
+                $quantity = 0;
+                foreach($products as $product) {
+                    $quantity += $product->pivot['quantity'];
+                }
+                $arrayOfProductsWithQuantity[$key]['quantity'] = $quantity;
+                $licznik++;
+            }
+        }
+        //dd($arrayOfProductsWithQuantity); //what we need to cook
+        $user_pantry = Pantry::where('owner_id', Auth::id())->first();
+        $productsFromUserPantry = $user_pantry->products()->get();
 
-        $array[0]->pivot;
-        dd(collect($array)->where('id',1));//->where('attributes.id', 1)->get());
-
+        foreach(collect($arrayOfProductsWithQuantity) as $key => $productNeed)
+        {
+            //dd($productNeed);
+            dd($productsFromUserPantry->where('id', $productNeed['id']));
+        }
     }
 }
