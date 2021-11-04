@@ -22,7 +22,7 @@ class CreateCalendarRecipeTable extends Migration
             $table->foreign('recipe_id')->references('id')->on('recipes');
             $table->date('start_at')->default(Carbon::today());
             $table->date('end_at')->default(Carbon::today());
-            $table->boolean('cooked')->default(true);
+            $table->boolean('cooked')->default(false);
             $table->string('background_color');
             $table->string('text_color');
             $table->timestamps();

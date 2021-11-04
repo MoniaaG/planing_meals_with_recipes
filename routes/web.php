@@ -69,9 +69,18 @@ Route::group(['middleware' => ['auth']], function(){
     Route::delete('/recipe_category/destroy/{recipe_category}', [CategoriesController::class, 'destroy'])->name('recipe_category.destroy');
 
     /*Pantry*/
+    Route::get('/pantry/products', [PantryController::class, 'index'])->name('pantry.index');
     Route::get('/pantry/add_products', [PantryController::class, 'addProductToPantryBlade'])->name('pantry.addProduct_create');
     Route::post('/pantry/add_products', [PantryController::class, 'addProductToPantry'])->name('pantry.storeProduct');
     Route::post('/pantry/whatNeedToBuy', [PantryController::class, 'whatNeedToBuy'])->name('pantry.whatNeedToBuy');
+    Route::post('/pantry/addProductToPantry',[PantryController::class, 'addProductToPantryFromList'])->name('pantry.addProductToPantryFromList');
+    Route::delete('/pantry/destroy/{pantry_product}', [PantryController::class, 'destroy'])->name('pantry.destroy_pantry_product');
+
+
+    /*Shopping list*/
+    Route::get('/shopping_list', [PantryController::class, 'searchShoppingList'])->name('pantry.searchShoppingList');
+    Route::post('/shopping_list', [PantryController::class, 'whatNeedToBuy'])->name('pantry.whatNeedToBuy');
+
 });
 
 Route::get('/testt', function() {

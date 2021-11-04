@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\Calendar;
 use App\Models\Pantry;
+use App\Models\Shoppinglist;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -79,6 +80,10 @@ class RegisterController extends Controller
         ]);
 
         Pantry::create([
+            'owner_id' => $user->id,
+        ]);
+
+        Shoppinglist::create([
             'owner_id' => $user->id,
         ]);
 

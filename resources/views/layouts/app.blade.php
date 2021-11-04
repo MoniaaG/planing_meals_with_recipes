@@ -101,12 +101,12 @@
                 Spiżarnia
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="#">Moje produkty</a>
+                <a class="dropdown-item" href="{{ route('pantry.index')}}">Moje produkty</a>
                 <a class="dropdown-item" href="{{ route('pantry.addProduct_create') }}">Dodaj</a>
                 </div>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Listy zakupów</a>
+                <a class="nav-link" href="{{ route('pantry.searchShoppingList') }}">Listy zakupów</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#">Powiadomienia</a>

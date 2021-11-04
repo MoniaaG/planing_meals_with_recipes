@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Product extends Model
 {
     use HasFactory;
+    protected $hidden = ['pivot'];
 
     public function unit() 
     {
@@ -21,6 +22,11 @@ class Product extends Model
 
     public function pantries() 
     {
-        return $this->belongsToMany('App\Models\Pantries');
+        return $this->belongsToMany('App\Models\Pantry');
+    }
+
+    public function shoppinglists() 
+    {
+        return $this->belongsToMany('App\Models\Shoppinglist');
     }
 }

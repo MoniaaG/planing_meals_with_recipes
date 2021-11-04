@@ -5,6 +5,7 @@
     "/js/delete/calendar_recipe.js": "/js/delete/calendar_recipe.js",
     "/js/delete/product_category.js": "/js/delete/product_category.js",
     "/js/delete/recipe_category.js": "/js/delete/recipe_category.js",
+    "/js/delete/pantry_product.js": "/js/delete/pantry_product.js",
     "/fullcalendar/main.js": "/fullcalendar/main.js",
     "/css/app.css": "/css/app.css",
     "/fullcalendar/main.css": "/fullcalendar/main.css",

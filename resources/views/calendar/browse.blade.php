@@ -57,7 +57,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     else {
                         events.forEach(recipe => {
                             let el = `<tr><td style="background-color: ${recipe.color}; color: ${recipe.textColor};">${recipe.title}</td>`;
-                            el += `<td><button class="btn-danger" data-toggle="tooltip" data-delete-href="{{URL::to('calendar/destory/${recipe.id}')}}/"><i class="fas fa-trash"></i></button></td></tr>`;
+                            el += `<td><button class="btn-danger btn" data-toggle="tooltip" data-delete-href="{{URL::to('calendar/destory/${recipe.id}')}}/"><i class="fas fa-trash"></i></button></td></tr>`;
                             tbody.append(el);
                         })
                     }

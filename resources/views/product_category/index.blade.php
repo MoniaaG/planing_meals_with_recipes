@@ -20,7 +20,7 @@
                 <th scope="row">{{ $product_category->name }}</th>
                 <td>
                 <i class="fas fa-edit"></i>
-                <a class="delete btn-danger" title="Usuń kategorię produktu" data-toggle="tooltip" data-placement="bottom" data-delete-href="{{ route('product_category.destroy', ['product_category' => $product_category]) }}">
+                <a class="delete btn-danger btn" title="Usuń kategorię produktu" data-toggle="tooltip" data-placement="bottom" data-delete-href="{{ route('product_category.destroy', ['product_category' => $product_category]) }}">
                 <i class="fas fa-trash"></i></a>
                 </td>
                 </tr>

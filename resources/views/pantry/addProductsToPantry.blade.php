@@ -13,29 +13,23 @@
     </div>
 @endif
 
-<div class="col-12">
-            <form action="{{ route('pantry.whatNeedToBuy')}}" method="post" enctype="multipart/form-data">
-            @csrf
-            <input type="date" name="start">
-            <input type="date" name="end">
-
-            <button type="submit" class="btn btn-primary col-12 mx-4 my-3">What to buy</button>
-            </form>
-        </div>
     <div class="row justify-content-center col-12">
         <div class="col-12">
+        
             <form action="{{ route('pantry.storeProduct')}}" method="post" enctype="multipart/form-data">
             @csrf
             <div class="col-12 my-3">
+            <h1>Dodaj produkty do spiżarni</h1>
                 <div class="form-group ingredients">
                     <label for="searchProduct">Produkty</label>
                     <input class="form-control" id="searchProductText" placeholder="Podaj nazwę szukanego składnika/produktu">
                     <span class="btn btn-info mt-2" id="findProduct" data-route="{{ route('searchProduct')}}">Szukaj produktu</span>
                 </div>
 
-                <select class="custom-select" id="products" aria-label="Default select example">
+                <select class="custom-select" id="products" aria-label="Default select example" >
                     <option disabled>Wybierz produkty</option>
                 </select>
+
                 <a class="btn btn-warning mt-2" id="add">Dodaj składnik</a>
 
                 <div id="quantitySection">
@@ -57,6 +51,8 @@
 </div>-->
 @section('scripts')
 <!--<script src="{{ mix('js/app.js') }}"></script>-->
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script>
 $(document).ready(function() {
     $('#findProduct').click(function(e){
@@ -134,6 +130,71 @@ $(document).ready(function() {
         });
     }  
 });
+
+$('.js-data-example-ajax').select2({
+    ajax: {
+    url: $(this).attr('data-route'),
+    dataType: 'json',
+    data: function (params) {
+      var query = {
+        search: params.term,
+        type: 'public'
+      }
+    console.log(query,$(this).attr('data-route'));
+      // Query parameters will be ?search=[term]&type=public
+      return query;
+    },
+    processResults: function (data) {
+      // parse the results into the format expected by Select2
+      // since we are using custom formatting functions we do not need to
+      // alter the remote JSON data, except to indicate that infinite
+      // scrolling can be used
+        console.log(data.items);
+      return {
+        results: data.items,
+      };
+    },
+    cache: true,
+    minimumInputLength: 1,
+    templateResult: formatRepo,
+    templateSelection: formatRepoSelection,
+  }
+    // Additional AJAX parameters go here; see the end of this chapter for the full code of this example
+});
+
+function formatRepo (repo) {
+  if (repo.loading) {
+    return repo.text;
+  }
+  console.log(repo +  "repo");
+
+  var $container = $(
+    "<div class='select2-result-repository clearfix'>" +
+      "<div class='select2-result-repository__avatar'><img src='" + repo.owner.avatar_url + "' /></div>" +
+      "<div class='select2-result-repository__meta'>" +
+        "<div class='select2-result-repository__title'></div>" +
+        "<div class='select2-result-repository__description'></div>" +
+        "<div class='select2-result-repository__statistics'>" +
+          "<div class='select2-result-repository__forks'><i class='fa fa-flash'></i> </div>" +
+          "<div class='select2-result-repository__stargazers'><i class='fa fa-star'></i> </div>" +
+          "<div class='select2-result-repository__watchers'><i class='fa fa-eye'></i> </div>" +
+        "</div>" +
+      "</div>" +
+    "</div>"
+  );
+
+  $container.find(".select2-result-repository__title").text(repo.full_name);
+  $container.find(".select2-result-repository__description").text(repo.description);
+  $container.find(".select2-result-repository__forks").append(repo.forks_count + " Forks");
+  $container.find(".select2-result-repository__stargazers").append(repo.stargazers_count + " Stars");
+  $container.find(".select2-result-repository__watchers").append(repo.watchers_count + " Watchers");
+
+  return $container;
+}
+
+function formatRepoSelection (repo) {
+  return repo.full_name || repo.text;
+}
 </script>
 @endsection
 @endsection
