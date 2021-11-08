@@ -25,20 +25,51 @@ class ProductController extends Controller
 
     public function searchProducts(Request $request)
     {
-        try {
-            $searchText = $request->value;
-            $productsFromAPI = OpenFoodFacts::find($searchText);
-            $productsFromDB = Product::where('name', 'like', '%' . $searchText . '%')->with('unit')->get();
-            $productFromDBBarcode = $productsFromDB->pluck('barcode');
-            $array = [];
-            $productsFromAPI = $productsFromAPI->whereNotIn('_id', $productFromDBBarcode);
-            foreach($productsFromAPI as $api)
-                $array[] = $api;
-            $productsFromAPI = $array;
-            return response()->json(['status' => 'success', 'productsFromAPI' => $productsFromAPI, 'productsFromDB' => $productsFromDB->count() == 0 ? null : $productsFromDB]);
-        } catch (Exception $error) {
-            return response()->json(['status' => 'fail'], 404);
-        }
+            $searchText = $request->search;
+            if($searchText == "")
+            {
+                $productsFromDB = Product::where('name', 'like', '%' . $searchText . '%')->with('unit')->get();
+                if(count($productsFromDB) > 0)
+                {
+                    foreach($productsFromDB as $db){
+                        $response[] = array(
+                            'id' => $db['id'],
+                            'text' => $db['name'],
+                            'data-barcode' => $db['barcode'],
+                            'data-unit' => $db['unit']['unit'],
+                        );
+                    }
+                }
+            }else {
+                $productsFromAPI = OpenFoodFacts::find($searchText);
+                $productsFromDB = Product::where('name', 'like', '%' . $searchText . '%')->with('unit')->get();
+                $productFromDBBarcode = $productsFromDB->pluck('barcode');
+                $response = [];
+                $productsFromAPI = $productsFromAPI->whereNotIn('_id', $productFromDBBarcode);
+                if(count($productsFromDB) > 0)
+                {
+                    foreach($productsFromDB as $db){
+                        $response[] = array(
+                            'id' => $db['id'],
+                            'text' => $db['name'],
+                            'data-barcode' => $db['barcode'],
+                            'data-unit' => $db['unit']['unit'],
+                        );
+                    }
+                }
+                if(count($productsFromAPI) > 0)
+                {
+                    foreach($productsFromAPI as $api){
+                        $response[] = array(
+                            'id' => $api['_id'],
+                            'text' => isset($api['product_name']) ? $api['product_name'] : $searchText,
+                            'data-barcode' => $api['_id'],
+                            'data-unit' => isset($api['quantity']) ? $api['quantity'] : null
+                        );
+                    }
+                }
+            }
+            return response()->json($response);
     }
 
     public function create()
@@ -47,7 +78,6 @@ class ProductController extends Controller
         return view('product.create', compact('units'));
     }
 
-    
     public function store(Request $request)
     {
         

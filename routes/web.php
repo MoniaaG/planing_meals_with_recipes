@@ -4,6 +4,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RecipeController;
 use App\Http\Controllers\CalendarController;
 use App\Http\Controllers\CategoriesController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PantryController;
 use App\Http\Controllers\ProductCategoriesController;
 use App\Models\ProductCategory;
@@ -21,10 +22,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    $recipes = Recipe::where('share', 1)->get();
-    return view('homepage', compact('recipes'));
-});
 
 Route::get('/test', function () {
     //return OpenFoodFacts::find('pomidor');//['quantity'];//['categories'];
@@ -33,14 +30,17 @@ Route::get('/test', function () {
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
+Route::get('/', [HomeController::class, 'home'])->name('homepage');
 Route::group(['middleware' => ['auth']], function(){
+    Route::get('/', [HomeController::class, 'index'])->name('home');
+    Route::get('/', [HomeController::class, 'home'])->name('homepage');
     Route::get('/product/create', [ProductController::class, 'create'])->name('product.create');
     Route::post('/product/store', [ProductController::class, 'store'])->name('product.store');
 
 
-    Route::get('/recipe/show', [RecipeController::class, 'show'])->name('recipe.show');
+    Route::get('/recipe/show/{recipe}', [RecipeController::class, 'show'])->name('recipe.show');
     Route::get('/recipe/all', [RecipeController::class, 'index'])->name('recipe.index');
     Route::get('/recipe/create', [RecipeController::class, 'create'])->name('recipe.create');
     Route::post('/recipe/store', [RecipeController::class, 'store'])->name('recipe.store');
@@ -81,6 +81,10 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('/shopping_list', [PantryController::class, 'searchShoppingList'])->name('pantry.searchShoppingList');
     Route::post('/shopping_list', [PantryController::class, 'whatNeedToBuy'])->name('pantry.whatNeedToBuy');
 
+    /*Recipe Likes */
+    Route::post('/like/{recipe}', [RecipeController::class, 'like'])->name('recipe.like');
+
+    Route::get('/dashboard', [HomeController::class, 'dashboard'])->name('dashboard');
 });
 
 Route::get('/testt', function() {

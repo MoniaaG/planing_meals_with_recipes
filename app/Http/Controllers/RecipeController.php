@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\AddRecipeRequest;
 use App\Models\Category;
+use App\Models\Like;
 use App\Models\Product;
 use App\Models\ProductCategory;
 use App\Models\Recipe;
@@ -14,11 +15,13 @@ use Illuminate\Support\Facades\Storage;
 use OpenFoodFacts\Laravel\Facades\OpenFoodFacts;
 use App\Statements\ConstProductCategory;
 use App\Statements\ProductsFromAPI;
+use Exception;
 
 class RecipeController extends Controller
 {
     public function show(Recipe $recipe) {
-        return $recipe;
+        $recipe = $recipe->where('id', $recipe->id)->with('products.unit')->first();
+        return view('recipe.show', compact('recipe'));
     }
 
     public function index() {
@@ -128,5 +131,20 @@ class RecipeController extends Controller
     public function delete(Recipe $recipe) {
         //$user->products()->detach();
         $recipe->delete();
+    }
+
+    public function like(Recipe $recipe, Request $request) {
+        try {
+            if($recipe->liked()->count() == 0)
+            {
+                Like::create(['user_id' => Auth::id(), 'recipe_id' => $recipe->id]);
+            }else {
+                $recipe->liked()->first()->delete();
+            }
+            return response()->json(['status' => 'success'], 200);
+        }catch(Exception $error){
+            //dd($error);
+            return response()->json(['status' => 'fail'], 404);
+        }
     }
 }

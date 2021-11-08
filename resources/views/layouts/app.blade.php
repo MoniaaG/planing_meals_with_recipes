@@ -106,19 +106,13 @@
                 </div>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{{ route('pantry.searchShoppingList') }}">Listy zakupów</a>
+                <a class="nav-link" href="{{ route('pantry.searchShoppingList') }}">Lista zakupów</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#">Powiadomienia</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{{ route('recipe_category.index') }}">Kategorie przepisów</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{{ route('product_category.index') }}">Kategorie produktów</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Produkty</a>
+                <a class="nav-link" href="#">Proponuj produkty</a>
             </li>
             </ul>
             <form class="form-inline my-2 my-lg-0">
@@ -138,13 +132,13 @@
                                 @guest
                                     @if (Route::has('login'))
                                         <li class="nav-item">
-                                            <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                                            <a class="nav-link" href="{{ route('login') }}">{{ __('Logowanie') }}</a>
                                         </li>
                                     @endif
                                     
                                     @if (Route::has('register'))
                                         <li class="nav-item">
-                                            <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                                            <a class="nav-link" href="{{ route('register') }}">{{ __('Rejestracja') }}</a>
                                         </li>
                                     @endif
                                 @else
@@ -157,7 +151,7 @@
                                             <a class="dropdown-item" href="{{ route('logout') }}"
                                             onclick="event.preventDefault();
                                                             document.getElementById('logout-form').submit();">
-                                                {{ __('Logout') }}
+                                                {{ __('Wyloguj') }}
                                             </a>
 
                                             <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
@@ -175,6 +169,7 @@
             @yield('content')
         </main>
     </div>
+    @yield('footer')
     @yield('scripts')
 </body>
 </html>

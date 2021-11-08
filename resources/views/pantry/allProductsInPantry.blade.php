@@ -32,6 +32,7 @@
             @endforeach
             </tbody>
             </table>
+            {{ $pantry_products->links() }}
         </div>
     </div>
 </div>

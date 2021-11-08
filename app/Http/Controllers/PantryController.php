@@ -37,7 +37,7 @@ class PantryController extends Controller
 
     public function index()
     {
-        $pantry_products = $this->pantry->products()->get();
+        $pantry_products = $this->pantry->products()->paginate(10);
         $today = Carbon::now()->toDateString();
         return view('pantry.allProductsInPantry', compact('pantry_products', 'today'));
     }
@@ -50,7 +50,6 @@ class PantryController extends Controller
  
     public function addProductToPantry(Request $request)
     {
-
         foreach($request->products as $product) {
             $savedProduct = $product;
             
@@ -101,9 +100,12 @@ class PantryController extends Controller
         return view('shopping_list.search_shopping_list', compact('today'));
     }
 
-    public function productsNeededBetweenDate($start, $end, Calendar $calendar) 
+    public function productsNeededBetweenDate($start, $end, Calendar $calendar, $decision) 
     {
-        $recipes_between_dates = $calendar->recipes()->where('cooked', false)->whereBetween('start_at', [$start, $end])->get();
+        if($decision == 1)
+        $recipes_between_dates = $calendar->recipes()->whereBetween('start_at', [$start, $end])->get();
+        else
+            $recipes_between_dates = $calendar->recipes()->where('cooked', false)->whereBetween('start_at', [$start, $end])->get();
         $array = [];
         foreach($recipes_between_dates as $recipe) {
             foreach($recipe->products()->get() as $product) {
@@ -133,12 +135,10 @@ class PantryController extends Controller
                 $licznik++;
             }
         }
-
         return $arrayOfProductsWithQuantity;
     }
     public function whatNeedToBuy(ShoppingListRequest $request)
     {
-        //dd($request->list_type);
         $today = Carbon::now()->toDateString();
         $start = $request->start;
         if($request->end == null) 
@@ -148,10 +148,10 @@ class PantryController extends Controller
         $productToBuy = [];
         $list_type = $request->list_type;
         if($list_type == 1){
-            $productToBuy = collect($this->productsNeededBetweenDate($start, $end, $this->calendar));
+            $productToBuy = collect($this->productsNeededBetweenDate($start, $end, $this->calendar, $list_type));
         }
         else if($list_type == 2){
-            $arrayOfProductsWithQuantity = $this->productsNeededBetweenDate($start, $end, $this->calendar);
+            $arrayOfProductsWithQuantity = $this->productsNeededBetweenDate($start, $end, $this->calendar, $list_type);
             $productsFromUserPantry = $this->pantry->products()->get();
             foreach(collect($arrayOfProductsWithQuantity) as $key => $productNeed)
             {
@@ -174,9 +174,9 @@ class PantryController extends Controller
         else if($list_type == 3){
             $arrayOfProductsWithQuantityBeforeStart = [];
             if($start > $today){
-                $arrayOfProductsWithQuantityBeforeStart = $this->productsNeededBetweenDate($today, Carbon::parse($start)->subDays(1), $this->calendar);
+                $arrayOfProductsWithQuantityBeforeStart = $this->productsNeededBetweenDate($today, Carbon::parse($start)->subDays(1), $this->calendar, $list_type);
             }
-            $arrayOfProductsWithQuantity = $this->productsNeededBetweenDate($start, $end, $this->calendar);
+            $arrayOfProductsWithQuantity = $this->productsNeededBetweenDate($start, $end, $this->calendar, $list_type);
             $productsFromUserPantry = $this->pantry->products()->get();
             foreach(collect($arrayOfProductsWithQuantity) as $key => $productNeed)
             {
@@ -203,26 +203,18 @@ class PantryController extends Controller
         else {
             //toastr błędne dane podaj właściwe
         }
+        
+        $shoppinglist = Shoppinglist::where('owner_id' ,'=', Auth::id())->first();
+        $shoppinglist->start_date = $start;
+        $shoppinglist->end_date = $end;
+        $shoppinglist->save();
         if(count($productToBuy) > 0) {
-            if($start > $today)
-                $start = $today;
-            else $start = $request->start;
-            $shoppinglist = Shoppinglist::where('owner_id' ,'=', Auth::id())->first();
-            if(isset($shopinglist)) {
-                foreach($productToBuy as $productBuy){
-                    $shoppinglist->products()->sync([$productBuy['product_id'] => ['quantity' => $productBuy['quantity'], 'shoppinglist_id' => $shoppinglist->id]]);
-                }
-            }else {
-                $shoppinglist = Shoppinglist::create([
-                    'owner_id' => Auth::id(),
-                    'start_date' => $start, 
-                    'end_date' => $end,
-                ]);
-                foreach($productToBuy as $productBuy){
-                    $shoppinglist->products()->attach([$productBuy['product_id'] => ['quantity' => $productBuy['quantity'], 'shoppinglist_id' => $shoppinglist->id]]);
-                }
+            foreach($productToBuy as $productBuy){
+                $shoppinglist->products()->sync([$productBuy['product_id'] => ['quantity' => $productBuy['quantity'], 'shoppinglist_id' => $shoppinglist->id]]);
             }
+            
         }
+        toastr()->success('Data has been saved successfully!');
         return view('shopping_list.show_shopping_list', compact('productToBuy', 'start', 'end', 'today'));
     }
 

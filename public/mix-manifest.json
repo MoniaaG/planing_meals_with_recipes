@@ -7,8 +7,10 @@
     "/js/delete/recipe_category.js": "/js/delete/recipe_category.js",
     "/js/delete/pantry_product.js": "/js/delete/pantry_product.js",
     "/fullcalendar/main.js": "/fullcalendar/main.js",
+    "/js/likes.js": "/js/likes.js",
     "/css/app.css": "/css/app.css",
-    "/fullcalendar/main.css": "/fullcalendar/main.css",
+    "/css/style.css": "/css/style.css",
     "/css/homepage.css": "/css/homepage.css",
-    "/css/calendar.css": "/css/calendar.css"
+    "/css/calendar.css": "/css/calendar.css",
+    "/fullcalendar/main.css": "/fullcalendar/main.css"
 }

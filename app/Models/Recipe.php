@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class Recipe extends Model
 {
@@ -22,5 +23,15 @@ class Recipe extends Model
     public function recipes()
     {
         return $this->belongsToMany('App\Models\Calendar')->withPivot('start_at', 'end_at', 'text_color', 'background_color');
+    }
+
+    public function likes()
+    {
+        return $this->hasMany('App\Models\Like')->count();
+    }
+
+    public function liked()
+    {
+        return $this->hasOne('App\Models\Like')->where('user_id', Auth::id())->get();
     }
 }

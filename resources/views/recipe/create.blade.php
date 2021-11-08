@@ -56,131 +56,85 @@
                 </div>
             </div>
             <div class="col-12 my-3">
-                <div class="form-group ingredients">
-                    <label for="searchProduct">Składniki</label>
-                    <input class="form-control" id="searchProductText" placeholder="Podaj nazwę szukanego składnika/produktu">
-                    <span class="btn btn-info mt-2" id="findProduct" data-route="{{ route('searchProduct')}}">Szukaj składnika</span>
-                </div>
-
-                <select class="custom-select" id="products" aria-label="Default select example">
+                <select class="js-data-example-ajax col-12" data-route="{{ route('searchProduct')}}" aria-label="Default select example" >
                     <option disabled>Wybierz produkty</option>
                 </select>
                 <a class="btn btn-warning mt-2" id="add">Dodaj składnik</a>
-
                 <div id="quantitySection">
                     <h1 class="my-3">Składniki</h1>
                     <h5>W tym miejscu wymagane jest podanie ilości wybranych składników</h5>
                 </div>
             </div>
-
             <button type="submit" class="btn btn-primary col-12 mx-4 my-3">Dodaj przepis</button>
-            </form>
-
-            
+            </form>   
         </div>
-       
     </div>
-    
 </div>
 
-<!--<div id="aapp">
-   <example-component></example-component>
-</div>-->
+
 @section('scripts')
-<!--<script src="{{ mix('js/app.js') }}"></script>-->
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script>
 $(document).ready(function() {
-    $('#findProduct').click(function(e){
-        e.preventDefault();
-        let searchProductText = $('#searchProductText');
-        let url = $(this).attr('data-route');
-        console.log(url);
-        console.log(searchProductText.val());
-        searchProduct(searchProductText.val(), url);
-    });
-    let i = 0;
-    $('#add').click(function(e){
-        e.preventDefault();
-        let select = $('#products');
-        let sectionWithProductQuantity = $('#quantitySection');
-        console.log();
-        sectionWithProductQuantity.append(`
-        <div class="d-flex my-2" style="flex-direction: columns;">
-            <input class="form-control col-6 mr-2" id="products[${i}][name]" name="products[${i}][name]" value="${select.children('option:selected')[0]['text']}">
-            <input class="form-control col-6 mr-2" id="products[${i}][barcode]" name="products[${i}][barcode]" value="${select.children('option:selected')[0]['dataset']['barcode']}" type="hidden">
-            <input class="form-control col-6 mr-2" id="products[${i}][id]" name="products[${i}][id]" value="${select.children('option:selected')[0]['value']}" type="hidden">
-            <input class="form-control col-6" id="products[${i}][quantity]" name="products[${i}][quantity]"> ${select.children('option:selected')[0]['dataset']['unit_name']}
-            <input class="form-control col-6" id="products[${i}][unit_name]" name="products[${i}][unit_name]" value="${select.children('option:selected')[0]['dataset']['unit_name']}" type="hidden">
-        </div>`)
-        console.log(select.children('option:selected')[0]['text']);
-        i++;
-    });
+  let i = 0;
+  $('#add').click(function(e){
+    e.preventDefault();
+    let select = $('.js-data-example-ajax');
+    let sectionWithProductQuantity = $('#quantitySection');
 
+    let unit = 'g';
+    select.children('option:selected')[0]['dataset']['unit_name'] != null ? unit = select.children('option:selected')[0]['dataset']['unit_name'] : unit = 'g';
+    if(unit.includes('kg') || unit.includes('g')) { unit = 'g' }
+    else if(unit.includes('l') || unit.includes('ml')) { unit = 'ml' }
+    else if(unit.includes('g') && unit.includes('ml')) { unit = 'ml' }
+    else if(unit.includes('szt')) { unit = 'szt'}
 
-
-    function searchProduct(searchText, route)
-    {
-        $.ajax({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-            url: route,
-            type: 'POST',
-            data: 'value=' + searchText,
-            success: function(data) {
-              let select = $('#products');
-              select.children().remove();
-              console.log(data);
-              if(data.productsFromDB != null){
-                  for(let j = 0; j < data.productsFromDB.length; j++)
-                {
-                    select.append(`<option data-barcode="${data.productsFromDB[j]['barcode']}" value="${data.productsFromDB[j]['id']}" data-unit="${data.productsFromDB[j]['unit_id']}" data-unit_name="${data.productsFromDB[j]['unit']['unit']}">${data.productsFromDB[j]['name']} </option>`);
-                }
-              }
-              if(data.productsFromAPI != null){
-                for(let i = 0; i < data.productsFromAPI.length; i++)
-                {
-                    let unit = 'g';
-                    data.productsFromAPI[i]['quantity'] != null ? unit = data.productsFromAPI[i]['quantity'] : unit = 'g';
-                    if(unit.includes('kg') || unit.includes('g')) { unit = 'g' }
-                    else if(unit.includes('l') || unit.includes('ml')) { unit = 'ml' }
-                    else if(unit.includes('g') && unit.includes('ml')) { unit = 'ml' }
-                    else if(unit.includes('szt')) { unit = 'szt'}
-                    console.log(unit+" każda jednostka xd " + i );
-                    console.log(data.productsFromAPI[i]['_id']);
-                    console.log(data.productsFromAPI[i]['product_name']);
-                    select.append(`<option data-barcode="${data.productsFromAPI[i]['_id']}" value="${data.productsFromAPI[i]['_id']}" data-unit_name="${unit}">${data.productsFromAPI[i]['product_name']}</option>`);
-                }
-              }
-              /*if(data.productsFromDB != null){
-                  console.log('xd'+ data.productsFromDB);
-              }
-              
-              /*data.productsFromDB.forEach(group => {
-                    console.log(group);
-                    });
-              }
-              console.log(data.status);
-              console.log(data.productsFromAPI);*/
-                /*$('.total1').html(el + resu
-                lt.total.toFixed(2)+"zł");
-                $('.total').html(result.total.toFixed(2)+"zł");
-                $(`#quantity${id}`).html(result.quantity);
-                $(`#sell${id}`).html(result.sell.toFixed(2)+"zł");
-                if(result.quantity > 1)$(`[data-product-minus=${id}]`).removeAttr('disabled');
-                else $(`[data-product-minus=${id}]`).prop('disabled', 'disabled');*/
-            },
-            error: function(result) {
-                /*bootbox.alert({
-                    title: `Uwaga`,
-                    message: `<div class="modal-icon"><span>Brak produktu na magazynie</span></div>`,
-                    centerVertical: true,
-                });*/
-                console.log('error');
-            },
-        });
-    }  
+    sectionWithProductQuantity.append(`
+    <div class="d-flex my-2" style="flex-direction: columns;">
+        <input class="form-control col-4 mr-2" id="products[${i}][name]" name="products[${i}][name]" value="${select.children('option:selected')[0]['text']}">
+        <input class="form-control col-4 mr-2" id="products[${i}][barcode]" name="products[${i}][barcode]" value="${select.children('option:selected')[0]['dataset']['barcode']}" type="hidden">
+        <input class="form-control col-4 mr-2" id="products[${i}][id]" name="products[${i}][id]" value="${select.children('option:selected')[0]['value']}" type="hidden">
+        <input class="form-control col-4" id="products[${i}][quantity]" name="products[${i}][quantity]"> ${unit}
+        <input class="form-control col-4" id="products[${i}][unit_name]" name="products[${i}][unit_name]" value="${unit}" type="hidden">
+        <input class="form-control col-3 ml-2" type="date" id="products[${i}][expiration_date]" name="products[${i}][expiration_date]">
+    </div>`)
+    i++;
+  });
 });
+
+$('.js-data-example-ajax').select2({
+    ajax: {
+    headers: {
+      'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    },
+    url: "{{ route('searchProduct') }}",
+    type: 'post',
+    dataType: 'json',
+    delay: 300,
+    data: function (params) {
+      console.log($(this).attr('data-route'));
+      return {
+        search: params.term,
+      }
+    },
+    processResults: function (response) {
+      console.log(response);
+      return {
+        results: response
+      }
+    },
+    cache: true,
+  }
+}).on('select2:select', function (e) {
+    console.log(e);
+    var data = e.params.data;  
+
+    $(this).children('[value="'+data['id']+'"]').attr({
+      'data-barcode':data["data-barcode"],
+      'data-unit_name': data['data-unit'],
+    })
+  });
 </script>
 @endsection
 @endsection

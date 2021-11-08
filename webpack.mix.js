@@ -19,9 +19,11 @@ mix.js('resources/js/app.js', 'public/js')
     .js('resources/js/delete/recipe_category.js', 'public/js/delete')
     .js('resources/js/delete/pantry_product.js', 'public/js/delete')
     .js('resources/js/fullcalendar/main.js', 'public/fullcalendar')
+    .js('resources/js/likes.js', 'public/js')
     .vue()
     .sass('resources/sass/app.scss', 'public/css')
     .sass('resources/sass/calendar.scss', 'public/css')
     .sass('resources/sass/homepage.scss', 'public/css')
+    .sass('resources/sass/style.scss', 'public/css')
     .css('resources/css/fullcalendar/main.css', 'public/fullcalendar');
 
