@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Pantry;
 use App\Models\Product;
+use App\Models\ProductCategory;
 use App\Models\Unit;
 use App\Repositories\Interfaces\ProductRepositoryInterface;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use OpenFoodFacts\Laravel\Facades\OpenFoodFacts;
 class ProductController extends Controller
 {
@@ -101,4 +104,29 @@ class ProductController extends Controller
         return redirect()->route('product.index');
     }
 
+    public function proposition_create()
+    {
+        $units = Unit::all();
+        $product_categories = ProductCategory::all();
+        return view('product.product_proposition', compact('units', 'product_categories'));
+    }
+
+    public function proposition_store(Request $request)
+    {
+        try{
+            $proposition = new Product();
+            $proposition->name = $request->name;
+            $proposition->unit_id = $request->unit_id;
+            $proposition->product_category_id = $request->product_category_id;
+            $proposition->image = 'image';
+            $proposition->barcode = null;
+            $proposition->added = 1; //oznacza to, że produkt jest proponowany przez użytkowników
+            $proposition->save();
+            toastr()->success('Podano produkt do proponowanych!');
+        }catch (Exception $error) {
+            toastr()->error('Próba dodania propozycji produktu nie powiodła się. Spróbuj ponownie!');
+            return back();
+        }
+        return redirect()->route('homepage');
+    }
 }

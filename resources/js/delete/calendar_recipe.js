@@ -1,7 +1,6 @@
 $(document).ready(function() {
     $(document).on('click', "[data-delete-href]", function () {
         var url = $(this).data("delete-href");
-        console.log(url);
         bootbox.confirm({
             title: 'title',
             message: `<div class="modal-icon"><i class="far fa-trash-alt"></i><span>confitm text</span></div>`,

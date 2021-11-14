@@ -49,7 +49,7 @@
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
                         <div class="input-group-text">
-                        <input class="mr-3" type="checkbox" name="share" id="share" aria-label="Czy idostępnic przepis publicznie?">
+                        <input class="mr-3" type="checkbox" name="share" id="share" aria-label="Czy udostępnić przepis publicznie?">
                         Czy udostępnić przepis publicznie?
                         </div>
                     </div>
@@ -64,8 +64,8 @@
                     <h1 class="my-3">Składniki</h1>
                     <h5>W tym miejscu wymagane jest podanie ilości wybranych składników</h5>
                 </div>
+                <button type="submit" class="btn btn-primary col-12">Dodaj przepis</button>
             </div>
-            <button type="submit" class="btn btn-primary col-12 mx-4 my-3">Dodaj przepis</button>
             </form>   
         </div>
     </div>

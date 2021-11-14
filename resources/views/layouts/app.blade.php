@@ -20,6 +20,7 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/homepage.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/style.css') }}" rel="stylesheet">
 
     <script>
         $(document).ready(function() {
@@ -112,7 +113,7 @@
                 <a class="nav-link" href="#">Powiadomienia</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Proponuj produkty</a>
+                <a class="nav-link" href="{{ route('product.proposition_create') }}">Proponuj produkty</a>
             </li>
             </ul>
             <form class="form-inline my-2 my-lg-0">
@@ -167,9 +168,9 @@
 
         <main class="py-4">
             @yield('content')
+            @include('layouts.footer')
         </main>
     </div>
-    @yield('footer')
     @yield('scripts')
 </body>
 </html>

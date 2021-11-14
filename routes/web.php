@@ -34,12 +34,15 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::get('/', [HomeController::class, 'home'])->name('homepage');
 Route::group(['middleware' => ['auth']], function(){
+    /* Product */
     Route::get('/', [HomeController::class, 'index'])->name('home');
     Route::get('/', [HomeController::class, 'home'])->name('homepage');
     Route::get('/product/create', [ProductController::class, 'create'])->name('product.create');
     Route::post('/product/store', [ProductController::class, 'store'])->name('product.store');
-
-
+    
+    Route::get('/product_proposition', [ProductController::class, 'proposition_create'])->name('product.proposition_create');
+    Route::post('/product_proposition/store', [ProductController::class, 'proposition_store'])->name('product.proposition_store');
+    /* Recipe */
     Route::get('/recipe/show/{recipe}', [RecipeController::class, 'show'])->name('recipe.show');
     Route::get('/recipe/all', [RecipeController::class, 'index'])->name('recipe.index');
     Route::get('/recipe/create', [RecipeController::class, 'create'])->name('recipe.create');
@@ -52,7 +55,7 @@ Route::group(['middleware' => ['auth']], function(){
     Route::post('/calendar_recipe/store', [CalendarController::class, 'calendar_recipe_store'])->name('calendar_recipe.store');
     Route::delete('/calendar/destory/{id}', [CalendarController::class, 'delete_recipe'])->name('calendar.delete_recipe');
 
-    /*Product category*/
+    /* Product category */
     Route::get('/product_category/index', [ProductCategoriesController::class, 'index'])->name('product_category.index');
     Route::get('/product_category/create', [ProductCategoriesController::class, 'create'])->name('product_category.create');
     Route::post('/product_category/store', [ProductCategoriesController::class, 'store'])->name('product_category.store');
@@ -75,7 +78,7 @@ Route::group(['middleware' => ['auth']], function(){
     Route::post('/pantry/whatNeedToBuy', [PantryController::class, 'whatNeedToBuy'])->name('pantry.whatNeedToBuy');
     Route::post('/pantry/addProductToPantry',[PantryController::class, 'addProductToPantryFromList'])->name('pantry.addProductToPantryFromList');
     Route::delete('/pantry/destroy/{pantry_product}', [PantryController::class, 'destroy'])->name('pantry.destroy_pantry_product');
-
+    Route::post('/product/update/{pantry_product}', [PantryController::class, 'update_quantity'])->name('pantry.product.update');
 
     /*Shopping list*/
     Route::get('/shopping_list', [PantryController::class, 'searchShoppingList'])->name('pantry.searchShoppingList');

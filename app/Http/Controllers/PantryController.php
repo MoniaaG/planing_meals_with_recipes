@@ -37,7 +37,7 @@ class PantryController extends Controller
 
     public function index()
     {
-        $pantry_products = $this->pantry->products()->paginate(10);
+        $pantry_products = $this->pantry->products()->get();
         $today = Carbon::now()->toDateString();
         return view('pantry.allProductsInPantry', compact('pantry_products', 'today'));
     }
@@ -216,6 +216,15 @@ class PantryController extends Controller
         }
         toastr()->success('Data has been saved successfully!');
         return view('shopping_list.show_shopping_list', compact('productToBuy', 'start', 'end', 'today'));
+    }
+
+    public function update_quantity(int $pantry_product, Request $request)
+    {
+        try {
+            $this->pantry->products()->wherePivot('id', $pantry_product)->update(['quantity' => $request->quantity]);
+        } catch (Exception $error) {
+        }
+
     }
 
     public function destroy(int $pantry_product)
