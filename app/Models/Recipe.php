@@ -34,4 +34,5 @@ class Recipe extends Model
     {
         return $this->hasOne('App\Models\Like')->where('user_id', Auth::id())->get();
     }
+
 }

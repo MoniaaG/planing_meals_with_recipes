@@ -80,37 +80,25 @@ class CalendarController extends Controller
                     $count++;
                 }
             }
-            foreach($recipe->products()->get() as  $product)
-            {
-                $quantity = $product->pivot->quantity;
-            if(count($recipe->products) ==  $count){
-                foreach($pantry->products()->where('product_id', $product->id)->get() as $pantry_product) {
-                    if(($pantry_product->pivot->quantity - $quantity) > 0)
-                    {
-                        $pantry->products()->wherePivot('id', $pantry_product->pivot->id)->update(['quantity' => ($pantry_product->pivot->quantity - $quantity)]);
-                        $quantity = 0;
-                    }else if(($pantry_product->pivot->quantity - $quantity) == 0) { 
-                        $pantry->products()->wherePivot('id', $pantry_product->pivot->id)->delete();
-                        $quantity = 0;
-                    }else {
-                        if($quantity > 0) {
-                            if($pantry_product->pivot->quantity - $quantity > 0){
-                                $pantry->products()->wherePivot('id', $pantry_product->pivot->id)->update(['quantity' => ($pantry_product->pivot->quantity - $quantity)]);
-                                $quantity = 0;
-                            }else if($pantry_product->pivot->quantity - $quantity <= 0){
-                                $quantity -= $pantry_product->pivot->quantity;
-                                $pantry->products()->wherePivot('id', $pantry_product->pivot->id)->delete();
-                            }else {
-                                break;
-                            }
+            foreach($recipe->products()->get() as  $product){
+                if(count($recipe->products) ==  $count){
+                    $quantity = $product->pivot->quantity;
+                    foreach($pantry->products()->where('product_id', $product->id)->get() as $pantry_product) {
+                        if(($pantry_product->pivot->quantity - $quantity) > 0){
+                            $pantry->products()->wherePivot('id', $pantry_product->pivot->id)->update(['quantity' => ($pantry_product->pivot->quantity - $quantity)]);
+                            $quantity = 0;
+                        }else if(($pantry_product->pivot->quantity - $quantity) <= 0){
+                            $quantity -= $pantry_product->pivot->quantity;
+                            DB::table('pantry_product')->where('id', $pantry_product->pivot->id)->delete();
+                        }else {
+                            break;
                         }
                     }
+                }else {
+                    return response()->json(['status' => 'fail'], 404);
                 }
-            }else {
-                return response()->json(['status' => 'fail'], 404);
             }
-        }
-        $this->calendar->recipes()->wherePivot('id', $id)->update(['cooked' => true]);
+            $this->calendar->recipes()->wherePivot('id', $id)->update(['cooked' => true]);
             return response()->json(['status' => 'success'], 200);
         } catch (Exception $error) {
             return response()->json(['status' => 'fail'], 404);

@@ -48,6 +48,7 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('/recipe/create', [RecipeController::class, 'create'])->name('recipe.create');
     Route::post('/recipe/store', [RecipeController::class, 'store'])->name('recipe.store');
     //Route::get('/recipes/{option}', [RecipeController::class, 'index'])->name('recipe.index');
+    Route::post('/recipe/searchRecipe', [RecipeController::class, 'searchRecipes'])->name('searchRecipe');
 
     /* Calendar */
     Route::get('/calendar/show', [CalendarController::class, 'show'])->name('calendar.show');
@@ -89,6 +90,9 @@ Route::group(['middleware' => ['auth']], function(){
 
     /*Recipe Likes */
     Route::post('/like/{recipe}', [RecipeController::class, 'like'])->name('recipe.like');
+
+    /* Opinion */
+    Route::post('/opinion/{recipe}', [RecipeController::class, 'opinionAdd'])->name('opinion.add');
 
     Route::get('/dashboard', [HomeController::class, 'dashboard'])->name('dashboard');
 });

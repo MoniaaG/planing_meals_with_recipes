@@ -22,5 +22,3 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::post('/product/searchProduct', [ProductController::class, 'searchProducts'])->name('searchProduct');
 
-Route::post('/recipe/searchRecipe', [RecipeController::class, 'searchRecipes'])->name('searchRecipe');
-

@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\AddRecipeRequest;
 use App\Models\Category;
 use App\Models\Like;
+use App\Models\Opinion;
+use App\Models\Pantry;
 use App\Models\Product;
 use App\Models\ProductCategory;
 use App\Models\Recipe;
@@ -16,13 +18,13 @@ use OpenFoodFacts\Laravel\Facades\OpenFoodFacts;
 use App\Statements\ConstProductCategory;
 use App\Statements\ProductsFromAPI;
 use Exception;
-use Illuminate\Support\Facades\DB;
 
 class RecipeController extends Controller
 {
     public function show(Recipe $recipe) {
+        $opinion = Opinion::where([['creator_id', Auth::id()], ['recipe_id', $recipe->id]])->first();
         $recipe = $recipe->where('id', $recipe->id)->with('products.unit')->first();
-        return view('recipe.show', compact('recipe'));
+        return view('recipe.show', compact('recipe', 'opinion'));
     }
 
     public function index() {
@@ -30,6 +32,26 @@ class RecipeController extends Controller
         return view('recipe.indexAll', compact('recipes'));
     }
 
+    public function searchRecipes(Request $request) {
+        $response = [];
+        $recipes = Recipe::where('user_id', Auth::id())->get();
+        $liked_recipes = Auth::user()->liked_recipes();
+        if(count($recipes))
+            $recipes->concat($liked_recipes);
+        else 
+            $recipes = $liked_recipes;
+        if($request->search != "")
+            $recipes->where('name', 'like', '%' . $request->search . '%');
+        
+        foreach($recipes as $recipe){
+            $response[] = array(
+                'id' => $recipe['id'],
+                'text' => $recipe['name'],
+            );
+        }
+        return response()->json($response);
+    }
+    
     public function create()
     {
         $categories = Category::all();
@@ -144,23 +166,20 @@ class RecipeController extends Controller
             }
             return response()->json(['status' => 'success'], 200);
         }catch(Exception $error){
-            //dd($error);
             return response()->json(['status' => 'fail'], 404);
         }
     }
 
-    public function searchRecipes() {
-
-        dd($likes_recipe = Like::where('user_id', Auth::id())->get());
-        dd($likes_recipe);
-        foreach($productsFromDB as $db){
-            $response[] = array(
-                'id' => $db['id'],
-                'text' => $db['name'],
-                'data-barcode' => $db['barcode'],
-                'data-unit' => $db['unit']['unit'],
-            );
+    public function opinionAdd(Request $request, Recipe $recipe){
+        try {
+            if(Opinion::where([['creator_id', Auth::id()], ['recipe_id', $recipe->id]])->first() != null) {
+                return response()->json(['status' => 'fail'], 404);
+            }else {
+                Opinion::create(['creator_id' => Auth::id(), 'opinion' => $request->stars, 'recipe_id' => $recipe->id]);
+                return response()->json(['status' => 'success'], 200);
+            }
+        }catch(Exception $error){
+            return response()->json(['status' => 'fail'], 404);
         }
-        return response()->json($response);
     }
 }
