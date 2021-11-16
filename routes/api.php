@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\RecipeController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -20,4 +21,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::post('/product/searchProduct', [ProductController::class, 'searchProducts'])->name('searchProduct');
+
+Route::post('/recipe/searchRecipe', [RecipeController::class, 'searchRecipes'])->name('searchRecipe');
 

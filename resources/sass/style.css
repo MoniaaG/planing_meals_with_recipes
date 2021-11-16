@@ -291,7 +291,7 @@ table.responsive-table-lg tr td, .table td {
 }
 
 td .fas {
-  vertical-align: bottom !important;
+  vertical-align: middle !important;
 }
 
 table.dataTable thead th {

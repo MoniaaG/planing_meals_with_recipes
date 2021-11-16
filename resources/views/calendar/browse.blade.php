@@ -5,6 +5,8 @@
 <link href="{{asset('fullcalendar/main.css')}}" rel='stylesheet' />
 <script src="{{asset('fullcalendar/main.js')}}"></script>
 <script src="{{asset('js/delete/calendar_recipe.js')}}" defer></script>
+<script src="{{asset('js/assign_recipe.js')}}" defer></script>
+<script src="{{asset('js/unsign_recipe.js')}}" defer></script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     var calendarEl = document.getElementById('calendar');
@@ -19,7 +21,7 @@ document.addEventListener('DOMContentLoaded', function() {
         headerToolbar: {
             left: 'prevYear,prev,next,nextYear,today',
             center: 'title',
-            right: 'dayGridMonth,timeGridSevenDay,timeGridDay' // buttons for switching between views
+            right: 'dayGridMonth' // buttons for switching between views
         },
         views: {
             today: {
@@ -52,13 +54,20 @@ document.addEventListener('DOMContentLoaded', function() {
                     $('#table').append(`<tbody id="recipes"></tbody>`);
                     let tbody = $('#recipes');
                     if(events.length == 0){
-                        tbody.append(`<tr class="text-center"><td>Brak zaplanowanych przepisów na wybrany dzień!</td></tr>`);
+                        tbody.append(`<tr class="text-center bg-danger"><td colspan="2">Brak zaplanowanych przepisów na wybrany dzień!</td></tr>`);
                     }
                     else {
                         events.forEach(recipe => {
-                            let el = `<tr><td style="background-color: ${recipe.color}; color: ${recipe.textColor};">${recipe.title}</td>`;
-                            el += `<td><button class="btn-danger btn" data-toggle="tooltip" data-delete-href="{{URL::to('calendar/destory/${recipe.id}')}}/"><i class="fas fa-trash"></i></button></td>
-                            <td><button class="btn-danger btn" data-toggle="tooltip" data-delete-href="{{URL::to('calendar/assign/${recipe.id}')}}/"><i class="far fa-check-square"></i></button></td></tr>`;
+                            let el = `<tr><td class="col-8 my-1" style="background-color: ${recipe.color}; color: ${recipe.textColor};">${recipe.title}</td>`;
+                            el += `<td class="d-flex col-4">
+                            <a class="btn-info btn text-white" data-toggle="tooltip" href="{{URL::to('recipe/show/${recipe.recipe_id}')}}/"><i class="fas fa-eye"></i></a>
+                            <button class="btn-white btn text-success border-success" data-toggle="tooltip"`;
+                            if(recipe.cooked) el += `data-unsign-href="{{URL::to('calendar/unsign/${recipe.id}')}}/">`; else el+= `data-assign-href="{{URL::to('calendar/assign/${recipe.id}')}}/">`; 
+                            el += `<i class="`;
+                            if(recipe.cooked) el += `fas `; else el += `far `;
+                            el += `fa-check-square"></i></button>
+                            <button class="btn-danger btn" data-toggle="tooltip" data-delete-href="{{URL::to('calendar/assign/${recipe.id}')}}/"><i class="fas fa-trash"></i></button>
+                            </td></tr>`;
                             tbody.append(el);
                         })
                     }
@@ -89,8 +98,10 @@ document.addEventListener('DOMContentLoaded', function() {
       <div class="modal-body">
         <table id="table" class="table">
             <thead>
-                <tr><th>Nazwa przepisu</th>
-                <th>Opcje</th></tr>
+                <tr>
+                    <th class="col-8">Nazwa przepisu</th>
+                    <th class="col-4">Opcje</th>
+                </tr>
             </thead>
             <tbody id="recipes"></tbody>
         </table>
@@ -130,7 +141,7 @@ document.addEventListener('DOMContentLoaded', function() {
             <div class="form-group">
                 
             </div>
-            <button type="submit" class="btn btn-success">Dodaj przepis</button>
+            <button type="submit" class="btn btn-success col-12">Dodaj przepis</button>
         </form>
       </div>
     </div>
@@ -144,7 +155,37 @@ document.addEventListener('DOMContentLoaded', function() {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/js/select2.min.js" defer></script>
     <script>
         $(document).ready(function() {
-            $('#recipe_id').select2();
+            $('#recipe_id').select2({
+                ajax: {
+                headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                url: "{{ route('searchRecipe') }}",
+                type: 'post',
+                dataType: 'json',
+                delay: 300,
+                data: function (params) {
+                    return {
+                        search: params.term,
+                    }
+                },
+                processResults: function (response) {
+                console.log(response);
+                    return {
+                        results: response
+                    }
+                },
+                cache: true,
+            }
+            }).on('select2:select', function (e) {
+                console.log(e);
+                var data = e.params.data;  
+
+                $(this).children('[value="'+data['id']+'"]').attr({
+                'data-barcode':data["data-barcode"],
+                'unit_name': data['data-unit'],
+                })
+            });
         })
     </script>
 @endsection

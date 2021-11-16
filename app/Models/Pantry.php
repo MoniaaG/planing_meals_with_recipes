@@ -18,6 +18,6 @@ class Pantry extends Model
 
     public function products()
     {
-        return $this->belongsToMany('App\Models\Product')->withPivot('id','quantity', 'expiration_date');
+        return $this->belongsToMany('App\Models\Product')->withPivot('id','quantity','expiration_date');
     }
 }

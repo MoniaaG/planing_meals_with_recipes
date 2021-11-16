@@ -16,6 +16,7 @@ use OpenFoodFacts\Laravel\Facades\OpenFoodFacts;
 use App\Statements\ConstProductCategory;
 use App\Statements\ProductsFromAPI;
 use Exception;
+use Illuminate\Support\Facades\DB;
 
 class RecipeController extends Controller
 {
@@ -146,5 +147,20 @@ class RecipeController extends Controller
             //dd($error);
             return response()->json(['status' => 'fail'], 404);
         }
+    }
+
+    public function searchRecipes() {
+
+        dd($likes_recipe = Like::where('user_id', Auth::id())->get());
+        dd($likes_recipe);
+        foreach($productsFromDB as $db){
+            $response[] = array(
+                'id' => $db['id'],
+                'text' => $db['name'],
+                'data-barcode' => $db['barcode'],
+                'data-unit' => $db['unit']['unit'],
+            );
+        }
+        return response()->json($response);
     }
 }

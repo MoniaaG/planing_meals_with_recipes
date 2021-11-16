@@ -74,7 +74,6 @@ $('.js-data-example-ajax').select2({
     dataType: 'json',
     delay: 300,
     data: function (params) {
-      console.log($(this).attr('data-route'));
       return {
         search: params.term,
       }

@@ -19,16 +19,16 @@ class Calendar extends Model
 
     public function recipes()
     {
-        return $this->belongsToMany('App\Models\Recipe')->withPivot('start_at', 'end_at', 'text_color', 'background_color');
+        return $this->belongsToMany('App\Models\Recipe')->withPivot('start_at', 'end_at', 'text_color', 'background_color','cooked');
     }
 
     public function recipes_events()
     {
-        return $this->recipes()->select('calendar_recipe.id','name as title','start_at as start', 'end_at as end', 'text_color as textColor', 'background_color as color')->get()->toArray();
+        return $this->recipes()->select('calendar_recipe.id','name as title','start_at as start', 'end_at as end', 'text_color as textColor', 'background_color as color', 'cooked', 'recipe_id')->get()->toArray();
     }
 
     public function recipes_events_day(String $date)
     {
-        return $this->recipes()->select('calendar_recipe.id','name as title','start_at as start', 'end_at as end', 'text_color as textColor', 'background_color as color')->where('start_at',$date)->get()->toArray();
+        return $this->recipes()->select('calendar_recipe.id','name as title','start_at as start', 'end_at as end', 'text_color as textColor', 'background_color as color', 'cooked', 'recipe_id')->where('start_at',$date)->get()->toArray();
     }
 }

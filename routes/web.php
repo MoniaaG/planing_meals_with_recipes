@@ -49,11 +49,14 @@ Route::group(['middleware' => ['auth']], function(){
     Route::post('/recipe/store', [RecipeController::class, 'store'])->name('recipe.store');
     //Route::get('/recipes/{option}', [RecipeController::class, 'index'])->name('recipe.index');
 
+    /* Calendar */
     Route::get('/calendar/show', [CalendarController::class, 'show'])->name('calendar.show');
     Route::get('/calendar/index', [CalendarController::class, 'index'])->name('calendar.index');
     Route::post('/calendar_day', [CalendarController::class, 'calendar_day'])->name('calendar_day');
     Route::post('/calendar_recipe/store', [CalendarController::class, 'calendar_recipe_store'])->name('calendar_recipe.store');
     Route::delete('/calendar/destory/{id}', [CalendarController::class, 'delete_recipe'])->name('calendar.delete_recipe');
+    Route::post('/calendar/assign/{id}', [CalendarController::class, 'assign_recipe'])->name('calendar.assign_recipe');
+    Route::post('/calendar/unsign/{id}', [CalendarController::class, 'unsign_recipe'])->name('calendar.unsign_recipe');
 
     /* Product category */
     Route::get('/product_category/index', [ProductCategoriesController::class, 'index'])->name('product_category.index');
