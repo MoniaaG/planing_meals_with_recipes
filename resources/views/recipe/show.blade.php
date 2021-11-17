@@ -21,7 +21,10 @@
             @endforeach
             </div>
             <div class="description col-12">{{ $recipe->description }}jhmghmghjmgj,mgj,tgjh,tgju,tgujh,tuj,tyu,dtyuj,u,dtyu,y,y,yu,yru,yu,yru,yu,yju,y</div>
-            <div class="comments col-md-12"></div> 
+            <div class="comments col-md-12">
+            @comments(['model' => $recipe,
+                        'perPage' => 10])
+            </div> 
         </div>
     </div>
 </section>
@@ -80,6 +83,8 @@ $(document).ready(function() {
             }
         });
     })
+
+    console.log($('form label[for=message]'));
 });
 </script>
 @endsection

@@ -5,10 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
+use Laravelista\Comments\Commentable;
 
 class Recipe extends Model
 {
-    use HasFactory;
+    use HasFactory, Commentable;
     protected $hidden = ['pivot'];
     public function products() 
     {
