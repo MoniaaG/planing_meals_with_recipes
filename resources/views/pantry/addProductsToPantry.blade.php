@@ -50,15 +50,24 @@ $(document).ready(function() {
     else if(unit.includes('l') || unit.includes('ml')) { unit = 'ml' }
     else if(unit.includes('g') && unit.includes('ml')) { unit = 'ml' }
     else if(unit.includes('szt')) { unit = 'szt'}
+    
+    let barcode = null;
+    if(select.children('option:selected')[0]['dataset']['barcode'] != undefined)
+      barcode = select.children('option:selected')[0]['dataset']['barcode'];
+
+    let image = 'image';
+    if(select.children('option:selected')[0]['dataset']['image'] != undefined)
+      image = select.children('option:selected')[0]['dataset']['image'];
 
     sectionWithProductQuantity.append(`
     <div class="d-flex my-2" style="flex-direction: columns;">
         <input class="form-control col-4 mr-2" id="products[${i}][name]" name="products[${i}][name]" value="${select.children('option:selected')[0]['text']}">
-        <input class="form-control col-4 mr-2" id="products[${i}][barcode]" name="products[${i}][barcode]" value="${select.children('option:selected')[0]['dataset']['barcode']}" type="hidden">
+        <input class="form-control col-4 mr-2" id="products[${i}][barcode]" name="products[${i}][barcode]" value="${barcode}" type="hidden">
         <input class="form-control col-4 mr-2" id="products[${i}][id]" name="products[${i}][id]" value="${select.children('option:selected')[0]['value']}" type="hidden">
         <input class="form-control col-4" id="products[${i}][quantity]" name="products[${i}][quantity]"> ${unit}
         <input class="form-control col-4" id="products[${i}][unit_name]" name="products[${i}][unit_name]" value="${unit}" type="hidden">
-        <input class="form-control col-3 ml-2" type="date" id="products[${i}][expiration_date]" name="products[${i}][expiration_date]">
+        <input class="form-control col-3 ml-2" type="hidden" id="products[${i}][expiration_date]" name="products[${i}][expiration_date]" >
+        <input class="form-control col-3 ml-2" id="products[${i}][image]" name="products[${i}][image]" value="${image}" type="hidden">
     </div>`)
     i++;
   });
@@ -94,6 +103,7 @@ $('.js-data-example-ajax').select2({
     $(this).children('[value="'+data['id']+'"]').attr({
       'data-barcode':data["data-barcode"],
       'data-unit_name': data['data-unit'],
+      'data-image': data['data-image'],
     })
   });
 </script>

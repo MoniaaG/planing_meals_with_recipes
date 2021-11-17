@@ -20,7 +20,7 @@
                 <td>{{ $recipe->category->name}}</td>
                 <td>@if($recipe->share) tak @else nie @endif</td>
                 <td>
-                <i class="fas fa-eye"></i>
+                <a class="btn btn-info" href="{{ route('recipe.show', ['recipe' => $recipe])}}" ><i class="fas fa-eye"></i></a>
                 <i class="fas fa-edit"></i>
                 <i class="fas fa-trash"></i>
                 </td>

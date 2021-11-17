@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', function() {
         editable: false,
         selectable: true,
         headerToolbar: {
-            left: 'prevYear,prev,next,nextYear,today',
+            left: 'prev,next,today',
             center: 'title',
             right: 'dayGridMonth' // buttons for switching between views
         },
@@ -27,17 +27,9 @@ document.addEventListener('DOMContentLoaded', function() {
             today: {
                 buttonText: 'dziś'
             },
-            timeGridSevenDay: {
-                type: 'timeGrid',
-                duration: { days: 7 },
-                buttonText: 'tydzień'
-            },
             dayGridMonth: {
                 buttonText: 'miesiąc'
             },
-            timeGridDay: {
-                buttonText: 'dzień'
-            }
         },
         events: "{{ route('calendar.index') }}",
         dateClick:function(date,event,view){
@@ -54,7 +46,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     $('#table').append(`<tbody id="recipes"></tbody>`);
                     let tbody = $('#recipes');
                     if(events.length == 0){
-                        tbody.append(`<tr class="text-center bg-danger"><td colspan="2">Brak zaplanowanych przepisów na wybrany dzień!</td></tr>`);
+                        tbody.append(`<tr class="text-center text-white bg-danger font-weight-bold"><td colspan="2">Brak zaplanowanych przepisów na wybrany dzień!</td></tr>`);
                     }
                     else {
                         events.forEach(recipe => {
@@ -83,8 +75,8 @@ document.addEventListener('DOMContentLoaded', function() {
 @endsection
 
 @section('content')
-    <div class="container">
-        <div id="calendar"></div>
+    <div class="container mb-4">
+        <div class="mb-4" id="calendar"></div>
     </div>
 <div class="modal fade show" id="exampleModal" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">

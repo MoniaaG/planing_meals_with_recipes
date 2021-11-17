@@ -19,6 +19,7 @@ class ProductController extends Controller
     {
         $this->product_repository = $product_repository;
     }
+
     public function index()
     {
         // zapytanie do bazy plus zapytanie do API
@@ -28,51 +29,7 @@ class ProductController extends Controller
 
     public function searchProducts(Request $request)
     {
-            $searchText = $request->search;
-            if($searchText == "")
-            {
-                $productsFromDB = Product::where('name', 'like', '%' . $searchText . '%')->with('unit')->get();
-                if(count($productsFromDB) > 0)
-                {
-                    foreach($productsFromDB as $db){
-                        $response[] = array(
-                            'id' => $db['id'],
-                            'text' => $db['name'],
-                            'data-barcode' => $db['barcode'],
-                            'data-unit' => $db['unit']['unit'],
-                        );
-                    }
-                }
-            }else {
-                $productsFromAPI = OpenFoodFacts::find($searchText);
-                $productsFromDB = Product::where('name', 'like', '%' . $searchText . '%')->with('unit')->get();
-                $productFromDBBarcode = $productsFromDB->pluck('barcode');
-                $response = [];
-                $productsFromAPI = $productsFromAPI->whereNotIn('_id', $productFromDBBarcode);
-                if(count($productsFromDB) > 0)
-                {
-                    foreach($productsFromDB as $db){
-                        $response[] = array(
-                            'id' => $db['id'],
-                            'text' => $db['name'],
-                            'data-barcode' => $db['barcode'],
-                            'data-unit' => $db['unit']['unit'],
-                        );
-                    }
-                }
-                if(count($productsFromAPI) > 0)
-                {
-                    foreach($productsFromAPI as $api){
-                        $response[] = array(
-                            'id' => $api['_id'],
-                            'text' => isset($api['product_name']) ? $api['product_name'] : $searchText,
-                            'data-barcode' => $api['_id'],
-                            'data-unit' => isset($api['quantity']) ? $api['quantity'] : null
-                        );
-                    }
-                }
-            }
-            return response()->json($response);
+        return $this->product_repository->searchProducts($request);
     }
 
     public function create()
@@ -114,14 +71,7 @@ class ProductController extends Controller
     public function proposition_store(Request $request)
     {
         try{
-            $proposition = new Product();
-            $proposition->name = $request->name;
-            $proposition->unit_id = $request->unit_id;
-            $proposition->product_category_id = $request->product_category_id;
-            $proposition->image = 'image';
-            $proposition->barcode = null;
-            $proposition->added = 1; //oznacza to, że produkt jest proponowany przez użytkowników
-            $proposition->save();
+            $this->product_repository->propositionStore($request);
             toastr()->success('Podano produkt do proponowanych!');
         }catch (Exception $error) {
             toastr()->error('Próba dodania propozycji produktu nie powiodła się. Spróbuj ponownie!');

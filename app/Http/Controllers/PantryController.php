@@ -10,6 +10,7 @@ use App\Models\ProductCategory;
 use App\Models\Shoppinglist;
 use App\Models\Unit;
 use App\Models\User;
+use App\Repositories\Interfaces\ProductRepositoryInterface;
 use App\Statements\ConstProductCategory;
 use App\Statements\ProductsFromAPI;
 use Carbon\Carbon;
@@ -24,15 +25,17 @@ class PantryController extends Controller
 {
     public $pantry;
     public $calendar;
+    public $product_repository;
 
-    public function __construct(Guard $auth)
+    public function __construct(Guard $auth, ProductRepositoryInterface $product_repository)
     {
         $this->middleware('auth');
         $this->middleware(function ($request, $next) {
             $this->pantry = Pantry::where('owner_id', Auth::user()->id)->first();
             $this->calendar = Calendar::where('owner_id', Auth::user()->id)->first();
             return $next($request);
-        });   
+        }); 
+        $this->product_repository = $product_repository;  
     }
 
     public function index()
@@ -50,39 +53,7 @@ class PantryController extends Controller
  
     public function addProductToPantry(Request $request)
     {
-        foreach($request->products as $product) {
-            $savedProduct = $product;
-            
-            if($product['barcode'] != "null")
-            {
-                $productFromAPI = Product::where('barcode', $product['barcode'])->count();
-                if(!$productFromAPI)
-                {
-                    $productBarcode = strtolower(strtok(ProductsFromAPI::getAPIProductCategory($product['barcode']), ','));
-                    $newProduct = new Product();
-                    $newProduct->name = $product['name'];
-                    $newProduct->barcode = $product['barcode'];
-                    $newProduct->image = 'image';
-                    $newProduct->unit_id = Unit::where('unit', $product['unit_name'])->first()->id;
-                    if(ProductCategory::where('name', 'like', $productBarcode)->count()) {
-                        $newProduct->product_category_id = ProductCategory::where('name', 'like', $productBarcode)->first()->id;
-                    }else {
-                        $productCategory = ProductCategory::create([
-                            'name' => $productBarcode,
-                        ]);
-                        $newProduct->product_category_id = $productCategory->id;
-                    }
-                    $newProduct->save();
-                    $savedProduct = $newProduct;
-                }else {
-                    $savedProduct = Product::where('barcode', $product['barcode'])->first();
-                }
-            }else {
-                $savedProduct = Product::findOrFail($product['id']);
-            }
-            $this->pantry->products()->attach($savedProduct->id, ['quantity' => $product['quantity'], 'expiration_date' => $product['expiration_date']]);
-
-        }
+        $this->product_repository->saveProductsToRecipeOrPantry($request, null,$this->pantry);
         return redirect()->back();
     }
 

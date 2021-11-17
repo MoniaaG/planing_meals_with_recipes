@@ -11,6 +11,8 @@ use App\Models\Product;
 use App\Models\ProductCategory;
 use App\Models\Recipe;
 use App\Models\Unit;
+use App\Repositories\Interfaces\ProductRepositoryInterface;
+use App\Repositories\Interfaces\RecipeRepositoryInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -21,6 +23,15 @@ use Exception;
 
 class RecipeController extends Controller
 {
+    public $recipe_repository;
+    public $product_repository;
+
+    public function __construct(RecipeRepositoryInterface $recipe_repository, ProductRepositoryInterface $product_repository)
+    {
+        $this->recipe_repository = $recipe_repository;
+        $this->product_repository = $product_repository;
+    }
+
     public function show(Recipe $recipe) {
         $opinion = Opinion::where([['creator_id', Auth::id()], ['recipe_id', $recipe->id]])->first();
         $recipe = $recipe->where('id', $recipe->id)->with('products.unit')->first();
@@ -33,23 +44,7 @@ class RecipeController extends Controller
     }
 
     public function searchRecipes(Request $request) {
-        $response = [];
-        $recipes = Recipe::where('user_id', Auth::id())->get();
-        $liked_recipes = Auth::user()->liked_recipes();
-        if(count($recipes))
-            $recipes->concat($liked_recipes);
-        else 
-            $recipes = $liked_recipes;
-        if($request->search != "")
-            $recipes->where('name', 'like', '%' . $request->search . '%');
-        
-        foreach($recipes as $recipe){
-            $response[] = array(
-                'id' => $recipe['id'],
-                'text' => $recipe['name'],
-            );
-        }
-        return response()->json($response);
+        return $this->recipe_repository->searchRecipes(($request));
     }
     
     public function create()
@@ -58,62 +53,9 @@ class RecipeController extends Controller
         return view('recipe.create', compact('categories'));
     }
     public function store(AddRecipeRequest $request) {
-        $recipe = new Recipe();
-        $recipe->user_id = Auth::id();
-        $request->share ? $recipe->share = true : $recipe->share = false;
-        $recipe->description = $request->description;
-        $recipe->short_description = $request->short_description;
-        $recipe->name = $request->name;
-        $recipe->category_id = $request->category_id;
-        
-        if($request->small_image) {
-            $file = $request->file('small_image');
-            $filename = time() . '.' . $file->getClientOriginalExtension();
-            $file->storeAs('/public/recipe/small_image', $filename);
-            $recipe->small_image = '/storage/recipe/small_image/' . $filename;
-        }
-        if($request->big_image) {
-            $file = $request->file('big_image');
-            $filename = time() . '.' . $file->getClientOriginalExtension();
-            $file->storeAs('/public/recipe/big_image', $filename);
-            $recipe->big_image = '/storage/recipe/big_image/' . $filename;
-        }
-        $recipe->save();
-        foreach($request->products as $product) {
-            $savedProduct = $product;
-            
-            if($product['barcode'] != "null")
-            {
-                $productFromAPI = Product::where('barcode', $product['barcode'])->count();
-                if(!$productFromAPI)
-                {
-                    $productBarcode = strtolower(strtok(ProductsFromAPI::getAPIProductCategory($product['barcode']), ','));
-                    $newProduct = new Product();
-                    $newProduct->name = $product['name'];
-                    $newProduct->barcode = $product['barcode'];
-                    $newProduct->image = 'image';
-                    $newProduct->unit_id = Unit::where('unit', $product['unit_name'])->first()->id;
-                    if(ProductCategory::where('name', 'like', $productBarcode)->count()) {
-                        $newProduct->product_category_id = ProductCategory::where('name', 'like', $productBarcode)->first()->id;
-                    }else {
-                        $productCategory = ProductCategory::create([
-                            'name' => $productBarcode,
-                        ]);
-                        $newProduct->product_category_id = $productCategory->id;
-                    }
-                    $newProduct->save();
-                    $savedProduct = $newProduct;
-                }else {
-                    $savedProduct = Product::where('barcode', $product['barcode'])->first();
-                }
-            }else {
-                $savedProduct = Product::findOrFail($product['id']);
-            }
-            $recipe->products()->attach($savedProduct->id, ['quantity' => $product['quantity']]);
-
-        }
+        $recipe = $this->recipe_repository->store($request);
+        $this->product_repository->saveProductsToRecipeOrPantry($request, $recipe,null);
         return redirect()->route('recipe.index');
-
     }
 
     public function edit(Recipe $recipe) {

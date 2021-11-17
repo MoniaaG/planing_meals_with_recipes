@@ -16,6 +16,7 @@ class ProductCategoriesController extends Controller
         $product_category = new ProductCategory();
         $product_category->name = $request->name;
         $product_category->save();
+        return redirect()->route('product_category.index');
     }
 
     public function edit(ProductCategory $product_category) {

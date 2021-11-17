@@ -25,7 +25,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/test', function () {
     //return OpenFoodFacts::find('pomidor');//['quantity'];//['categories'];
-    return OpenFoodFacts::barcode('5900259115379');
+    return OpenFoodFacts::barcode('3838800040578');
 });
 
 Auth::routes();

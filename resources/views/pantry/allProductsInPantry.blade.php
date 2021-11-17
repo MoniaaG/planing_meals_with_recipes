@@ -4,27 +4,27 @@
 <script src="{{asset('js/delete/pantry_product.js')}}" defer></script>
 @endsection
 @section('content')
-<div class="container">
+<div class="container mb-4">
     <div class="row justify-content-center">
         <div class="col-md-12">
-            <table class="table">
+            <table class="table table-striped table-bordered table-hover table-responsive rounded">
             <thead class="thead-dark">
                 <tr>
-                <th scope="col">Nazwa produktu</th>
-                <th scope="col">Ilość w spiżarni</th>
-                <th scope="col">Jednostka</th>
-                <th scope="col">Data przydatności</th>
-                <th scope="col">Akcje</th>
+                <th class="col-3">Nazwa produktu</th>
+                <th class="col-2">Zdjęcie produktu</th>
+                <th class="col-2">Ilość w spiżarni</th>
+                <th class="col-2">Jednostka</th>
+                <th class="col-3">Akcje</th>
                 </tr>
             </thead>
             <tbody>
             @foreach($pantry_products as $product)
                 <tr>
-                <th scope="row">{{ $product->name }}</th>
-                <td id="product_quantity-{{$product->pivot->id}}">{{ $product->pivot->quantity}}</td>
-                <td>{{$product->unit->unit}}</td>
-                <td class="@if(isset($product->pivot->expiration_date) &&$product->pivot->expiration_date < $today) bg-danger @endif">@if(isset($product->pivot->expiration_date)) {{$product->pivot->expiration_date}} @else {{"Nie podano"}}@endif</td>
-                <td>
+                <th class="col-3">{{ $product->name }}</th>
+                <th class="col-2"><img width="100" height="100" class="img-thumbnail rounded" src="{{asset($product->image)}}"></th>
+                <td class="col-2" id="product_quantity-{{$product->pivot->id}}">{{ $product->pivot->quantity}}</td>
+                <td class="col-2">{{$product->unit->unit}}</td>
+                <td class="col-3 text-sm-center text-md-left ">
                     <button type="button" class="btn btn-primary edit-pantry_product" data-toggle="modal" data-target="#exampleModal" data-edit_route={{ route('pantry.product.update', ['pantry_product' => $product->pivot->id])}} data-quantity={{$product->pivot->quantity}}><i class="fas fa-edit"></i></button>
                     <a class="delete btn-danger btn" title="Usuń produkt ze spiżarni" data-toggle="tooltip" data-placement="bottom" data-delete-href="{{ route('pantry.destroy_pantry_product', ['pantry_product' => $product->pivot->id]) }}"><i class="fas fa-trash"></i></a>
                 </td>
