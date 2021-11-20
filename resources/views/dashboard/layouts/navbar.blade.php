@@ -54,10 +54,3 @@
         </ul>
     </div>
 </nav>
-
- <li class="nav-item">
-                <a class="nav-link" href="{{ route('recipe_category.index') }}">Kategorie przepisów</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{{ route('product_category.index') }}">Kategorie produktów</a>
-            </li>

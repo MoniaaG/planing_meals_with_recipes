@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\AddRecipeRequest;
+use App\Models\Calendar;
 use App\Models\Category;
 use App\Models\Like;
 use App\Models\Opinion;
@@ -20,6 +21,7 @@ use OpenFoodFacts\Laravel\Facades\OpenFoodFacts;
 use App\Statements\ConstProductCategory;
 use App\Statements\ProductsFromAPI;
 use Exception;
+use Illuminate\Database\Eloquent\Collection;
 
 class RecipeController extends Controller
 {
@@ -59,7 +61,8 @@ class RecipeController extends Controller
     }
 
     public function edit(Recipe $recipe) {
-        return view('recipe.edit', compact('recipe'));
+        $categories = Category::all();
+        return view('recipe.edit', compact('recipe', 'categories'));
     }
 
     public function update(Recipe $recipe, Request $request) {
@@ -93,9 +96,17 @@ class RecipeController extends Controller
         $recipe->save();
     }
 
-    public function delete(Recipe $recipe) {
-        //$user->products()->detach();
-        $recipe->delete();
+    public function destroy(Recipe $recipe) {
+        try {
+            $calendar = Calendar::where('owner_id', Auth::id())->first();
+            $calendar->recipes()->detach($recipe->id);
+            $recipe->products()->detach($recipe->products()->get()->pluck('pivot.product_id'));
+            dd($recipe->comments()->detach()); //nie usuwa 
+            $recipe->delete();
+            return response()->json(['status' => 'success'], 200);
+        }catch(Exception $error){
+            return response()->json(['status' => 'fail'], 404);
+        }
     }
 
     public function like(Recipe $recipe, Request $request) {
@@ -112,7 +123,7 @@ class RecipeController extends Controller
         }
     }
 
-    public function opinionAdd(Request $request, Recipe $recipe){
+    public function opinionAdd(Request $request, Recipe $recipe) {
         try {
             if(Opinion::where([['creator_id', Auth::id()], ['recipe_id', $recipe->id]])->first() != null) {
                 return response()->json(['status' => 'fail'], 404);
@@ -123,5 +134,28 @@ class RecipeController extends Controller
         }catch(Exception $error){
             return response()->json(['status' => 'fail'], 404);
         }
+    }
+
+    public function search(Request $request) {
+        // Wyszukiwanie w przepisach
+        $recipes = Recipe::query();
+        $worlds = explode(" ", $request->search);
+        foreach ($worlds as $word) {
+            $recipes->whereLike(['name','description', 'short_description'], $word);
+        } 
+        $recipes = $recipes->get();
+
+        $array = array();
+        array_push($array,$recipes);
+
+        $newArray = array();
+        for($i = 0; $i < count($array); $i++) {
+            for($j = 0; $j < count($array[$i]); $j++) {
+                array_push($newArray, $array[$i][$j]);
+            }
+        }
+        $newArray = (new Collection($newArray))->paginate(10);
+        $newArray->appends(['search' => $request->search, 'per_page' => $request->per_page]);
+        return view('search', compact('newArray'));
     }
 }

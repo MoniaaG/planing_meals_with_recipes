@@ -6,6 +6,7 @@ use App\Http\Requests\CalendarRecipeRequest;
 use App\Models\Calendar;
 use App\Models\Pantry;
 use App\Models\Recipe;
+use App\Repositories\Interfaces\CalendarRepositoryInterface;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -14,17 +15,18 @@ use Illuminate\Support\Facades\DB;
 class CalendarController extends Controller
 {
     public $calendar;
+    public $calendar_repository;
 
-    public function __construct(Guard $auth)
+    public function __construct(Guard $auth, CalendarRepositoryInterface $calendar_repository)
     {
         $this->middleware('auth');
         $this->middleware(function ($request, $next) {
             $this->calendar = Calendar::where('owner_id', Auth::user()->id)->first();
             return $next($request);
         });   
+        $this->calendar_repository = $calendar_repository;
     }
     
-
     public function show()
     {
         $recipes = Recipe::all();
@@ -40,13 +42,7 @@ class CalendarController extends Controller
     public function calendar_recipe_store(CalendarRecipeRequest $request)
     {
         if(isset($this->calendar)) {
-            $this->calendar->recipes()->attach($request->recipe_id, 
-            [
-                'start_at' => $request->start_at,
-                'end_at' => $request->start_at,
-                'text_color' => $request->text_color,
-                'background_color' => $request->background_color
-            ]);
+            $this->calendar_repository->calendar_recipe_store($this->calendar, $request);
         }else {
             //send error message 
         }
@@ -72,33 +68,7 @@ class CalendarController extends Controller
     public function assign_recipe(int $id)
     {
         try {
-            $pantry = Pantry::where('owner_id', Auth::id())->first();
-            $recipe = $this->calendar->recipes()->wherePivot('id', $id)->first();
-            $count = 0;
-            foreach($recipe->products()->get() as  $product) {
-                if($pantry->products()->where('product_id', $product->id)->get()->pluck('pivot.quantity')->sum() >= $product->pivot->quantity){
-                    $count++;
-                }
-            }
-            foreach($recipe->products()->get() as  $product){
-                if(count($recipe->products) ==  $count){
-                    $quantity = $product->pivot->quantity;
-                    foreach($pantry->products()->where('product_id', $product->id)->get() as $pantry_product) {
-                        if(($pantry_product->pivot->quantity - $quantity) > 0){
-                            $pantry->products()->wherePivot('id', $pantry_product->pivot->id)->update(['quantity' => ($pantry_product->pivot->quantity - $quantity)]);
-                            $quantity = 0;
-                        }else if(($pantry_product->pivot->quantity - $quantity) <= 0){
-                            $quantity -= $pantry_product->pivot->quantity;
-                            DB::table('pantry_product')->where('id', $pantry_product->pivot->id)->delete();
-                        }else {
-                            break;
-                        }
-                    }
-                }else {
-                    return response()->json(['status' => 'fail'], 404);
-                }
-            }
-            $this->calendar->recipes()->wherePivot('id', $id)->update(['cooked' => true]);
+            $this->calendar_repository->assign_recipe($this->calendar, $id);
             return response()->json(['status' => 'success'], 200);
         } catch (Exception $error) {
             return response()->json(['status' => 'fail'], 404);
@@ -107,18 +77,7 @@ class CalendarController extends Controller
 
     public function unsign_recipe(int $id){
         try {
-            $recipe = $this->calendar->recipes()->wherePivot('id', $id)->first();
-            $pantry = Pantry::where('owner_id', Auth::id())->first();
-            foreach($recipe->products as $product) {
-                if($pantry->products()->where('product_id', $product->id)->first() != null){
-                    $pantry_product_id = $pantry->products()->where('product_id', $product->id)->first()->pivot->id;
-                    $pantry_product = $pantry->products()->wherePivot('id',$pantry_product_id)->first();
-                    $pantry->products()->wherePivot('id',$pantry_product_id)->update(['quantity' => ($pantry_product->pivot->quantity + $product->pivot->quantity)]);
-                }else {
-                    $pantry->products()->attach($product->id, ['quantity' => $product->pivot->quantity]);
-                }
-            }
-            $this->calendar->recipes()->wherePivot('id', $id)->update(['cooked' => false]);
+            $this->calendar_repository->unsign_recipe($this->calendar, $id);
             return response()->json(['status' => 'success'], 200);
         }catch(Exception $error){
             return response()->json(['status' => 'fail'], 404);

@@ -1,4 +1,4 @@
-/*$blue_color : #0c52d9;
+$blue_color : #0c52d9;
 $blue_color_hover : #255fd3;
 $green_color : #128807;
 $green_color_hover : #18a10c;
@@ -86,7 +86,7 @@ $green_color_hover : #18a10c;
             }
         }
     }
-}*/
+}
 
 .footer{
     position:fixed;
@@ -153,7 +153,7 @@ $green_color_hover : #18a10c;
     }
 }*/
 
-/*table.responsive-table-lg {
+table.responsive-table-lg {
     width: 100%;
     tbody {
         tr {
@@ -213,7 +213,7 @@ $green_color_hover : #18a10c;
     a {
         color: black;
     }
-}*/
+}
 table.responsive-table-lg tr td, .table td{
     vertical-align: center !important;
 }
@@ -295,7 +295,7 @@ table.responsive-table-lg tr td, .table td{
     }
 }
 
-@media(max-width:767px) {
+/*@media(max-width:767px) {
 
     .table-title {
         font-size: 18px;
@@ -320,4 +320,4 @@ table.dataTable thead th{
 
 button:disabled {
     background-color: #000;
-}
+}*/

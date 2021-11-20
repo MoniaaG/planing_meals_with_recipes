@@ -1,10 +1,10 @@
-@extends('layouts.app')
+@extends('dashboard.welcome')
 
 @section('scripts-start')
 <script src="{{asset('js/delete/product_category.js')}}" defer></script>
 @endsection
 @section('content')
-<div class="container">
+<div class="container dashboard mt-5">
     <div class="row justify-content-center">
         <div class="col-md-12">
             <table class="table">

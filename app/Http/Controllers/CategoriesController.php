@@ -12,7 +12,7 @@ class CategoriesController extends Controller
 {
     public function index() {
         $recipe_categories = Category::all();
-        return view('recipe_category.index',compact('recipe_categories'));
+        return view('dashboard.recipe_category.recipe_category',compact('recipe_categories'));
     }
 
     public function create() {

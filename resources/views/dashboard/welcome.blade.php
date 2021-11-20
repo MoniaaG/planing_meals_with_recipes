@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="{{asset('css/app.css')}}">
     <link rel="stylesheet" href="{{asset('css/style.css')}}">
     <title>{{"Dashboard"}}</title>
+    @yield('scripts-start')
   </head>
   <body>
     @include('dashboard.layouts.navbar')

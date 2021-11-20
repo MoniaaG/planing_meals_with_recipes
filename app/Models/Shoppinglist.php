@@ -16,6 +16,6 @@ class Shoppinglist extends Model
 
     public function products()
     {
-        return $this->belongsToMany('App\Models\Product')->withPivot('quantity', 'start_date', 'end_date', 'added_to_pantry');
+        return $this->belongsToMany('App\Models\Product')->withPivot('quantity', 'added_to_pantry');
     }
 }

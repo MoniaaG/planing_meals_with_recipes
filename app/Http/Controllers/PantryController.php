@@ -63,12 +63,21 @@ class PantryController extends Controller
             $savedProduct = Product::findOrFail($product['id']);
             $this->pantry->products()->attach($savedProduct->id, ['quantity' => $product['quantity'], 'expiration_date' => $product['expiration_date']]);
         }
+        toastr()->success('Dodano produkty z listy do spiżarni');
+        return redirect()->back();
     }
 
     public function searchShoppingList() 
     {
         $today = Carbon::now()->toDateString();
         return view('shopping_list.search_shopping_list', compact('today'));
+    }
+
+    public function showList()
+    {
+        $today = Carbon::now()->toDateString();
+        $shoppinglist = Shoppinglist::where('owner_id', Auth::id())->first();
+        return view('shopping_list.show_shopping_list', compact('shoppinglist', 'today'));
     }
 
     public function productsNeededBetweenDate($start, $end, Calendar $calendar, $decision) 
@@ -180,13 +189,15 @@ class PantryController extends Controller
         $shoppinglist->end_date = $end;
         $shoppinglist->save();
         if(count($productToBuy) > 0) {
+            $shoppinglist->products()->detach();
             foreach($productToBuy as $productBuy){
-                $shoppinglist->products()->sync([$productBuy['product_id'] => ['quantity' => $productBuy['quantity'], 'shoppinglist_id' => $shoppinglist->id]]);
+                $shoppinglist->products()->attach([$productBuy['product_id'] => ['quantity' => $productBuy['quantity'], 'shoppinglist_id' => $shoppinglist->id]]);
             }
-            
+            toastr()->success('Nowa lista zakupów została dodana!');
+        }else {
+            $shoppinglist->products()->detach();
         }
-        toastr()->success('Data has been saved successfully!');
-        return view('shopping_list.show_shopping_list', compact('productToBuy', 'start', 'end', 'today'));
+        return redirect()->route('pantry.showList');
     }
 
     public function update_quantity(int $pantry_product, Request $request)

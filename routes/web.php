@@ -6,7 +6,7 @@ use App\Http\Controllers\CalendarController;
 use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PantryController;
-use App\Http\Controllers\ProductCategoriesController;
+use App\Http\Controllers\ProductCategoryController;
 use App\Models\ProductCategory;
 use App\Models\Recipe;
 use Illuminate\Support\Facades\Route;
@@ -49,6 +49,10 @@ Route::group(['middleware' => ['auth']], function(){
     Route::post('/recipe/store', [RecipeController::class, 'store'])->name('recipe.store');
     //Route::get('/recipes/{option}', [RecipeController::class, 'index'])->name('recipe.index');
     Route::post('/recipe/searchRecipe', [RecipeController::class, 'searchRecipes'])->name('searchRecipe');
+    Route::get('/search',[RecipeController::class, 'search'])->name('recipe.search');
+    Route::get('/recipe/edit/{recipe}', [RecipeController::class, 'edit'])->name('recipe.edit');
+    Route::put('/recipe/update/{recipe}', [RecipeController::class, 'update'])->name('recipe.update');
+    Route::delete('/recipe/destroy/{recipe}', [RecipeController::class, 'destroy'])->name('recipe.destroy');
 
     /* Calendar */
     Route::get('/calendar/show', [CalendarController::class, 'show'])->name('calendar.show');
@@ -60,12 +64,12 @@ Route::group(['middleware' => ['auth']], function(){
     Route::post('/calendar/unsign/{id}', [CalendarController::class, 'unsign_recipe'])->name('calendar.unsign_recipe');
 
     /* Product category */
-    Route::get('/product_category/index', [ProductCategoriesController::class, 'index'])->name('product_category.index');
-    Route::get('/product_category/create', [ProductCategoriesController::class, 'create'])->name('product_category.create');
-    Route::post('/product_category/store', [ProductCategoriesController::class, 'store'])->name('product_category.store');
-    Route::get('/product_category/edit', [ProductCategoriesController::class, 'edit'])->name('product_category.edit');
-    Route::put('/product_category/update', [ProductCategoriesController::class, 'update'])->name('product_category.update');
-    Route::delete('/product_category/destroy/{product_category}', [ProductCategoriesController::class, 'destroy'])->name('product_category.destroy');
+    Route::get('/product_category/index', [ProductCategoryController::class, 'index'])->name('product_category.index');
+    Route::get('/product_category/create', [ProductCategoryController::class, 'create'])->name('product_category.create');
+    Route::post('/product_category/store', [ProductCategoryController::class, 'store'])->name('product_category.store');
+    Route::get('/product_category/edit/{product_category}', [ProductCategoryController::class, 'edit'])->name('product_category.edit');
+    Route::put('/product_category/update/{product_category}', [ProductCategoryController::class, 'update'])->name('product_category.update');
+    Route::delete('/product_category/destroy/{product_category}', [ProductCategoryController::class, 'destroy'])->name('product_category.destroy');
 
     /*Recipe category*/
     Route::get('/recipe_category/index', [CategoriesController::class, 'index'])->name('recipe_category.index');
@@ -85,8 +89,10 @@ Route::group(['middleware' => ['auth']], function(){
     Route::post('/product/update/{pantry_product}', [PantryController::class, 'update_quantity'])->name('pantry.product.update');
 
     /*Shopping list*/
-    Route::get('/shopping_list', [PantryController::class, 'searchShoppingList'])->name('pantry.searchShoppingList');
+    Route::get('/shopping_listt', [PantryController::class, 'searchShoppingList'])->name('pantry.searchShoppingList');
     Route::post('/shopping_list', [PantryController::class, 'whatNeedToBuy'])->name('pantry.whatNeedToBuy');
+
+    Route::get('/shopping_list', [PantryController::class, 'showList'])->name('pantry.showList');
 
     /*Recipe Likes */
     Route::post('/like/{recipe}', [RecipeController::class, 'like'])->name('recipe.like');

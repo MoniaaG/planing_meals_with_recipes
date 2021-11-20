@@ -75,7 +75,7 @@
 <body>
     <div id="app">
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" href="#">Navbar</a>
+        <a class="navbar-brand" href="{{route('homepage')}}">Navbar</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -106,8 +106,14 @@
                 <a class="dropdown-item" href="{{ route('pantry.addProduct_create') }}">Dodaj</a>
                 </div>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{{ route('pantry.searchShoppingList') }}">Lista zakupów</a>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Lista zakupów
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="{{ route('pantry.searchShoppingList') }}">Generuj listę</a>
+                <a class="dropdown-item" href="{{ route('pantry.showList') }}">Wygenerowana lista</a>
+                </div>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#">Powiadomienia</a>
@@ -116,8 +122,8 @@
                 <a class="nav-link" href="{{ route('product.proposition_create') }}">Proponuj produkty</a>
             </li>
             </ul>
-            <form class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+            <form class="form-inline my-2 my-lg-0" method="get" action="{{route('recipe.search')}}">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="search">
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
             </form>
 

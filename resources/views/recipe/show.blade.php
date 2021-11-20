@@ -5,7 +5,7 @@
     <div class="row">
         <div class="col-12">
         <img class="image col-md-12 img-fluid float-left"  src="{{ asset($recipe->big_image) }}">
-        <i class="fas fa-heart fa-2x" style="@if(count($recipe->liked()) == 1) color:red; @else color: grey; @endif" data-recipe="{{$recipe->id}}" data-url="{{route('recipe.like', ['recipe' => $recipe])}}"></i>
+        <i class="fas fa-heart fa-2x" style="@if(count($recipe->liked()) == 1) color:red; @else color: grey; @endif right: 30px;" data-recipe="{{$recipe->id}}" data-url="{{route('recipe.like', ['recipe' => $recipe])}}"></i>
             <!-- add like option if auth-->
             <div class="col-md-3"></div><!-- with units and quantity-->
             <div class="starts col-md-9" data_recipe="{{$recipe->id}}" data_href="{{ route('opinion.add', ['recipe' => $recipe])}}">
