@@ -10,6 +10,13 @@ use Illuminate\Http\Request;
 
 class CategoriesController extends Controller
 {
+
+    public function __construct() {
+        $this->middleware('permission:recipe_category.create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:recipe_category.edit', ['only' => ['edit']]);
+        $this->middleware('permission:recipe_category.update', ['only' => ['update']]);
+        $this->middleware('permission:recipe_category.delete', ['only' => ['destroy']]);
+    }
     public function index() {
         $recipe_categories = Category::all();
         return view('dashboard.recipe_category.recipe_category',compact('recipe_categories'));

@@ -13,6 +13,10 @@ class ProductCategoryController extends Controller
     public function __construct(ProductCategoryRepositoryInterface $product_category_repository)
     {
         $this->product_category_repository = $product_category_repository;
+        $this->middleware('permission:product_category.create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:product_category.edit', ['only' => ['edit']]);
+        $this->middleware('permission:product_category.update', ['only' => ['update']]);
+        $this->middleware('permission:product_category.delete', ['only' => ['delete']]);
     }
 
     public function index() {

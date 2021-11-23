@@ -30,12 +30,10 @@ Route::get('/test', function () {
 
 Auth::routes();
 
-Route::get('/', [HomeController::class, 'index'])->name('home');
+//Route::get('/', [HomeController::class, 'index'])->name('home');
 
-Route::get('/', [HomeController::class, 'home'])->name('homepage');
 Route::group(['middleware' => ['auth']], function(){
     /* Product */
-    Route::get('/', [HomeController::class, 'index'])->name('home');
     Route::get('/', [HomeController::class, 'home'])->name('homepage');
     Route::get('/product/create', [ProductController::class, 'create'])->name('product.create');
     Route::post('/product/store', [ProductController::class, 'store'])->name('product.store');
@@ -49,10 +47,10 @@ Route::group(['middleware' => ['auth']], function(){
     Route::post('/recipe/store', [RecipeController::class, 'store'])->name('recipe.store');
     //Route::get('/recipes/{option}', [RecipeController::class, 'index'])->name('recipe.index');
     Route::post('/recipe/searchRecipe', [RecipeController::class, 'searchRecipes'])->name('searchRecipe');
-    Route::get('/search',[RecipeController::class, 'search'])->name('recipe.search');
     Route::get('/recipe/edit/{recipe}', [RecipeController::class, 'edit'])->name('recipe.edit');
     Route::put('/recipe/update/{recipe}', [RecipeController::class, 'update'])->name('recipe.update');
     Route::delete('/recipe/destroy/{recipe}', [RecipeController::class, 'destroy'])->name('recipe.destroy');
+    Route::get('/recipe/favourities', [RecipeController::class, 'favourities'])->name('recipe.favourities');
 
     /* Calendar */
     Route::get('/calendar/show', [CalendarController::class, 'show'])->name('calendar.show');
@@ -102,7 +100,15 @@ Route::group(['middleware' => ['auth']], function(){
 
     Route::get('/dashboard', [HomeController::class, 'dashboard'])->name('dashboard');
 });
+Route::get('/recipe/show/{recipe}', [RecipeController::class, 'show'])->name('recipe.show');
+Route::get('/', [HomeController::class, 'home'])->name('homepage');
+Route::get('/home', [HomeController::class, 'index'])->name('home');
+Route::get('/', function () {
+    $recipes_newest = Recipe::where('share', 1)->orderBy('created_at', 'desc')->limit(3)->get();
+    return view('homepage', compact('recipes_newest'));
+});
 
+Route::get('/search',[RecipeController::class, 'search'])->name('recipe.search');
 Route::get('/testt', function() {
     return view('recipe.xdd');
 });

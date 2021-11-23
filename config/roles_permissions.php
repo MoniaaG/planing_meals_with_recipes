@@ -28,6 +28,11 @@ return [
         'product_category.update',
         'product_category.delete',
 
+        'recipe_category.create',
+        'recipe_category.edit',
+        'recipe_category.update',
+        'recipe_category.delete',
+
         'category.create',
         'category.edit',
         'category.update',
@@ -51,6 +56,8 @@ return [
         'comment.block',
 
         'opinion.add',
+
+        'dashboard',
     ],
 
     'assigns' => [
@@ -59,6 +66,7 @@ return [
             'product.update',
             'product.edit',
             'product.delete',
+            'product.offer',
             'product.accept',
 
             'recipe.create',
@@ -71,6 +79,12 @@ return [
             'product_category.edit',
             'product_category.update',
             'product_category.delete',
+
+            'recipe_category.create',
+            'recipe_category.edit',
+            'recipe_category.update',
+            'recipe_category.delete',
+
 
             'category.create',
             'category.edit',
@@ -95,6 +109,8 @@ return [
             'comment.block',
 
             'opinion.add',
+
+            'dashboard',
         ],
 
         'moderator' => [
@@ -123,6 +139,8 @@ return [
             'comment.update',
 
             'opinion.add',
+
+            'dashboard',
 
         ],
 

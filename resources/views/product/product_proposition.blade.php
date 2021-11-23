@@ -2,7 +2,7 @@
 
 
 @section('content')
-<div class="container">
+<div class="container mb-4">
 @if ($errors->any())
     <div class="alert alert-danger">
         <ul>
@@ -12,9 +12,14 @@
         </ul>
     </div>
 @endif
-    <div class="row justify-content-center col-12">
+    <div class="row justify-content-center">
         <div class="col-12">
-            <form action="{{ route('product.proposition_store')}}" method="post" enctype="multipart/form-data">
+        <div class="card text-center">
+            <div class="card-header bg-dark card-title text-white font-weight-bold">
+                <h2>Dodaj produkt do proponowanych</h2>
+            </div>
+            <div class="card-body">
+                <form action="{{ route('product.proposition_store')}}" method="post" enctype="multipart/form-data">
             @csrf
             <div class="col-12 mr-5">
                 <div class="form-group">
@@ -41,9 +46,15 @@
                     <label class="form-label" for="image">Zdjęcie produktu</label>
                     <input type="file" class="form-control" id="image" name="image">
                 </div>
-                <button type="submit" class="btn btn-primary col-12">Dodaj produkt do proponowanych</button>
+                
             </div>
-            </form>   
+              
+            </div>
+            <div class="card-footer text-muted">
+               <button type="submit" class="btn btn-primary col-sm-12 col-md-6">Dodaj produkt do proponowanych</button>
+               </form> 
+            </div>
+        </div>
         </div>
     </div>
 </div>

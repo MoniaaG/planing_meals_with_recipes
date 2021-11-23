@@ -16,6 +16,8 @@ class HomeController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        $this->middleware('permission:dashboard', ['only' => ['dashboard']]);
+        $this->middleware('permission:home', ['only' => ['home']]);
     }
 
     /**
@@ -23,12 +25,12 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
+
+    public function index() 
     {
-        if(Auth::user()->hasAnyRole('moderator', 'admin'))
-            return redirect()->route('dashboard');
-        else
-            return redirect()->route('homepage');
+        $recipes_newest = Recipe::where('share', 1)->orderBy('created_at', 'desc')->limit(3)->get(); 
+            
+        return view('homepage', compact('recipes_newest'));
     }
 
     public function dashboard()
@@ -38,8 +40,12 @@ class HomeController extends Controller
 
     public function home()
     {
-        $recipes = Recipe::where('share', 1)->get();
-        //dd($recipes);
-        return view('homepage', compact('recipes'));
+        if(Auth::user()->hasAnyRole('admin', 'moderator')) { 
+            return redirect()->route('dashboard');
+        }else {
+            $recipes_newest = Recipe::where('share', 1)->orderBy('created_at', 'desc')->limit(3)->get(); 
+            
+            return view('homepage', compact('recipes_newest'));
+        }
     }
 }

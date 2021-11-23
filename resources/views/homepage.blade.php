@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
+<div class="container mb-4">
     <div class="row m-0 p-0 justify-content-between">
-        @foreach($recipes as $recipe)
+        @foreach($recipes_newest as $recipe)
         <div class="card col-12 col-md-4 mb-3 d-flex p-0">
-        <img class="card-img-top" src="{{ asset($recipe->small_image)}}" alt="Card image cap">
+        <img class="card-img-top" height="250px" src="{{ asset($recipe->small_image)}}" alt="Card image cap">
         <i class="fas fa-heart fa-2x" style="@if(count($recipe->liked()) == 1) color:red; @else color: grey; @endif" data-recipe="{{$recipe->id}}" data-url="{{route('recipe.like', ['recipe' => $recipe])}}"></i>
         <div class="card-body">
             <h5 class="card-title">{{ $recipe->name }}</h5>

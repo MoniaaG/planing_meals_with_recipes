@@ -14,21 +14,30 @@
 @endif
   <div class="row justify-content-center col-12">
       <div class="col-12">
+      <div class="card text-center">
+        <div class="card-header bg-dark text-white">
+          <h2>Dodaj produkty do spiżarni</h2>
+        </div>
+        <div class="card-body">
           <form action="{{ route('pantry.storeProduct')}}" method="post" enctype="multipart/form-data">
           @csrf
           <div class="col-12 my-3">
-          <h1>Dodaj produkty do spiżarni</h1>
+          <h2>Szukaj składnika</h2>
               <select class="js-data-example-ajax col-12" data-route="{{ route('searchProduct')}}" aria-label="Default select example" >
                   <option disabled>Wybierz produkty</option>
               </select>
-              <a class="btn btn-warning mt-2" id="add">Dodaj składnik</a>
+              <a class="btn btn-success mt-2" id="add">Dodaj składnik</a>
               <div id="quantitySection">
                   <h1 class="my-3">Produkty</h1>
                   <h5>W tym miejscu wymagane jest podanie ilości wybranych produktów, które chcesz dodać do spiżarni</h5>
               </div>
           </div>
-          <button type="submit" class="btn btn-primary col-12 mx-4 my-3">Dodaj produkty do spiżarni</button>
+        </div>
+        <div class="card-footer text-muted">
+          <button type="submit" class="btn btn-primary col-12 col-md-6">Dodaj produkty do spiżarni</button>
           </form>
+        </div>
+    </div>
       </div>
   </div>
 </div>
@@ -60,16 +69,42 @@ $(document).ready(function() {
       image = select.children('option:selected')[0]['dataset']['image'];
 
     sectionWithProductQuantity.append(`
-    <div class="d-flex my-2" style="flex-direction: columns;">
-        <input class="form-control col-4 mr-2" id="products[${i}][name]" name="products[${i}][name]" value="${select.children('option:selected')[0]['text']}">
+     <div class="d-flex my-2" style="flex-direction: columns;">
+        <h5 id="product${i}" class="col-5">${select.children('option:selected')[0]['text']}</h1>
+        <input class="form-control col-4 mr-2" id="products[${i}][name]" name="products[${i}][name]" type="hidden" value="${select.children('option:selected')[0]['text']}">
         <input class="form-control col-4 mr-2" id="products[${i}][barcode]" name="products[${i}][barcode]" value="${barcode}" type="hidden">
         <input class="form-control col-4 mr-2" id="products[${i}][id]" name="products[${i}][id]" value="${select.children('option:selected')[0]['value']}" type="hidden">
-        <input class="form-control col-4" id="products[${i}][quantity]" name="products[${i}][quantity]"> ${unit}
+        <input class="form-control col-4" id="products[${i}][quantity]" name="products[${i}][quantity]">
         <input class="form-control col-4" id="products[${i}][unit_name]" name="products[${i}][unit_name]" value="${unit}" type="hidden">
-        <input class="form-control col-3 ml-2" type="hidden" id="products[${i}][expiration_date]" name="products[${i}][expiration_date]" >
+        <h5 id="productunit${i}" class="col-1">${unit}</h5>
         <input class="form-control col-3 ml-2" id="products[${i}][image]" name="products[${i}][image]" value="${image}" type="hidden">
+        <a id="btn_del${i}" class="btn btn-danger col-1 btn_del">USUŃ</a>
     </div>`)
     i++;
+  });
+
+  $("body").on("click", ".btn_del", function(){
+    console.log($(this));
+    let id = $(this)[0]['id'].slice(7);
+    console.log(id);
+    let productId = `products[${id}][id]`;
+    $("input[name='"+productId+"']").attr('disabled', 'true');
+    let productName = `products[${id}][name]`;
+    $("input[name='"+productName+"']").attr('disabled', 'true');
+    let productBarcode = `products[${id}][barcode]`;
+    $("input[name='"+productBarcode+"']").attr('disabled', 'true');
+    let productQuantity = `products[${id}][quantity]`;
+    $("input[name='"+productQuantity+"']").attr('disabled', 'true');
+    $("input[name='"+productQuantity+"']").css('display', 'none');
+    let productUnit = `products[${id}][unit_name]`;
+    $("input[name='"+productUnit+"']").attr('disabled', 'true');
+    let productImage = `products[${id}][image]`;
+    $("input[name='"+productImage+"']").attr('disabled', 'true');
+    let productNameshown = `product${id}`;
+    $("h5[id='"+productNameshown+"']").css('display', 'none');
+    let productUnitName = `productunit${id}`;
+    $("h5[id='"+productUnitName+"']").css('display', 'none');
+    $(this).css('display', 'none');
   });
 });
 

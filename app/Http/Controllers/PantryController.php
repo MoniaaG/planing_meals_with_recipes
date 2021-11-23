@@ -25,6 +25,7 @@ class PantryController extends Controller
 {
     public $pantry;
     public $calendar;
+    public $shoppinglist;
     public $product_repository;
 
     public function __construct(Guard $auth, ProductRepositoryInterface $product_repository)
@@ -33,6 +34,7 @@ class PantryController extends Controller
         $this->middleware(function ($request, $next) {
             $this->pantry = Pantry::where('owner_id', Auth::user()->id)->first();
             $this->calendar = Calendar::where('owner_id', Auth::user()->id)->first();
+            $this->shoppinglist = Shoppinglist::where('owner_id', Auth::user()->id)->first();
             return $next($request);
         }); 
         $this->product_repository = $product_repository;  
@@ -59,11 +61,15 @@ class PantryController extends Controller
 
     public function addProductToPantryFromList(Request $request)
     {
+        try {
         foreach($request->products as $product){
             $savedProduct = Product::findOrFail($product['id']);
-            $this->pantry->products()->attach($savedProduct->id, ['quantity' => $product['quantity'], 'expiration_date' => $product['expiration_date']]);
+            $this->pantry->products()->attach($savedProduct->id, ['quantity' => $product['quantity']]);
+            $this->shoppinglist->products()->where('product_id',$savedProduct->id)->update(['added_to_pantry' => 1]);
         }
-        toastr()->success('Dodano produkty z listy do spiżarni');
+        toastr()->success('Dodano produkty z listy do spiżarni');}catch(Exception $error){
+            toastr()->success('Błąd dodawania produktu z listy do spiżarni');
+        }
         return redirect()->back();
     }
 

@@ -4,10 +4,10 @@
 <script src="{{asset('js/delete/recipe.js')}}" defer></script>
 @endsection
 @section('content')
-<div class="container">
+<div class="container mb-4">
     <div class="row justify-content-center">
         <div class="col-md-12">
-            <table class="table table-striped table-bordered table-hover table-sm-responsive rounded">
+            <table class="table table-striped table-bordered table-hover table-sm-responsive rounded" style="border-radious: 20px">
             <thead class="thead-dark">
                 <tr>
                 <th scope="col">Nazwa przepisu</th>

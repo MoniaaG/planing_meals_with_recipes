@@ -119,7 +119,10 @@ class ProductRepository implements ProductRepositoryInterface
         return response()->json($response);
     }
 
-    public function saveProductsToRecipeOrPantry(Request $request, $recipe = null, $pantry = null) {
+    public function saveProductsToRecipeOrPantry(Request $request, $recipe = null, $pantry = null, $edit = 0) {
+        if(isset($recipe) && $edit) {
+            $recipe->products()->detach();
+        }
         foreach($request->products as $product) {
             $savedProduct = $product;
             
@@ -152,7 +155,7 @@ class ProductRepository implements ProductRepositoryInterface
             }
         
             if(isset($pantry)) {
-                $pantry->products()->attach($savedProduct->id, ['quantity' => $product['quantity'], 'expiration_date' => $product['expiration_date']]);
+                $pantry->products()->attach($savedProduct->id, ['quantity' => $product['quantity']]);
             }
             if(isset($recipe)) {
                 $recipe->products()->attach($savedProduct->id, ['quantity' => $product['quantity']]);

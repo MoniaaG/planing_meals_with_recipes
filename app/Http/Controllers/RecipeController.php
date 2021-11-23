@@ -32,6 +32,11 @@ class RecipeController extends Controller
     {
         $this->recipe_repository = $recipe_repository;
         $this->product_repository = $product_repository;
+        $this->middleware('permission:recipe.create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:recipe.edit', ['only' => ['edit']]);
+        $this->middleware('permission:recipe.update', ['only' => ['update']]);
+        $this->middleware('permission:recipe.delete', ['only' => ['destroy']]);
+        $this->middleware('permission:recipe.offer', ['only' => ['proposition_create', 'proposition_store']]);
     }
 
     public function show(Recipe $recipe) {
@@ -55,8 +60,10 @@ class RecipeController extends Controller
         return view('recipe.create', compact('categories'));
     }
     public function store(AddRecipeRequest $request) {
-        $recipe = $this->recipe_repository->store($request);
-        $this->product_repository->saveProductsToRecipeOrPantry($request, $recipe,null);
+        if($request->products){
+            $recipe = $this->recipe_repository->store($request);
+            $this->product_repository->saveProductsToRecipeOrPantry($request, $recipe,null);
+        }
         return redirect()->route('recipe.index');
     }
 
@@ -68,7 +75,7 @@ class RecipeController extends Controller
     public function update(Recipe $recipe, Request $request) {
         $recipe = Recipe::findOrFail($recipe->id);
         $recipe->user_id = Auth::id();
-        $request->share ? $recipe->share = true : $recipe->share = false;
+        $recipe->share ? $recipe->share = true : $recipe->share = $request->share;
         $recipe->description = $request->description;
         $recipe->short_description = $request->short_description;
         $recipe->name = $request->name;
@@ -79,14 +86,14 @@ class RecipeController extends Controller
             Storage::delete((str_replace("/storage/", "/public/",$recipe1->small_image)));
             */
             //$recipe1 you could get to single line because you will work with the same object in next if
-            Storage::delete($recipe->small_image);
+            //Storage::delete($recipe->small_image);
             $file = $request->file('small_image');
             $filename = time() . '.' . $file->getClientOriginalExtension();
             $file->storeAs('/public/recipe/small_image', $filename);
             $recipe->small_image = '/storage/recipe/small_image/' . $filename;
         }
         if($request->big_image) {
-            Storage::delete($recipe->big_image);
+            //Storage::delete($recipe->big_image);
             $file = $request->file('big_image');
             $filename = time() . '.' . $file->getClientOriginalExtension();
             $file->storeAs('/public/recipe/big_image', $filename);
@@ -94,6 +101,9 @@ class RecipeController extends Controller
         }
         //$recipe->products()->sync($request->products)//ids
         $recipe->save();
+        if(!$recipe->share)
+        $this->product_repository->saveProductsToRecipeOrPantry($request, $recipe,null, 1);
+        return redirect()->route('recipe.index');
     }
 
     public function destroy(Recipe $recipe) {
@@ -154,8 +164,15 @@ class RecipeController extends Controller
                 array_push($newArray, $array[$i][$j]);
             }
         }
+        $newArray = collect($newArray)->where('share',1);
         $newArray = (new Collection($newArray))->paginate(10);
         $newArray->appends(['search' => $request->search, 'per_page' => $request->per_page]);
         return view('search', compact('newArray'));
+    }
+
+    public function favourities() {
+        $liked_recipes = Like::where('user_id', Auth::id())->get()->pluck('recipe_id');
+        $recipes = Recipe::whereIn('id', $liked_recipes)->get();
+        return view('recipe.favourities', compact('recipes'));
     }
 }

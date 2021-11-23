@@ -19,5 +19,5 @@ interface ProductRepositoryInterface
 
     public function searchProducts(Request $request);
 
-    public function saveProductsToRecipeOrPantry(Request $request, $recipe = null,$pantry = null);
+    public function saveProductsToRecipeOrPantry(Request $request, $recipe = null,$pantry = null, $edit = 0);
 }

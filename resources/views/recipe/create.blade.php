@@ -14,6 +14,11 @@
 @endif
     <div class="row justify-content-center col-12 mb-4">
         <div class="col-12">
+        <div class="card text-center">
+          <div class="card-header bg-dark text-white">
+            <h2>Dodaj przepis</h2>
+          </div>
+          <div class="card-body">
             <form action="{{ route('recipe.store')}}" method="post" enctype="multipart/form-data">
             @csrf
             <div class="col-12 mr-5">
@@ -38,11 +43,11 @@
                     @endforeach
                     </select>
                 </div>
-                <div class="form-group">
+                <div class="form-group text-left">
                     <label for="small_image">Małe zdjęcię dania</label>
                     <input type="file" class="form-control-file" id="small_image" name="small_image">
                 </div>
-                <div class="form-group">
+                <div class="form-group text-left">
                     <label for="big_image">Duże zdjęcie dania</label>
                     <input type="file" class="form-control-file" id="big_image" name="big_image">
                 </div>
@@ -50,23 +55,27 @@
                     <div class="input-group-prepend">
                         <div class="input-group-text">
                         <input class="mr-3" type="checkbox" name="share" id="share" aria-label="Czy udostępnić przepis publicznie?">
-                        Czy udostępnić przepis publicznie?
+                        Czy udostępnić przepis publicznie? <b> UWAGA! Ta operacja jest nieodwracalna.</b>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="col-12 my-3">
+            <h2>Szukaj składnika</h2>
                 <select class="js-data-example-ajax col-12" data-route="{{ route('searchProduct')}}" aria-label="Default select example" >
                     <option disabled>Wybierz produkty</option>
                 </select>
-                <a class="btn btn-warning mt-2" id="add">Dodaj składnik</a>
+                <a class="btn btn-success mt-2" id="add">Dodaj składnik</a>
                 <div id="quantitySection">
                     <h1 class="my-3">Składniki</h1>
                     <h5>W tym miejscu wymagane jest podanie ilości wybranych składników</h5>
                 </div>
-                <button type="submit" class="btn btn-primary col-12">Dodaj przepis</button>
-            </div>
+          </div>
+          </div>
+          <div class="card-footer text-muted">
+           <button type="submit" class="btn btn-primary col-12 col-md-6">Dodaj przepis</button>
             </form>   
+          </div>  
         </div>
     </div>
 </div>
@@ -100,15 +109,41 @@ $(document).ready(function() {
 
     sectionWithProductQuantity.append(`
     <div class="d-flex my-2" style="flex-direction: columns;">
-        <input class="form-control col-4 mr-2" id="products[${i}][name]" name="products[${i}][name]" value="${select.children('option:selected')[0]['text']}">
+        <h5 id="product${i}" class="col-5">${select.children('option:selected')[0]['text']}</h1>
+        <input class="form-control col-4 mr-2" id="products[${i}][name]" name="products[${i}][name]" type="hidden" value="${select.children('option:selected')[0]['text']}">
         <input class="form-control col-4 mr-2" id="products[${i}][barcode]" name="products[${i}][barcode]" value="${barcode}" type="hidden">
         <input class="form-control col-4 mr-2" id="products[${i}][id]" name="products[${i}][id]" value="${select.children('option:selected')[0]['value']}" type="hidden">
-        <input class="form-control col-4" id="products[${i}][quantity]" name="products[${i}][quantity]"> ${unit}
+        <input class="form-control col-4" id="products[${i}][quantity]" name="products[${i}][quantity]">
         <input class="form-control col-4" id="products[${i}][unit_name]" name="products[${i}][unit_name]" value="${unit}" type="hidden">
-        <input class="form-control col-3 ml-2" type="date" id="products[${i}][expiration_date]" name="products[${i}][expiration_date]" type="hidden">
+        <h5 id="productunit${i}" class="col-1">${unit}</h5>
         <input class="form-control col-3 ml-2" id="products[${i}][image]" name="products[${i}][image]" value="${image}" type="hidden">
+        <a id="btn_del${i}" class="btn btn-danger col-1 btn_del">USUŃ</a>
     </div>`)
     i++;
+  });
+
+  $("body").on("click", ".btn_del", function(){
+    console.log($(this));
+    let id = $(this)[0]['id'].slice(7);
+    console.log(id);
+    let productId = `products[${id}][id]`;
+    $("input[name='"+productId+"']").attr('disabled', 'true');
+    let productName = `products[${id}][name]`;
+    $("input[name='"+productName+"']").attr('disabled', 'true');
+    let productBarcode = `products[${id}][barcode]`;
+    $("input[name='"+productBarcode+"']").attr('disabled', 'true');
+    let productQuantity = `products[${id}][quantity]`;
+    $("input[name='"+productQuantity+"']").attr('disabled', 'true');
+    $("input[name='"+productQuantity+"']").css('display', 'none');
+    let productUnit = `products[${id}][unit_name]`;
+    $("input[name='"+productUnit+"']").attr('disabled', 'true');
+    let productImage = `products[${id}][image]`;
+    $("input[name='"+productImage+"']").attr('disabled', 'true');
+    let productNameshown = `product${id}`;
+    $("h5[id='"+productNameshown+"']").css('display', 'none');
+    let productUnitName = `productunit${id}`;
+    $("h5[id='"+productUnitName+"']").css('display', 'none');
+    $(this).css('display', 'none');
   });
 });
 
@@ -137,6 +172,7 @@ $('.js-data-example-ajax').select2({
   }
 }).on('select2:select', function (e) {
     console.log(e);
+    e.preventDefault();
     var data = e.params.data;  
 
     $(this).children('[value="'+data['id']+'"]').attr({
@@ -145,6 +181,7 @@ $('.js-data-example-ajax').select2({
       'data-image': data['data-image'],
     })
   });
+
 </script>
 @endsection
 @endsection
