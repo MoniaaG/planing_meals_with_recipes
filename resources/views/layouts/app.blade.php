@@ -81,6 +81,7 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
+            @auth
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Przepisy
@@ -115,15 +116,13 @@
                 </div>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Powiadomienia</a>
-            </li>
-            <li class="nav-item">
                 <a class="nav-link" href="{{ route('product.proposition_create') }}">Proponuj produkty</a>
             </li>
+            @endauth
             </ul>
             <form class="form-inline my-2 my-lg-0" method="get" action="{{route('recipe.search')}}">
             <input class="form-control mr-sm-2" type="search" placeholder="Wyszukaj przepis" aria-label="Search" name="search">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Szukaj</button>
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><i class="fas fa-search"></i></button>
             </form>
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -148,6 +147,18 @@
                                         </li>
                                     @endif
                                 @else
+                                <li class="nav-item mt-md-3">
+                                    <a id="aNotification" href="{{route('notifications')}}" type="button" class="mr-2" data-toggle="modal" data-target="#exampleModal">
+                                    <i class="far fa-bell pl-2 fas-menu notifications-bell"></i>
+                                    <span id="notifications" class="notifications @if(isset($notifications) && $notifications->count() === 0 || !isset($notifications)) nothing-to-display @endif">
+                                        @if(isset($notifications))
+                                        ({{ $notifications->count() }})
+                                        @else
+                                        (0)
+                                        @endif
+                                    </span>
+                                    </a>
+                                </li>
                                     <li class="nav-item dropdown">
                                         <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                             {{ Auth::user()->name }}
@@ -177,5 +188,8 @@
         </main>
     </div>
     @yield('scripts')
+    @include('notification')
+    @stack('modal')
 </body>
 </html>
+<!-- Button trigger modal -->

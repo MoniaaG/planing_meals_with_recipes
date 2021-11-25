@@ -30,6 +30,7 @@ class PantryController extends Controller
 
     public function __construct(Guard $auth, ProductRepositoryInterface $product_repository)
     {
+        parent::__construct();
         $this->middleware('auth');
         $this->middleware(function ($request, $next) {
             $this->pantry = Pantry::where('owner_id', Auth::user()->id)->first();

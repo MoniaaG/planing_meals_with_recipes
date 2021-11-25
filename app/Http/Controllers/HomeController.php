@@ -15,6 +15,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
+        parent::__construct();
         $this->middleware('auth');
         $this->middleware('permission:dashboard', ['only' => ['dashboard']]);
         $this->middleware('permission:home', ['only' => ['home']]);
@@ -28,8 +29,10 @@ class HomeController extends Controller
 
     public function index() 
     {
-        $recipes_newest = Recipe::where('share', 1)->orderBy('created_at', 'desc')->limit(3)->get(); 
-            
+        if(Auth::check() && Auth::user()->hasAnyRole('admin', 'moderator')){
+            return redirect()->route('dashboard');
+        }
+        $recipes_newest = Recipe::where('share', 1)->orderBy('created_at', 'desc')->limit(3)->get();    
         return view('homepage', compact('recipes_newest'));
     }
 
@@ -44,8 +47,30 @@ class HomeController extends Controller
             return redirect()->route('dashboard');
         }else {
             $recipes_newest = Recipe::where('share', 1)->orderBy('created_at', 'desc')->limit(3)->get(); 
-            
             return view('homepage', compact('recipes_newest'));
         }
+    }
+
+    public function notifications()
+    {
+        return view('notification');
+    }
+
+    public function markNotification(Request $request)
+    {
+        auth()->user()
+            ->unreadNotifications
+            ->when($request->input('id'), function ($query) use ($request) {
+                return $query->where('id', $request->input('id'));
+            })
+            ->markAsRead();
+
+        return response()->noContent();
+    }
+
+    public function markNotificationAll(Request $request)
+    {
+        auth()->user()->unreadNotifications()->get()->markAsRead();
+        return response()->noContent();
     }
 }

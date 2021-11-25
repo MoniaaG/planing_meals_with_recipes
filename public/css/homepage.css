@@ -20,3 +20,39 @@
   right: 0;
   margin-top: 20px;
 }
+
+#aNotification {
+  color: white;
+}
+
+.notifications {
+  border-radius: 100%;
+  color: white;
+  position: relative;
+  transition: all 0.3s ease-in-out;
+  font-size: 14px;
+  font-weight: 500;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  top: -15px !important;
+  left: -5px !important;
+  padding: 5px;
+  background-color: #d20000;
+}
+.notifications:hover {
+  color: white;
+  opacity: 0.7;
+}
+.notifications i {
+  display: none;
+  font-size: 18px;
+}
+
+.notifications.nothing-to-display {
+  background-color: #05dddd;
+  top: -15px !important;
+  left: -5px !important;
+  padding: 5px;
+  font-size: 14px !important;
+}

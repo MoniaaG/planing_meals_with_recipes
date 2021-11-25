@@ -22,6 +22,7 @@ use App\Statements\ConstProductCategory;
 use App\Statements\ProductsFromAPI;
 use Exception;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Gate;
 
 class RecipeController extends Controller
 {
@@ -30,6 +31,7 @@ class RecipeController extends Controller
 
     public function __construct(RecipeRepositoryInterface $recipe_repository, ProductRepositoryInterface $product_repository)
     {
+        parent::__construct();
         $this->recipe_repository = $recipe_repository;
         $this->product_repository = $product_repository;
         $this->middleware('permission:recipe.create', ['only' => ['create', 'store']]);
@@ -40,6 +42,8 @@ class RecipeController extends Controller
     }
 
     public function show(Recipe $recipe) {
+        if(!Gate::allows('recipe-show', $recipe))
+            abort(403);
         $opinion = Opinion::where([['creator_id', Auth::id()], ['recipe_id', $recipe->id]])->first();
         $recipe = $recipe->where('id', $recipe->id)->with('products.unit')->first();
         return view('recipe.show', compact('recipe', 'opinion'));
@@ -110,8 +114,8 @@ class RecipeController extends Controller
         try {
             $calendar = Calendar::where('owner_id', Auth::id())->first();
             $calendar->recipes()->detach($recipe->id);
+            if($recipe->products()->get()->pluck('pivot.product_id')->count() > 0)
             $recipe->products()->detach($recipe->products()->get()->pluck('pivot.product_id'));
-            dd($recipe->comments()->detach()); //nie usuwa 
             $recipe->delete();
             return response()->json(['status' => 'success'], 200);
         }catch(Exception $error){

@@ -12,6 +12,7 @@ class CategoriesController extends Controller
 {
 
     public function __construct() {
+        parent::__construct();
         $this->middleware('permission:recipe_category.create', ['only' => ['create', 'store']]);
         $this->middleware('permission:recipe_category.edit', ['only' => ['edit']]);
         $this->middleware('permission:recipe_category.update', ['only' => ['update']]);

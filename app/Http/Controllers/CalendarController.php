@@ -19,6 +19,7 @@ class CalendarController extends Controller
 
     public function __construct(Guard $auth, CalendarRepositoryInterface $calendar_repository)
     {
+        parent::__construct();
         $this->middleware('auth');
         $this->middleware(function ($request, $next) {
             $this->calendar = Calendar::where('owner_id', Auth::user()->id)->first();

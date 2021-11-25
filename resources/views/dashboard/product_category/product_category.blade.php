@@ -7,7 +7,7 @@
 <div class="container dashboard mt-5">
     <div class="row justify-content-center">
         <div class="col-md-12">
-            <table class="table">
+            <table class="table col-md-8 offset-md-3 col-lg-12 offset-lg-1">
             <thead class="thead-dark">
                 <tr>
                 <th scope="col">Kategoria produktu</th>

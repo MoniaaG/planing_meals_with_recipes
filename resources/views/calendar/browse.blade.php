@@ -65,7 +65,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     }
                 }
             });
-            $("#exampleModal").modal("show");
+            $("#exampleModalCalendar").modal("show");
         },
         locale: 'pl',
     });
@@ -78,7 +78,7 @@ document.addEventListener('DOMContentLoaded', function() {
     <div class="container mb-4">
         <div class="mb-4" id="calendar"></div>
     </div>
-<div class="modal fade show" id="exampleModal" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade show" id="exampleModalCalendar" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -144,7 +144,7 @@ document.addEventListener('DOMContentLoaded', function() {
     <script>
         $(document).ready(function() {
             $('.recipe_id').select2({
-                dropdownParent: $("#exampleModal"),
+                dropdownParent: $("#exampleModalCalendar"),
                 ajax: {
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

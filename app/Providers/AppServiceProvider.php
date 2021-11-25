@@ -2,11 +2,14 @@
 
 namespace App\Providers;
 
+use App\Models\Recipe;
+use App\Models\User;
 use App\Support\Collection;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 
@@ -63,6 +66,10 @@ class AppServiceProvider extends ServiceProvider
                 }
             });
             return $this;
+        });
+
+        Gate::define('recipe-show', function(User $user, Recipe $recipe) {
+            return $recipe->user_id = $user->id && $recipe->share == false;
         });
     }
 }

@@ -21,7 +21,7 @@
             @foreach($pantry_products as $product)
                 <tr>
                 <th class="col-3">{{ $product->name }}</th>
-                <th class="col-2"><img width="100" height="100" class="img-thumbnail rounded" src="{{asset($product->image)}}"></th>
+                <th class="col-2">@if($product->image == "image") <div class="img-thumbnail bg-info text-white">Brak zdjęcia</div> @else <img width="100" height="100" class="img-thumbnail rounded"  src="{{asset($product->image)}}">@endif</th>
                 <td class="col-2" id="product_quantity-{{$product->pivot->id}}">{{ $product->pivot->quantity}}</td>
                 <td class="col-2">{{$product->unit->unit}}</td>
                 <td class="col-3 text-sm-center text-md-left ">

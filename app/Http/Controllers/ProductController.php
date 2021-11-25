@@ -6,9 +6,11 @@ use App\Models\Pantry;
 use App\Models\Product;
 use App\Models\ProductCategory;
 use App\Models\Unit;
+use App\Models\User;
 use App\Repositories\Interfaces\ProductRepositoryInterface;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use OpenFoodFacts\Laravel\Facades\OpenFoodFacts;
 class ProductController extends Controller
@@ -17,6 +19,7 @@ class ProductController extends Controller
 
     public function __construct(ProductRepositoryInterface $product_repository)
     {
+        parent::__construct();
         $this->product_repository = $product_repository;
         $this->middleware('permission:product.create', ['only' => ['create', 'store']]);
         $this->middleware('permission:product.edit', ['only' => ['edit']]);
@@ -76,12 +79,46 @@ class ProductController extends Controller
     public function proposition_store(Request $request)
     {
         try{
-            $this->product_repository->propositionStore($request);
+            $product = $this->product_repository->propositionStore($request);
+            Auth::user()->notify( new \App\Notifications\AddProductProposition($product, Auth::id(),$product->id));
             toastr()->success('Podano produkt do proponowanych!');
         }catch (Exception $error) {
             toastr()->error('Próba dodania propozycji produktu nie powiodła się. Spróbuj ponownie!');
             return back();
         }
-        return redirect()->route('homepage');
+        return redirect()->back();
+    }
+
+    public function product_proposition_index()
+    {
+        $product_propositions = Product::where('added',1)->get();
+        return view('dashboard.product_proposition.product_proposition', compact('product_propositions'));
+    }
+
+    public function product_proposition_accept(Product $product)
+    {
+        try{
+            $notification =json_decode(DB::table('notifications')->whereJsonContains('data->product_id', $product->id)->where('type','App\Notifications\AddProductProposition')->first()->data);
+            $product->added = 0;
+            $product->save();
+            $user = User::where('id', $notification->user_id)->first();
+            $user->notify(new \App\Notifications\ProductPropositionAccept($product, $notification->user_id, $product->id));
+            return redirect()->route('dashboard.product_proposition.index');
+        }catch (Exception $error) {
+            return back();
+        }
+    }
+
+    public function product_proposition_reject(Product $product)
+    {
+        try{
+            $notification =json_decode(DB::table('notifications')->whereJsonContains('data->product_id', $product->id)->where('type','App\Notifications\AddProductProposition')->first()->data);
+            $user = User::where('id', $notification->user_id)->first();
+            $user->notify(new \App\Notifications\ProductPropositionReject($product, $notification->user_id, $product->id));
+            $product->delete();
+            return redirect()->route('dashboard.product_proposition.index');
+        }catch (Exception $error) {
+            return back();
+        }
     }
 }

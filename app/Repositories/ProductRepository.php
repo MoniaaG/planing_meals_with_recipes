@@ -72,7 +72,7 @@ class ProductRepository implements ProductRepositoryInterface
         $searchText = $request->search;
         if($searchText == "")
         {
-            $productsFromDB = Product::where('name', 'like', '%' . $searchText . '%')->with('unit')->get();
+            $productsFromDB = Product::where('name', 'like', '%' . $searchText . '%')->where('added', 0)->with('unit')->get();
             if(count($productsFromDB) > 0)
             {
                 foreach($productsFromDB as $db){
