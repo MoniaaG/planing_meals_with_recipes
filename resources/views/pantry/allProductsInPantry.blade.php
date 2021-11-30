@@ -7,7 +7,7 @@
 <div class="container mb-4">
     <div class="row justify-content-center">
         <div class="col-md-12">
-            <table class="table table-striped table-bordered table-hover table-responsive rounded">
+            <table class="table table-striped table-bordered table-hover table-sm-responsive rounded">
             <thead class="thead-dark">
                 <tr>
                 <th class="col-3">Nazwa produktu</th>
@@ -20,16 +20,21 @@
             <tbody>
             @foreach($pantry_products as $product)
                 <tr>
-                <th class="col-3">{{ $product->name }}</th>
-                <th class="col-2">@if($product->image == "image") <div class="img-thumbnail bg-info text-white">Brak zdjęcia</div> @else <img width="100" height="100" class="img-thumbnail rounded"  src="{{asset($product->image)}}">@endif</th>
+                <td class="col-3">{{ $product->name }}</td>
+                <td class="col-2">@if($product->image == "image") <div class="img-thumbnail bg-info text-white">Brak zdjęcia</div> @else <img width="100" height="100" class="img-thumbnail rounded"  src="{{asset($product->image)}}">@endif</td>
                 <td class="col-2" id="product_quantity-{{$product->pivot->id}}">{{ $product->pivot->quantity}}</td>
                 <td class="col-2">{{$product->unit->unit}}</td>
                 <td class="col-3 text-sm-center text-md-left ">
-                    <button type="button" class="btn btn-primary edit-pantry_product" data-toggle="modal" data-target="#exampleModal" data-edit_route={{ route('pantry.product.update', ['pantry_product' => $product->pivot->id])}} data-quantity={{$product->pivot->quantity}}><i class="fas fa-edit"></i></button>
+                    <button type="button" class="btn btn-primary edit-pantry_product" data-toggle="modal" data-target="#exampleModalQuantity" data-edit_route={{ route('pantry.product.update', ['pantry_product' => $product->pivot->id])}} data-quantity={{$product->pivot->quantity}}><i class="fas fa-edit"></i></button>
                     <a class="delete btn-danger btn" title="Usuń produkt ze spiżarni" data-toggle="tooltip" data-placement="bottom" data-delete-href="{{ route('pantry.destroy_pantry_product', ['pantry_product' => $product->pivot->id]) }}"><i class="fas fa-trash"></i></a>
                 </td>
                 </tr>
             @endforeach
+            @if(count($pantry_products) == 0) 
+              <tr>
+                <td class="text-center h3" colspan="5">{{ 'Brak produktów w spiżarni' }}</td>
+              </tr>
+            @endif
             </tbody>
             </table>
             
@@ -38,7 +43,7 @@
 </div>
 
 <!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="exampleModalQuantity" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">

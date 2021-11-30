@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Like;
 use App\Models\Recipe;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
@@ -32,8 +34,14 @@ class HomeController extends Controller
         if(Auth::check() && Auth::user()->hasAnyRole('admin', 'moderator')){
             return redirect()->route('dashboard');
         }
-        $recipes_newest = Recipe::where('share', 1)->orderBy('created_at', 'desc')->limit(3)->get();    
-        return view('homepage', compact('recipes_newest'));
+        $recipes_newest = Recipe::where('share', 1)->orderBy('created_at', 'desc')->limit(3)->get();
+        $most_liked = Like::select('recipe_id', DB::raw('count(recipe_id) as counts'))->groupBy('recipe_id')->orderBy('counts', 'DESC')->limit(6)->pluck('recipe_id');
+        $recipes_most_liked = [];
+        foreach($most_liked as $liked){
+            $recipes_most_liked[] = (Recipe::where('id', $liked)->first());
+        }
+        $recipes_most_liked = collect($recipes_most_liked); 
+        return view('homepage', compact('recipes_newest', 'recipes_most_liked'));
     }
 
     public function dashboard()

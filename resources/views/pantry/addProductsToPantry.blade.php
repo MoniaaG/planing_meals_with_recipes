@@ -33,7 +33,7 @@
               </div>
           </div>
         </div>
-        <div class="card-footer text-muted">
+        <div class="card-footer text-muted bg-dark">
           <button type="submit" class="btn btn-primary col-12 col-md-6">Dodaj produkty do spiżarni</button>
           </form>
         </div>

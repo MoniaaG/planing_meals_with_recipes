@@ -35,7 +35,7 @@
         <label><input class="mr-2" type="radio" name="list_type" value="3" checked> Generowanie listy uwzględniającej ilości produktów wykorzystane od dnia dzisiejszego do dnia generowania listy z zachowaniem pozostałych ilości produktów w spiżarni. Oparcie ilości na przepisach jeszcze nie ugotowanych bo do ich realizacji będzie potrzebne wykorzystanie jeszcze nie użytch produktów.</label>
         </div>
         </div>
-        <div class="card-footer text-muted">
+        <div class="card-footer text-muted bg-dark">
             <button type="submit" class="btn btn-success col-6">Generuj</button>
         </form>
         </div>

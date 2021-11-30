@@ -2,17 +2,17 @@
 
 
 @section('content')
-<div class="container">
-@if ($errors->any())
-    <div class="alert alert-danger">
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-@endif
-    <div class="row justify-content-center col-12 mb-4">
+<div class="container mb-5">
+    <div class="row justify-content-center col-12">
+    @if ($errors->any())
+      <div class="alert alert-danger">
+          <ul>
+              @foreach ($errors->all() as $error)
+                  <li>{{ $error }}</li>
+              @endforeach
+          </ul>
+      </div>
+    @endif
         <div class="col-12">
         <div class="card text-center">
           <div class="card-header bg-dark text-white">
@@ -72,7 +72,7 @@
                 </div>
           </div>
           </div>
-          <div class="card-footer text-muted">
+          <div class="card-footer text-muted bg-dark">
            <button type="submit" class="btn btn-primary col-12 col-md-6">Dodaj przepis</button>
             </form>   
           </div>  

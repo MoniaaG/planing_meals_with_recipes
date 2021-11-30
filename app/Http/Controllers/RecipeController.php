@@ -42,6 +42,11 @@ class RecipeController extends Controller
     }
 
     public function show(Recipe $recipe) {
+        if(!Auth::check() && $recipe->share)  {
+            $opinion = Opinion::where([['creator_id', Auth::id()], ['recipe_id', $recipe->id]])->first();
+            $recipe = $recipe->where('id', $recipe->id)->with('products.unit')->first();
+            return view('recipe.show', compact('recipe', 'opinion'));     
+        }else if(!Auth::check() && !$recipe->share) abort(403);
         if(!Gate::allows('recipe-show', $recipe))
             abort(403);
         $opinion = Opinion::where([['creator_id', Auth::id()], ['recipe_id', $recipe->id]])->first();
@@ -72,11 +77,15 @@ class RecipeController extends Controller
     }
 
     public function edit(Recipe $recipe) {
+        if(!Gate::allows('recipe-edit-destroy', $recipe))
+            abort(403);
         $categories = Category::all();
         return view('recipe.edit', compact('recipe', 'categories'));
     }
 
     public function update(Recipe $recipe, Request $request) {
+        if(!Gate::allows('recipe-edit-destroy', $recipe))
+            abort(403);
         $recipe = Recipe::findOrFail($recipe->id);
         $recipe->user_id = Auth::id();
         $recipe->share ? $recipe->share = true : $recipe->share = $request->share;
@@ -111,6 +120,8 @@ class RecipeController extends Controller
     }
 
     public function destroy(Recipe $recipe) {
+        if(!Gate::allows('recipe-show', $recipe))
+            abort(403);
         try {
             $calendar = Calendar::where('owner_id', Auth::id())->first();
             $calendar->recipes()->detach($recipe->id);
@@ -124,6 +135,8 @@ class RecipeController extends Controller
     }
 
     public function like(Recipe $recipe, Request $request) {
+        if(!Gate::allows('recipe-like-opinion', $recipe))
+            abort(403);
         try {
             if($recipe->liked()->count() == 0)
             {
@@ -138,6 +151,8 @@ class RecipeController extends Controller
     }
 
     public function opinionAdd(Request $request, Recipe $recipe) {
+        if(!Gate::allows('recipe-like-opinion', $recipe))
+            abort(403);
         try {
             if(Opinion::where([['creator_id', Auth::id()], ['recipe_id', $recipe->id]])->first() != null) {
                 return response()->json(['status' => 'fail'], 404);

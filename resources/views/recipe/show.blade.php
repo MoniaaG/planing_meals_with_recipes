@@ -4,32 +4,39 @@
 <section class="container mb-5">
     <div class="row">
         <div class="col-12">
-        <img class="image col-md-12 img-fluid float-left"  src="{{ asset($recipe->big_image) }}">
-        <i class="fas fa-heart fa-2x" style="@if(count($recipe->liked()) == 1) color:red; @else color: grey; @endif right: 30px;" data-recipe="{{$recipe->id}}" data-url="{{route('recipe.like', ['recipe' => $recipe])}}"></i>
+            <img class="image col-md-12 img-fluid float-left"  src="{{ asset($recipe->big_image) }}">
             @auth
-            <div class="starts col-md-12 text-right mt-5" data_recipe="{{$recipe->id}}" data_href="{{ route('opinion.add', ['recipe' => $recipe])}}">
-                @for($i = 0; $i < 5; $i++)
-                    <i id="star{{($i+1)}}" class="@if(isset($opinion->opinion) && $opinion->opinion-- > 0)fas @else far @endif fa-star fa-2x text-warning"></i>
-                @endfor
-            </div>
+            @if(Auth::user()->id != $recipe->user_id)
+            <i class="fas fa-heart fa-2x" style="@if(count($recipe->liked()) == 1) color:red; @else color: grey; @endif right: 30px;" data-recipe="{{$recipe->id}}" data-url="{{route('recipe.like', ['recipe' => $recipe])}}"></i>
+            @endif
             @endauth
-            </div>
-            <div class="col-12 d-sm-block d-md-flex mt-3">
-                <div class="ingredients col-12 col-md-6">
+        </div> 
+        @auth
+        @if(Auth::user()->id != $recipe->user_id)   
+        <div class="starts col-12 mt-4 text-center" data_recipe="{{$recipe->id}}" data_href="{{ route('opinion.add', ['recipe' => $recipe])}}">
+            <h5 class="text-center font-weight-bold">{{"Średnia ocena: "}}{{$recipe->opinion_average()}}{{"/5"}}</h5>
+            @for($i = 0; $i < 5; $i++)
+                <i id="star{{($i+1)}}" class="@if(isset($opinion->opinion) && $opinion->opinion-- > 0)fas @else far @endif fa-star fa-2x text-warning"></i>
+            @endfor
+        </div>
+        @endif
+        @endauth
+            <div class="col-12 mt-3">
+                <div class="ingredients col-12">
                     <h1 class="text-white bg-dark p-2">Składniki:</h1>
                     @foreach ($recipe->products as $recipe_product)
                         <h4>{{ ucfirst($recipe_product->name) }}  :  {{ $recipe_product->pivot->quantity }} {{ $recipe_product->unit->unit}}</h4>
                     @endforeach
                 </div>
-                    <div class="description col-12 col-md-6 bg-dark text-white p-2">{{ $recipe->description }}
-                    </div>
+                <div class="col-12 mt-3">
+                <h5 class="bg-dark text-white p-2">{{ $recipe->description }}</h5>
+                </div>
             </div>
             <div class="col-12">
                 <div class="comments col-md-12 mt-5">
                     @comments(['model' => $recipe,
                     'perPage' => 10])
                 </div> 
-            </div>
             </div>
         </div>
     </div>

@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
@@ -69,7 +70,15 @@ class AppServiceProvider extends ServiceProvider
         });
 
         Gate::define('recipe-show', function(User $user, Recipe $recipe) {
-            return $recipe->user_id = $user->id && $recipe->share == false;
+            return $recipe->user_id == $user->id || ($recipe->user_id != $user->id && $recipe->share);
+        });
+
+        Gate::define('recipe-edit-destroy', function(User $user, Recipe $recipe) {
+            return $recipe->user_id == $user->id;
+        });
+
+        Gate::define('recipe-like-opinion', function(User $user, Recipe $recipe) {
+            return $recipe->user_id != $user->id;
         });
     }
 }

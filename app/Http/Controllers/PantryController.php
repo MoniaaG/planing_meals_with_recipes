@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AddProductQuantityRequest;
 use App\Http\Requests\ShoppingListRequest;
 use App\Models\Calendar;
 use App\Models\Pantry;
@@ -60,7 +61,7 @@ class PantryController extends Controller
         return redirect()->back();
     }
 
-    public function addProductToPantryFromList(Request $request)
+    public function addProductToPantryFromList(AddProductQuantityRequest $request)
     {
         try {
         foreach($request->products as $product){

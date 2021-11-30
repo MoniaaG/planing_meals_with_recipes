@@ -34,4 +34,17 @@ class AddRecipeRequest extends FormRequest
             'products' => 'required|min:1'
         ];
     }
+
+    public function messages()
+    {
+        return [
+            'description.required' => 'Opisz przepisu wymagany!',
+            'short_description.required' => 'Krótki opis przepisu wymagany!',
+            'name.required' => 'Nazwa przepisu wymagana!',
+            'category_id.required' => 'Kategoria przepisu wymagana!',
+            'small_image.required' => 'Małe zdjęcie przepisu wymagane!',
+            'big_image.required' => 'Duże zdjęcie przepisu wymagane!',
+            'products.required' => 'Dodaj przynajmiej jeden produkt do przepisu!',
+        ];
+    }
 }

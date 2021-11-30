@@ -81,9 +81,9 @@ document.addEventListener('DOMContentLoaded', function() {
 <div class="modal fade show" id="exampleModalCalendar" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
-      <div class="modal-header">
+      <div class="modal-header bg-dark text-white">
         <h5 class="modal-title">Lista przepisów</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -126,9 +126,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 <input type="color" class="form-control" name="text_color" value="#ffffff">
             </div>
 
-            <div class="form-group">
-                
-            </div>
             <button type="submit" class="btn btn-success col-12">Dodaj przepis</button>
         </form>
       </div>

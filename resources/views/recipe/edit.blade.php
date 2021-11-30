@@ -2,7 +2,7 @@
 
 
 @section('content')
-<div class="container mb-4">
+<div class="container mb-5">
 @if ($errors->any())
     <div class="alert alert-danger">
         <ul>
@@ -90,7 +90,7 @@
             </div>
             @endif
             </div>
-            <div class="card-footer text-muted">
+            <div class="card-footer text-muted bg-dark">
               <button type="submit" class="col-sm-12 col-md-6   btn btn-primary">Edytuj przepis</button>
             </form> 
             </div>

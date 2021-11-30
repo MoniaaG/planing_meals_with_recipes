@@ -30,11 +30,6 @@
                     <i class="fab fa-product-hunt"></i>{{"Produkty"}}
                 </a>
             </li>
-            <li class="nav-item {{ in_array(Route::currentRouteName(), ['shoppingCart.index', 'shoppingCart.create', 'shoppingCart.edit']) ? 'active' : '' }}">
-                <a class="nav-link" href="#">
-                    <i class="fas fa-comments"></i>{{"Komentarze"}}
-                </a>
-            </li>
             <li class="nav-item {{ in_array(Route::currentRouteName(), []) ? 'active' : '' }}">
                 <a class="nav-link" href="#">
                     <i class="fas fa-cookie-bite"></i>{{"Przepisy"}}

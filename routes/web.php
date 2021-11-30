@@ -7,7 +7,9 @@ use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PantryController;
 use App\Http\Controllers\ProductCategoryController;
+use App\Models\Like;
 use App\Models\Recipe;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -118,7 +120,13 @@ Route::get('/', [HomeController::class, 'home'])->name('homepage');
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 Route::get('/', function () {
     $recipes_newest = Recipe::where('share', 1)->orderBy('created_at', 'desc')->limit(3)->get();
-    return view('homepage', compact('recipes_newest'));
+    $most_liked = Like::select('recipe_id', DB::raw('count(recipe_id) as counts'))->groupBy('recipe_id')->orderBy('counts', 'DESC')->limit(6)->pluck('recipe_id');
+    $recipes_most_liked = [];
+    foreach($most_liked as $liked){
+        $recipes_most_liked[] = (Recipe::where('id', $liked)->first());
+    }
+    $recipes_most_liked = collect($recipes_most_liked);  
+    return view('homepage', compact('recipes_newest', 'recipes_most_liked'));
 });
 
 Route::get('/search',[RecipeController::class, 'search'])->name('recipe.search');

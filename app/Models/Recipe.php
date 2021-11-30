@@ -36,4 +36,13 @@ class Recipe extends Model
         return $this->hasOne('App\Models\Like')->where('user_id', Auth::id())->get();
     }
 
+    public function opinion_average()
+    {
+        $opinions_users = (int)$this->hasMany('App\Models\Opinion')->sum('opinion');
+        $opinion_total = $this->hasMany('App\Models\Opinion')->count() * 5;
+        if($opinions_users > 0)
+        return ($opinions_users/$opinion_total)*5;
+        else return 0;
+    }
+
 }
