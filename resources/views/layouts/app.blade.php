@@ -74,112 +74,111 @@
 <body>
     <div id="app">
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" href="{{route('home')}}">Navbar</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-            @auth
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Przepisy
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="{{ route('recipe.index') }}">Moje przepisy</a>
-                <a class="dropdown-item" href="{{ route('recipe.create') }}">Dodaj</a>
-                <a class="dropdown-item" href="{{route('recipe.favourities')}}">Ulubione</a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#">Przepisy innych użytkowników</a>
-                </div>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{{ route('calendar.show') }}">Kalendarz</a>
-            </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Spiżarnia
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="{{ route('pantry.index')}}">Moje produkty</a>
-                <a class="dropdown-item" href="{{ route('pantry.addProduct_create') }}">Dodaj</a>
-                </div>
-            </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Lista zakupów
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="{{ route('pantry.searchShoppingList') }}">Generuj listę</a>
-                <a class="dropdown-item" href="{{ route('pantry.showList') }}">Wygenerowana lista</a>
-                </div>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{{ route('product.proposition_create') }}">Proponuj produkty</a>
-            </li>
-            @endauth
-            </ul>
-            <form class="form-inline my-2 my-lg-0" method="get" action="{{route('recipe.search')}}">
-            <input class="form-control mr-sm-2" type="search" placeholder="Wyszukaj przepis" aria-label="Search" name="search">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><i class="fas fa-search"></i></button>
-            </form>
+            <a class="navbar-brand" href="@guest {{route('homepage')}} @else {{route('home')}} @endguest"><i class="fas fa-home" style="color: cadetblue;"></i></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                            <!-- Left Side Of Navbar -->
-                            <ul class="navbar-nav mr-auto">
+                <ul class="navbar-nav mr-auto">
+                @auth
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Przepisy
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="{{ route('recipe.index') }}">Moje przepisy</a>
+                    <a class="dropdown-item" href="{{ route('recipe.create') }}">Dodaj</a>
+                    <a class="dropdown-item" href="{{route('recipe.favourities')}}">Ulubione</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#">Udostępnione przepisy innych użytkowników</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('calendar.show') }}">Kalendarz</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Spiżarnia
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="{{ route('pantry.index')}}">Moje produkty</a>
+                    <a class="dropdown-item" href="{{ route('pantry.addProduct_create') }}">Dodaj</a>
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Lista zakupów
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="{{ route('pantry.searchShoppingList') }}">Generuj listę</a>
+                    <a class="dropdown-item" href="{{ route('pantry.showList') }}">Wygenerowana lista</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('product.proposition_create') }}">Proponuj produkty</a>
+                </li>
+                @endauth
+                </ul>
+                <form class="form-inline my-2 my-lg-0" method="get" action="{{route('recipe.search')}}">
+                <input class="form-control mr-sm-2" type="search" placeholder="Wyszukaj przepis" aria-label="Search" name="search">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><i class="fas fa-search"></i></button>
+                </form>
 
-                            </ul>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <!-- Left Side Of Navbar -->
+                    <ul class="navbar-nav mr-auto">
 
-                            <!-- Right Side Of Navbar -->
-                            <ul class="navbar-nav ml-auto">
-                                <!-- Authentication Links -->
-                                @guest
-                                    @if (Route::has('login'))
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="{{ route('login') }}">{{ __('Logowanie') }}</a>
-                                        </li>
-                                    @endif
-                                    
-                                    @if (Route::has('register'))
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="{{ route('register') }}">{{ __('Rejestracja') }}</a>
-                                        </li>
-                                    @endif
-                                @else
-                                <li class="nav-item mt-md-3">
-                                    <a id="aNotification" href="{{route('notifications')}}" type="button" class="mr-2" data-toggle="modal" data-target="#exampleModal">
-                                    <i class="far fa-bell pl-2 fas-menu notifications-bell"></i>
-                                    <span id="notifications" class="notifications @if(isset($notifications) && $notifications->count() === 0 || !isset($notifications)) nothing-to-display @endif">
-                                        @if(isset($notifications))
-                                        ({{ $notifications->count() }})
-                                        @else
-                                        (0)
-                                        @endif
-                                    </span>
-                                    </a>
+                    </ul>
+
+                    <!-- Right Side Of Navbar -->
+                    <ul class="navbar-nav ml-auto">
+                        <!-- Authentication Links -->
+                        @guest
+                            @if (Route::has('login'))
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('login') }}">{{ __('Logowanie') }}</a>
                                 </li>
-                                    <li class="nav-item dropdown">
-                                        <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                            {{ Auth::user()->name }}
-                                        </a>
+                            @endif
+                            
+                            @if (Route::has('register'))
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Rejestracja') }}</a>
+                                </li>
+                            @endif
+                        @else
+                        <li class="nav-item mt-md-3">
+                            <a id="aNotification" href="{{route('notifications')}}" type="button" class="mr-2" data-toggle="modal" data-target="#exampleModal">
+                            <i class="far fa-bell pl-2 fas-menu notifications-bell"></i>
+                            <span id="notifications" class="notifications @if(isset($notifications) && $notifications->count() === 0 || !isset($notifications)) nothing-to-display @endif">
+                                @if(isset($notifications))
+                                ({{ $notifications->count() }})
+                                @else
+                                (0)
+                                @endif
+                            </span>
+                            </a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                {{ Auth::user()->name }}
+                            </a>
 
-                                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                            <a class="dropdown-item" href="{{ route('logout') }}"
-                                            onclick="event.preventDefault();
-                                                            document.getElementById('logout-form').submit();">
-                                                {{ __('Wyloguj') }}
-                                            </a>
-
-                                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                                @csrf
-                                            </form>
-                                        </div>
-                                    </li>
-                                @endguest
-                            </ul>
-                        </div>
-        </div>
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="{{ route('logout') }}"
+                                onclick="event.preventDefault();
+                                                document.getElementById('logout-form').submit();">
+                                    {{ __('Wyloguj') }}
+                                </a>
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                    @csrf
+                                </form>
+                            </div>
+                        </li>
+                        @endguest
+                    </ul>
+                </div>
+            </div>
         </nav>
 
         <main class="py-4">

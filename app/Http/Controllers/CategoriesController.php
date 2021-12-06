@@ -19,7 +19,7 @@ class CategoriesController extends Controller
         $this->middleware('permission:recipe_category.delete', ['only' => ['destroy']]);
     }
     public function index() {
-        $recipe_categories = Category::all();
+        $recipe_categories = Category::all()->paginate(4);
         return view('dashboard.recipe_category.recipe_category',compact('recipe_categories'));
     }
 

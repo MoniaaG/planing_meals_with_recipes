@@ -10,18 +10,18 @@
             <table class="table table-striped table-bordered table-hover table-sm-responsive rounded">
             <thead class="thead-dark">
                 <tr>
-                <th class="col-3">Nazwa produktu</th>
-                <th class="col-2">Zdjęcie produktu</th>
-                <th class="col-2">Ilość w spiżarni</th>
-                <th class="col-2">Jednostka</th>
-                <th class="col-3">Akcje</th>
+                <th class="col-3">@lang('pantry.product_name')</th>
+                <th class="col-2">@lang('pantry.product_photo')</th>
+                <th class="col-2">@lang('pantry.quantity_in_pantry')</th>
+                <th class="col-2">@lang('pantry.unit')</th>
+                <th class="col-3">@lang('pantry.actions')</th>
                 </tr>
             </thead>
             <tbody>
             @foreach($pantry_products as $product)
                 <tr>
                 <td class="col-3">{{ $product->name }}</td>
-                <td class="col-2">@if($product->image == "image") <div class="img-thumbnail bg-info text-white">Brak zdjęcia</div> @else <img width="100" height="100" class="img-thumbnail rounded"  src="{{asset($product->image)}}">@endif</td>
+                <td class="col-2">@if($product->image == "image") <div class="img-thumbnail bg-info text-white">@lang('pantry.no_photo')</div> @else <img width="100" height="100" class="img-thumbnail rounded"  src="{{asset($product->image)}}">@endif</td>
                 <td class="col-2" id="product_quantity-{{$product->pivot->id}}">{{ $product->pivot->quantity}}</td>
                 <td class="col-2">{{$product->unit->unit}}</td>
                 <td class="col-3 text-sm-center text-md-left ">
@@ -32,13 +32,14 @@
             @endforeach
             @if(count($pantry_products) == 0) 
               <tr>
-                <td class="text-center h3" colspan="5">{{ 'Brak produktów w spiżarni' }}</td>
+                <td class="text-center h3" colspan="5">@lang('pantry.no_products_in_pantry')</td>
               </tr>
             @endif
             </tbody>
             </table>
             
         </div>
+        {{ $pantry_products->links() }}
     </div>
 </div>
 
@@ -47,7 +48,7 @@
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Edytuj ilość produktu : </h5>
+        <h5 class="modal-title" id="exampleModalLabel">@lang('pantry.edit_quantity')</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -56,14 +57,14 @@
         <form method="get" action="#">
             @csrf
             <div class="form-group">
-                <label for="quantity">Ilość produktu :</label>
+                <label for="quantity">@lang('pantry.product_quantity')</label>
                 <input class="form-control" type="text" id="quantity" name="quantity">
             </div>
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
-        <button type="button" class="btn btn-primary save-pantry">Zapisz zmiany</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('pantry.close')</button>
+        <button type="button" class="btn btn-primary save-pantry">@lang('pantry.save_changes')</button>
       </div>
     </div>
   </div>

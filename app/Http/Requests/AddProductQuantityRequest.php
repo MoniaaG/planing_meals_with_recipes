@@ -24,16 +24,18 @@ class AddProductQuantityRequest extends FormRequest
     public function rules()
     {
         return [
-            "products.*.quantity"  => 'min:1|required|numeric',
+            'products' => 'required',
+            'products.*.quantity'  => 'min:1|required|numeric',
         ];
     }
 
     public function messages()
     {
         return [
-            "products.*.quantity.required"  => 'Ilość produktu wymagana!',
-            "products.*.quantity.min:1"  => 'Ilość produktu musi być większa od zera!',
-            "products.*.quantity.number"  => 'Ilość produktu musi być liczbą!'
+            'products.required' => 'Musisz dodać produkty!',
+            'products.*.quantity.required'  => 'Ilość produktu wymagana!',
+            'products.*.quantity.min:1'  => 'Ilość produktu musi być większa od zera!',
+            'products.*.quantity.number'  => 'Ilość produktu musi być liczbą!'
         ];
     }
 }

@@ -16,7 +16,7 @@
         <div class="col-12">
           <div class="card text-center">
             <div class="card-header bg-dark text-white">
-              <h2>Edytuj przepis</h2>
+              <h2>@lang('recipe.edit_recipe')</h2>
             </div>
             <div class="card-body">
               <form action="{{ route('recipe.update', ['recipe' => $recipe])}}" method="post" enctype="multipart/form-data">
@@ -24,20 +24,20 @@
             @method('put')
             <div class="col-12 mr-5">
                 <div class="form-group">
-                    <label for="name">Nazwa przepisu</label>
+                    <label for="name">@lang('recipe.recipe_name')</label>
                     <input type="name" class="form-control" id="name" name="name" placeholder="Podaj nazwę przepisu" value="{{$recipe->name}}">
                 </div>
 
                 <div class="form-group">
-                    <label for="short_description">Krótki opis przepisu</label>
+                    <label for="short_description">@lang('recipe.recipe_short_description')</label>
                     <input type="short_description" class="form-control" id="short_description" name="short_description" placeholder="Podaj krótki opis przepisu" value="{{$recipe->short_description}}">
                 </div>
                 <div class="form-group">
-                    <label for="description">Opis przepisu</label>
+                    <label for="description">@lang('recipe.recipe_description')</label>
                     <input type="description" class="form-control" id="description" name="description" placeholder="Podaj opis przepisu" value="{{$recipe->description}}">
                 </div>
                 <div class="form-group">
-                    <label for="category_id">Kategoria przepisu</label>
+                    <label for="category_id">@lang('recipe.recipe_category')</label>
                     <select class="form-control" id="category_id" name="category_id">
                     @foreach ($categories as $category)
                         <option @if($recipe->category_id == $category->id) selected @endif value="{{$category->id}}">{{$category->name}}</option>
@@ -45,11 +45,11 @@
                     </select>
                 </div>
                 <div class="form-group text-left">
-                    <label for="small_image">Małe zdjęcię dania</label>
+                    <label for="small_image">@lang('recipe.small_image')</label>
                     <input type="file" class="form-control-file" id="small_image" name="small_image">
                 </div>
                 <div class="form-group text-left">
-                    <label for="big_image">Duże zdjęcie dania</label>
+                    <label for="big_image">@lang('recipe.big_image')</label>
                     <input type="file" class="form-control-file" id="big_image" name="big_image">
                 </div>
                 @if(!$recipe->share)
@@ -57,7 +57,7 @@
                     <div class="input-group-prepend">
                         <div class="input-group-text">
                         <input class="mr-3" type="checkbox" name="share" id="share" aria-label="Czy udostępnić przepis publicznie?" @if($recipe->share) checked @endif>
-                        Czy udostępnić przepis publicznie? <b> UWAGA! Ta operacja jest nieodwracalna.</b>
+                        @lang('recipe.share_ask') <b> @lang('recipe.share_attention')</b>
                         </div>
                     </div>
                 </div>
@@ -65,14 +65,14 @@
             </div>
             @if(!$recipe->share)
             <div class="col-12 my-3">
-            <h2>Szukaj składnika</h2>
+            <h2>@lang('recipe.search_ingredient')</h2>
                 <select class="js-data-example-ajax col-12" data-route="{{ route('searchProduct')}}" aria-label="Default select example" >
-                    <option disabled>Wybierz produkty</option>
+                    <option disabled>@lang('recipe.select_products')</option>
                 </select>
-                <a class="btn btn-success mt-2 text-white" id="add">Dodaj składnik</a>
+                <a class="btn btn-success mt-2 text-white" id="add">@lang('recipe.add_ingredient')</a>
                 <div id="quantitySection">
-                    <h1 class="my-3">Składniki</h1>
-                    <h5>W tym miejscu wymagane jest podanie ilości wybranych składników</h5>
+                    <h1 class="my-3">@lang('recipe.ingredients')</h1>
+                    <h5>@lang('recipe.products_info')</h5>
                     @foreach($recipe->products as $key => $product)
                     <div class="d-flex my-2" style="flex-direction: columns;">
                     <h5 id="product{{$key}}" class="col-5">{{$product->name}}</h1>
@@ -91,7 +91,7 @@
             @endif
             </div>
             <div class="card-footer text-muted bg-dark">
-              <button type="submit" class="col-sm-12 col-md-6   btn btn-primary">Edytuj przepis</button>
+              <button type="submit" class="col-sm-12 col-md-6   btn btn-primary">@lang('recipe.edit_recipe')</button>
             </form> 
             </div>
           </div>

@@ -28,6 +28,7 @@
             </tbody>
             </table>
         </div>
+        {{ $product_categories->links() }}
     </div>
 </div>
 @endsection

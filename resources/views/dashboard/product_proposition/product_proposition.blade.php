@@ -40,6 +40,7 @@
             </tbody>
             </table>
         </div>
+        {{ $product_propositions->links() }}
     </div>
 </div>
 @endsection

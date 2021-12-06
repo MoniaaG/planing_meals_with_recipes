@@ -10,8 +10,8 @@
             <table class="table">
             <thead class="thead-dark">
                 <tr>
-                <th scope="col">Kategoria przepisu</th>
-                <th scope="col">Akcje</th>
+                <th scope="col">@lang('recipe.recipe_category')</th>
+                <th scope="col">@lang('product.actions')</th>
                 </tr>
             </thead>
             <tbody>

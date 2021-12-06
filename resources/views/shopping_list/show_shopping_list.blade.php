@@ -25,10 +25,10 @@
             <table class="table formShoppinglist">
             <thead class="thead-dark">
                 <tr>
-                    <th class="col-5">Produkt</th>
-                    <th class="col-4">Ilość</th>
-                    <th class="col-1">Jednostka</th>
-                    <th class="col-2">Podane do spiżarni</th>
+                    <th class="col-5">@lang('shopping_list.product')</th>
+                    <th class="col-4">@lang('shopping_list.quantity')</th>
+                    <th class="col-1">@lang('shopping_list.unit')</th>
+                    <th class="col-2">@lang('shopping_list.added_to_pantry')</th>
                 </tr>
             </thead>
             <tbody>
@@ -47,7 +47,7 @@
                     <h6>{{$product->unit->unit}}</h6>
                 </td>
                 <td class="col-2 text-center">
-                    @if(!$product->pivot['added_to_pantry']) <button type="submit" class="btn btn-success btn_add" id="btn_add-{{$key}}" data-href="{{route('pantry.addProductToPantryFromList')}}">Dodaj</button> @else <button class="btn btn-success" disabled>Dodaj</button> @endif
+                    @if(!$product->pivot['added_to_pantry']) <button type="submit" class="btn btn-success btn_add" id="btn_add-{{$key}}" data-href="{{route('pantry.addProductToPantryFromList')}}">@lang('shopping_list.add')</button> @else <button class="btn btn-success" disabled>Dodaj</button> @endif
                 </td>
                 </tr>
             
@@ -61,10 +61,10 @@
 <table id="shoppinglist" class="table">
     <thead class="thead-dark">
         <tr>
-            <th class="col-5">Produkt</th>
-            <th class="col-4">Ilość</th>
-            <th class="col-1">Jednostka</th>
-            <th class="col-2">Podane do spiżarni</th>
+            <th class="col-5">@lang('shopping_list.product')</th>
+            <th class="col-4">@lang('shopping_list.quantity')</th>
+            <th class="col-1">@lang('shopping_list.unit')</th>
+            <th class="col-2">@lang('shopping_list.added_to_pantry')</th>
         </tr>
     </thead>
     <tbody>
@@ -80,7 +80,7 @@
                 <h6>{{$product->unit->unit}}</h6>
             </td>
             <td class="col-2 text-center">
-                <h6>@if($product->pivot->added_to_pantry) {{"Dodano"}} @else {{"Niedodano"}} @endif</h6>
+                <h6>@if($product->pivot->added_to_pantry) @lang('shopping_list.added') @else @lang('shopping_list.not_added') @endif</h6>
             </td>
         </tr>
     @endforeach

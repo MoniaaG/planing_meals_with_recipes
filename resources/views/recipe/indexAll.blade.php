@@ -10,10 +10,10 @@
             <table class="table table-striped table-bordered table-hover table-sm-responsive rounded" style="border-radious: 20px">
             <thead class="thead-dark">
                 <tr>
-                <th scope="col">Nazwa przepisu</th>
-                <th scope="col">Kategoria przepisu</th>
-                <th scope="col">Udostepniony</th>
-                <th scope="col">Akcje</th>
+                <th scope="col">@lang('recipe.recipe_name')</th>
+                <th scope="col">@lang('recipe.recipe_category')</th>
+                <th scope="col">@lang('recipe.shared')</th>
+                <th scope="col">@lang('product.actions')</th>
                 </tr>
             </thead>
             <tbody>
@@ -35,6 +35,7 @@
             </tbody>
             </table>
         </div>
+        {{ $recipes->links() }}
     </div>
 </div>
 @endsection

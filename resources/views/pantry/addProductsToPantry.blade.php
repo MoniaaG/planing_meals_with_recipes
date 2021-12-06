@@ -4,37 +4,39 @@
 @section('content')
 <div class="container">
 @if ($errors->any())
-    <div class="alert alert-danger">
-        <ul>
+  <div class="row offset-3 col-6 text-center">
+    <div class="alert alert-danger col-12">
+        <ul class="col-12">
             @foreach ($errors->all() as $error)
                 <li>{{ $error }}</li>
             @endforeach
         </ul>
     </div>
+  </div>
 @endif
   <div class="row justify-content-center col-12">
       <div class="col-12">
       <div class="card text-center">
         <div class="card-header bg-dark text-white">
-          <h2>Dodaj produkty do spiżarni</h2>
+          <h2>@lang('pantry.add_products_to_pantry')</h2>
         </div>
         <div class="card-body">
           <form action="{{ route('pantry.storeProduct')}}" method="post" enctype="multipart/form-data">
           @csrf
           <div class="col-12 my-3">
-          <h2>Szukaj składnika</h2>
+          <h2>@lang('pantry.search_ingredient')</h2>
               <select class="js-data-example-ajax col-12" data-route="{{ route('searchProduct')}}" aria-label="Default select example" >
-                  <option disabled>Wybierz produkty</option>
+                  <option disabled>@lang('pantry.choose_products')</option>
               </select>
-              <a class="btn btn-success mt-2" id="add">Dodaj składnik</a>
+              <a class="btn btn-success mt-2" id="add">@lang('pantry.add_product')</a>
               <div id="quantitySection">
-                  <h1 class="my-3">Produkty</h1>
-                  <h5>W tym miejscu wymagane jest podanie ilości wybranych produktów, które chcesz dodać do spiżarni</h5>
+                  <h1 class="my-3">@lang('pantry.products')</h1>
+                  <h5>@lang('pantry.products_add_info')</h5>
               </div>
           </div>
         </div>
         <div class="card-footer text-muted bg-dark">
-          <button type="submit" class="btn btn-primary col-12 col-md-6">Dodaj produkty do spiżarni</button>
+          <button type="submit" class="btn btn-primary col-12 col-md-6">@lang('pantry.add_products_to_pantry')</button>
           </form>
         </div>
     </div>

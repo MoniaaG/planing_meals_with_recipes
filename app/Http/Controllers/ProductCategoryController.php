@@ -21,7 +21,7 @@ class ProductCategoryController extends Controller
     }
 
     public function index() {
-        $product_categories = ProductCategory::all();
+        $product_categories = ProductCategory::all()->paginate(10);
         return view('dashboard.product_category.product_category',compact('product_categories'));
     }
 

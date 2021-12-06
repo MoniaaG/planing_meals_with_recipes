@@ -3,9 +3,9 @@
     aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content notify_content">
-            <div class="modal-header">
-                <h5 class="modal-title notify-title" id="exampleModalLabel">{{__('Powiadomienia')}}</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <div class="modal-header bg-dark">
+                <h5 class="modal-title notify-title text-white" id="exampleModalLabel">{{__('Powiadomienia')}}</h5>
+                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -19,44 +19,44 @@
                                     @case('App\Notifications\AddProductProposition')
                                     <div class="alert alert-success notification-alert col-12" role="alert">
                                     <span>
-                                        {{'Dodano produkt do proponoanych o nazwie'}}
+                                        @lang('home.added_product_to_proposition')
                                         <span class="font-weight-bold">{{ $notification->data['product_name'] }}</span>.
                                     @break
 
                                     @case('App\Notifications\EditRecipeNotification')
                                     <div class="alert alert-warning notification-alert col-12" role="alert">
                                     <span>
-                                        {{'Dokonano edycji przepisu o nazwie '}}
+                                        @lang('home.edited_recipe')
                                         <span class="font-weight-bold">{{ $notification->data['recipe_name'] }}</span>.
                                         @break
 
                                     @case('App\Notifications\NewRecipeAdd')
                                     <div class="alert alert-success notification-alert col-12" role="alert">
                                     <span>
-                                        {{'Dodano nowy przepis: '}}
+                                        @lang('home.added_newest_recipe')
                                         <span class="font-weight-bold">{{$notification->data['recipe_name']}}</span>.
                                     @break
 
                                     @case('App\Notifications\ProductPropositionAccept')
                                     <div class="alert alert-success notification-alert col-12" role="alert">
                                     <span>
-                                        {{'Produkt o nazwie: '}}
+                                        @lang('home.product_name_notify')
                                         <span class="font-weight-bold">{{ $notification->data['product_name'] }}</span>
-                                        {{'został zaakceptowany'}}.
+                                        @lang('home.accepted').
                                     @break
 
                                     @case('App\Notifications\ProductPropositionReject')
                                     <div class="alert alert-danger notification-alert col-12" role="alert">
                                     <span>
-                                        {{'Propozycja produktu o nazwie: '}}
+                                        @lang('home.product_proposition')
                                         <span class="font-weight-bold">{{ $notification->data['product_name'] }}</span>,
-                                        {{'została odrzucona'}}.
+                                        @lang('home.rejected').
                                     @break
 
                                     @case('App\Notifications\RecipeEmptyNextDay')
                                     <div class="alert alert-warning notification-alert col-12" role="alert">
                                     <span>
-                                        {{'Jeszcze nie zaplanowałeś(aś) przepisów, które wykonasz w kolejnym dniu, przejdź do kalendarza i zrób to teraz!'}}.
+                                        @lang('home.not_plan')
                                     @break
 
                                 @endswitch
@@ -69,7 +69,7 @@
                             </button>
                         </div>
                         @empty
-                        {{('Brak nowych powiadomień')}}
+                        @lang('home.no_notifications')
                         @endforelse
                         @endif
                     </div>
@@ -77,9 +77,9 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger"
-                    data-dismiss="modal">{{__('Zamknij')}}</button>
+                    data-dismiss="modal">@lang('home.close')</button>
                 <button href="{{route('markNotificationAll')}}" type="button"
-                    class="allClose btn btn-dark">{{('Oznacz wszystkie jako przeczytane')}}</button>
+                    class="allClose btn btn-dark">@lang('home.assign_as_readed')</button>
             </div>
         </div>
     </div>

@@ -31,7 +31,8 @@ class AddRecipeRequest extends FormRequest
             'category_id' => 'required',
             'small_image' => 'required|file',
             'big_image' => 'required|file',
-            'products' => 'required|min:1'
+            'products' => 'required|min:1',
+            'products.*.quantity'  => 'min:1|required|numeric',
         ];
     }
 
@@ -45,6 +46,9 @@ class AddRecipeRequest extends FormRequest
             'small_image.required' => 'Małe zdjęcie przepisu wymagane!',
             'big_image.required' => 'Duże zdjęcie przepisu wymagane!',
             'products.required' => 'Dodaj przynajmiej jeden produkt do przepisu!',
+            'products.*.quantity.required'  => 'Ilość produktu wymagana!',
+            'products.*.quantity.min:1'  => 'Ilość produktu musi być większa od zera!',
+            'products.*.quantity.number'  => 'Ilość produktu musi być liczbą!'
         ];
     }
 }

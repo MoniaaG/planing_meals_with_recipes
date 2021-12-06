@@ -14,7 +14,7 @@
         @auth
         @if(Auth::user()->id != $recipe->user_id)   
         <div class="starts col-12 mt-4 text-center" data_recipe="{{$recipe->id}}" data_href="{{ route('opinion.add', ['recipe' => $recipe])}}">
-            <h5 class="text-center font-weight-bold">{{"Średnia ocena: "}}{{$recipe->opinion_average()}}{{"/5"}}</h5>
+            <h5 class="text-center font-weight-bold">@lang('recipe.average_grade'){{$recipe->opinion_average()}}{{"/5"}}</h5>
             @for($i = 0; $i < 5; $i++)
                 <i id="star{{($i+1)}}" class="@if(isset($opinion->opinion) && $opinion->opinion-- > 0)fas @else far @endif fa-star fa-2x text-warning"></i>
             @endfor
@@ -23,7 +23,7 @@
         @endauth
             <div class="col-12 mt-3">
                 <div class="ingredients col-12">
-                    <h1 class="text-white bg-dark p-2">Składniki:</h1>
+                    <h1 class="text-white bg-dark p-2">@lang('recipe.ingredients'):</h1>
                     @foreach ($recipe->products as $recipe_product)
                         <h4>{{ ucfirst($recipe_product->name) }}  :  {{ $recipe_product->pivot->quantity }} {{ $recipe_product->unit->unit}}</h4>
                     @endforeach

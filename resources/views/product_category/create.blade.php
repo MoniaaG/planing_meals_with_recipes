@@ -8,10 +8,10 @@
             @csrf
             @if(isset($edit)) @method('put') @endif
             <div class="form-group">
-                <label for="name">Kategoria produktu</label>
+                <label for="name">@lang('product.product_category')</label>
                 <input type="name" class="form-control" id="name" name="name" placeholder="Podaj kategorię produktu" @if(isset($edit)) value="{{$product_category->name}}" @endif >
             </div>
-            <button type="submit" class="btn btn-primary">@if(isset($edit)) Edytuj kategorię produktu @else Dodaj kategorię produktu @endif</button>
+            <button type="submit" class="btn btn-primary">@if(isset($edit)) @lang('product.edit_product_category') @else @lang('product.add_product_category') @endif</button>
             </form>
         </div>
     </div>

@@ -55,7 +55,7 @@ class RecipeController extends Controller
     }
 
     public function index() {
-        $recipes = Recipe::where('user_id', Auth::id())->get();
+        $recipes = Recipe::where('user_id', Auth::id())->paginate(10);
         return view('recipe.indexAll', compact('recipes'));
     }
 
@@ -191,7 +191,7 @@ class RecipeController extends Controller
 
     public function favourities() {
         $liked_recipes = Like::where('user_id', Auth::id())->get()->pluck('recipe_id');
-        $recipes = Recipe::whereIn('id', $liked_recipes)->get();
+        $recipes = Recipe::whereIn('id', $liked_recipes)->paginate(10);
         return view('recipe.favourities', compact('recipes'));
     }
 }

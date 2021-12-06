@@ -82,7 +82,7 @@ document.addEventListener('DOMContentLoaded', function() {
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header bg-dark text-white">
-        <h5 class="modal-title">Lista przepisów</h5>
+        <h5 class="modal-title">@lang('calendar.recipe_list')</h5>
         <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -91,8 +91,8 @@ document.addEventListener('DOMContentLoaded', function() {
         <table id="table" class="table">
             <thead>
                 <tr>
-                    <th class="col-8">Nazwa przepisu</th>
-                    <th class="col-4">Opcje</th>
+                    <th class="col-8">@lang('calendar.recipe_name')</th>
+                    <th class="col-4">@lang('calendar.options')</th>
                 </tr>
             </thead>
             <tbody id="recipes"></tbody>
@@ -100,7 +100,7 @@ document.addEventListener('DOMContentLoaded', function() {
       </div>
       <div class="modal-footer" style="display: inline;">
       <div class="modal-header">
-        <div id="modal_title" class="modal-title">Dodaj danie</div>
+        <div id="modal_title" class="modal-title">@lang('calendar.add_dish')</div>
       </div>
         <form id="dayClick" action="{{ route('calendar_recipe.store') }}" method="post">
             @csrf
@@ -109,24 +109,24 @@ document.addEventListener('DOMContentLoaded', function() {
             </select>
             </div>
             <div class="form-group">
-                <input type="hidden" class="form-control" id="start_at" name="start_at" placeholder="Data i czas rozpoczęcia">
+                <input type="hidden" class="form-control" id="start_at" name="start_at" placeholder="@lang('calendar.start_at')">
             </div>
 
             <div class="form-group">
-                <input type="hidden" class="form-control" id="end_at" name="end_at" placeholder="Data i czas zakończenia">
+                <input type="hidden" class="form-control" id="end_at" name="end_at" placeholder="@lang('calendar.end_at')">
             </div>
 
             <div class="form-group">
-                <label>Kolor tła</label>
+                <label>@lang('calendar.back_color')</label>
                 <input type="color" class="form-control" name="background_color" value="#0000ff">
             </div>
 
             <div class="form-group">
-                <label>Kolor tekstu</label>
+                <label>@lang('calendar.text_color')</label>
                 <input type="color" class="form-control" name="text_color" value="#ffffff">
             </div>
 
-            <button type="submit" class="btn btn-success col-12">Dodaj przepis</button>
+            <button type="submit" class="btn btn-success col-12">@lang('calendar.recipe_add')</button>
         </form>
       </div>
     </div>

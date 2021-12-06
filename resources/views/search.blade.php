@@ -7,9 +7,9 @@
             <table class="table table-stripped table-bordered table-hover table-sm-responsive rounded">
                 <thead class="thead-dark">
                 <tr>
-                    <th class="col-2">Zdjęcie przepisu</th>
-                    <th class="col-3">Nazwa przepisu</th>
-                    <th class="col-7">Opis</th>
+                    <th class="col-2">@lang('recipe.recipe_photo')</th>
+                    <th class="col-3">@lang('recipe.recipe_name')</th>
+                    <th class="col-7">@lang('recipe.recipe_description')</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -27,7 +27,7 @@
                 </tbody>
                  @if(count($newArray) == 0)
                 <tr>
-                    <td colspan="3" class="text-center"><h3>Brak wyników wyszukiwania</h3></td>
+                    <td colspan="3" class="text-center"><h3>@lang('recipe.no_results')</h3></td>
                 </tr> 
                 @endif
             </table>

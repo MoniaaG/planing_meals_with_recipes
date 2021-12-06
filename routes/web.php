@@ -127,7 +127,7 @@ Route::get('/', function () {
     }
     $recipes_most_liked = collect($recipes_most_liked);  
     return view('homepage', compact('recipes_newest', 'recipes_most_liked'));
-});
+})->name('homepage');
 
 Route::get('/search',[RecipeController::class, 'search'])->name('recipe.search');
 Route::get('/testt', function() {

@@ -44,7 +44,7 @@ class PantryController extends Controller
 
     public function index()
     {
-        $pantry_products = $this->pantry->products()->get();
+        $pantry_products = $this->pantry->products()->paginate(15);
         $today = Carbon::now()->toDateString();
         return view('pantry.allProductsInPantry', compact('pantry_products', 'today'));
     }
@@ -55,7 +55,7 @@ class PantryController extends Controller
         return view('pantry.addProductsToPantry');
     }
  
-    public function addProductToPantry(Request $request)
+    public function addProductToPantry(AddProductQuantityRequest $request)
     {
         $this->product_repository->saveProductsToRecipeOrPantry($request, null,$this->pantry);
         return redirect()->back();

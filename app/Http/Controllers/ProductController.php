@@ -91,7 +91,7 @@ class ProductController extends Controller
 
     public function product_proposition_index()
     {
-        $product_propositions = Product::where('added',1)->get();
+        $product_propositions = Product::where('added',1)->paginate(15);
         return view('dashboard.product_proposition.product_proposition', compact('product_propositions'));
     }
 

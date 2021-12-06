@@ -17,10 +17,10 @@
             @csrf
             @if(isset($edit)) @method('put') @endif
             <div class="form-group">
-                <label for="name">Kategoria przepisu </label>
+                <label for="name">@lang('recipe.recipe_category')</label>
                 <input type="name" class="form-control" id="name" name="name" placeholder="Podaj kategorię przepisu" @if(isset($edit)) value="{{ $recipe_category->name }}" @endif>
             </div>
-            <button type="submit" class="btn btn-primary">@if(isset($edit)) Edytuj @else Dodaj @endif kategorię przepisu</button>
+            <button type="submit" class="btn btn-primary">@if(isset($edit)) @lang('recipe.edit_recipe_category') @else @lang('recipe.add_recipe_category') @endif</button>
             </form>
         </div>
     </div>
