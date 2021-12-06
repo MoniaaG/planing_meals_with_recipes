@@ -84,39 +84,39 @@
                 @auth
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Przepisy
+                    @lang('home.recipes')
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="{{ route('recipe.index') }}">Moje przepisy</a>
-                    <a class="dropdown-item" href="{{ route('recipe.create') }}">Dodaj</a>
-                    <a class="dropdown-item" href="{{route('recipe.favourities')}}">Ulubione</a>
+                    <a class="dropdown-item" href="{{ route('recipe.index') }}">@lang('home.my_recipes')</a>
+                    <a class="dropdown-item" href="{{ route('recipe.create') }}">@lang('home.add')</a>
+                    <a class="dropdown-item" href="{{route('recipe.favourities')}}">@lang('home.favourites')</a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#">Udostępnione przepisy innych użytkowników</a>
+                    <a class="dropdown-item" href="{{ route('recipe.shared') }}">@lang('home.shared_recipes')</a>
                     </div>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('calendar.show') }}">Kalendarz</a>
+                    <a class="nav-link" href="{{ route('calendar.show') }}">@lang('home.calendar')</a>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Spiżarnia
+                    @lang('home.pantry')
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="{{ route('pantry.index')}}">Moje produkty</a>
-                    <a class="dropdown-item" href="{{ route('pantry.addProduct_create') }}">Dodaj</a>
+                    <a class="dropdown-item" href="{{ route('pantry.index')}}">@lang('home.my_products')</a>
+                    <a class="dropdown-item" href="{{ route('pantry.addProduct_create') }}">@lang('home.add')</a>
                     </div>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Lista zakupów
+                    @lang('home.shopping_list')
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="{{ route('pantry.searchShoppingList') }}">Generuj listę</a>
-                    <a class="dropdown-item" href="{{ route('pantry.showList') }}">Wygenerowana lista</a>
+                    <a class="dropdown-item" href="{{ route('pantry.searchShoppingList') }}">@lang('home.generate_shopping_list')</a>
+                    <a class="dropdown-item" href="{{ route('pantry.showList') }}">@lang('home.generated_list')</a>
                     </div>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('product.proposition_create') }}">Proponuj produkty</a>
+                    <a class="nav-link" href="{{ route('product.proposition_create') }}">@lang('home.proposition_products')</a>
                 </li>
                 @endauth
                 </ul>
@@ -137,13 +137,13 @@
                         @guest
                             @if (Route::has('login'))
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('login') }}">{{ __('Logowanie') }}</a>
+                                    <a class="nav-link" href="{{ route('login') }}">@lang('/auth/login_register.login')</a>
                                 </li>
                             @endif
                             
                             @if (Route::has('register'))
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Rejestracja') }}</a>
+                                    <a class="nav-link" href="{{ route('register') }}">@lang('/auth/login_register.register')</a>
                                 </li>
                             @endif
                         @else
@@ -168,7 +168,7 @@
                                 <a class="dropdown-item" href="{{ route('logout') }}"
                                 onclick="event.preventDefault();
                                                 document.getElementById('logout-form').submit();">
-                                    {{ __('Wyloguj') }}
+                                    @lang('/auth/login_register.logout')
                                 </a>
                                 <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                     @csrf

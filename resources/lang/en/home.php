@@ -14,6 +14,17 @@ return [
     'no_notifications' => 'Brak nowych powiadomień',
     'close' => 'Zamknij',
     'assign_as_readed' => 'Oznacz wszystkie jako przeczytane',
-
-
+    'my_recipes' => 'Moje przepisy',
+    'recipes' => 'Przepisy',
+    'add' => 'Dodaj',
+    'favourites' => 'Ulubione',
+    'shared_recipes' => 'Udostępnione przepisy innych użytkowników',
+    'calendar' => 'Kalendarz',
+    'pantry' => 'Spiżarnia',
+    'my_products' => 'Moje produkty',
+    'shopping_list' => 'Lista zakupów',
+    'generate_shopping_list' => 'Generuj listę',
+    'generated_list' => 'Wygenerowana lista',
+    'proposition_products' => 'Proponuj produkty',
+    
 ];

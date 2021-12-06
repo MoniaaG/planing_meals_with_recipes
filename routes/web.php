@@ -52,7 +52,7 @@ Route::group(['middleware' => ['auth']], function(){
     Route::put('/recipe/update/{recipe}', [RecipeController::class, 'update'])->name('recipe.update');
     Route::delete('/recipe/destroy/{recipe}', [RecipeController::class, 'destroy'])->name('recipe.destroy');
     Route::get('/recipe/favourities', [RecipeController::class, 'favourities'])->name('recipe.favourities');
-
+    Route::get('recipes_shared', [RecipeController::class, 'recipes_shared'])->name('recipe.shared');
     /* Calendar */
     Route::get('/calendar/show', [CalendarController::class, 'show'])->name('calendar.show');
     Route::get('/calendar/index', [CalendarController::class, 'index'])->name('calendar.index');

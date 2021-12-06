@@ -10,8 +10,8 @@
             <table class="table col-md-8 offset-md-3 col-lg-12 offset-lg-1">
             <thead class="thead-dark">
                 <tr>
-                <th scope="col">Kategoria produktu</th>
-                <th scope="col">Akcje</th>
+                <th scope="col">@lang('product.product_category')</th>
+                <th scope="col">@lang('product.actions')</th>
                 </tr>
             </thead>
             <tbody>

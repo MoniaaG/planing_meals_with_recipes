@@ -9,4 +9,8 @@ return [
     'edit_product_category' => 'Edytuj kategorię produktu',
     'add_product_category' => 'Dodaj kategorię produktu',
     'actions' => 'Akcje',
+    'proposition_product_name' => 'Nazwa proponoanego produktu',
+    'no_photo' => 'Brak zdjęcia',
+    'accept' => 'Akceptuj',
+    'no_prop_products' => 'Brak proponowanych produktów',
 ];
