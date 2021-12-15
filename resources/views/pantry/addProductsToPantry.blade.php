@@ -80,7 +80,7 @@ $(document).ready(function() {
         <input class="form-control col-4" id="products[${i}][unit_name]" name="products[${i}][unit_name]" value="${unit}" type="hidden">
         <h5 id="productunit${i}" class="col-1">${unit}</h5>
         <input class="form-control col-3 ml-2" id="products[${i}][image]" name="products[${i}][image]" value="${image}" type="hidden">
-        <a id="btn_del${i}" class="btn btn-danger col-1 btn_del">USUŃ</a>
+        <a id="btn_del${i}" class="btn btn-danger btn_del"><i class="fas fa-trash"></i></a>
     </div>`)
     i++;
   });

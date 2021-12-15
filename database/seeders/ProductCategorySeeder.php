@@ -12,18 +12,17 @@ class ProductCategorySeeder extends Seeder
      *
      * @return void
      */
+    //Seeder dodaje do bazy danych 2 przykładowe kategorie produktów
     public function run()
     {
         $product_categories = [
-            1 => 'owoce',
-            2 => 'warzywa',
-            3 => 'inne',
+            'owoce',
+            'warzywa',
         ];
 
-        foreach ($product_categories as $key => $product_category) {
-            DB::table('product_categories')->insert([
-                'id' => $key,
-                'name' => $product_category,
+        foreach ($product_categories as $product_category) {
+            \App\Models\ProductCategory::factory()->create([
+                'name' => $product_category
             ]);
         }
     }

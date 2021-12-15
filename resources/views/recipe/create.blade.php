@@ -53,7 +53,7 @@
                 </div>
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
-                        <div class="input-group-text">
+                        <div class="input-group-text col-12">
                         <input class="mr-3" type="checkbox" name="share" id="share" aria-label="Czy udostępnić przepis publicznie?">
                         @lang('recipe.share_ask') <b> @lang('recipe.share_attention')</b>
                         </div>
@@ -67,7 +67,7 @@
                 </select>
                 <a class="btn btn-success mt-2" id="add">@lang('recipe.add_ingredient')</a>
                 <div id="quantitySection">
-                    <h1 class="my-3">@lang('recipe.aingredients')</h1>
+                    <h1 class="my-3">@lang('recipe.ingredients')</h1>
                     <h5>@lang('recipe.products_info')</h5>
                 </div>
           </div>
@@ -117,7 +117,7 @@ $(document).ready(function() {
         <input class="form-control col-4" id="products[${i}][unit_name]" name="products[${i}][unit_name]" value="${unit}" type="hidden">
         <h5 id="productunit${i}" class="col-1">${unit}</h5>
         <input class="form-control col-3 ml-2" id="products[${i}][image]" name="products[${i}][image]" value="${image}" type="hidden">
-        <a id="btn_del${i}" class="btn btn-danger col-1 btn_del">USUŃ</a>
+        <a id="btn_del${i}" class="btn btn-danger btn_del"><i class="fas fa-trash"></i></a>
     </div>`)
     i++;
   });

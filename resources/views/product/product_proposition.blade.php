@@ -4,13 +4,15 @@
 @section('content')
 <div class="container mb-5">
 @if ($errors->any())
-    <div class="alert alert-danger">
-        <ul>
+  <div class="row offset-3 col-6 text-center">
+    <div class="alert alert-danger col-12">
+        <ul class="col-12">
             @foreach ($errors->all() as $error)
                 <li>{{ $error }}</li>
             @endforeach
         </ul>
     </div>
+  </div>
 @endif
     <div class="row justify-content-center">
         <div class="col-12">

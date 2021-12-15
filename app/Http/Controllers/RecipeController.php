@@ -138,6 +138,7 @@ class RecipeController extends Controller
                 return response()->json(['status' => 'success'], 200);
             }
         }catch(Exception $error){
+            dd($error);
             return response()->json(['status' => 'fail'], 404);
         }
     }

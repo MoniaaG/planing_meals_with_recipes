@@ -115,7 +115,7 @@ return [
 
         'moderator' => [
             'product.accept',
-
+            'product.offer',
             'recipe.create',
             'recipe.show',
             'recipe.edit',

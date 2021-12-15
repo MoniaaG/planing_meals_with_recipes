@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Category;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -12,23 +13,21 @@ class CategorySeeder extends Seeder
      *
      * @return void
      */
+    //Seeder dodaje do bazy danych 5 przykładowych kategorii przepisów
     public function run()
     {
 
         $categories = [
-            1 => 'Obiad',
-            2 => 'Kolacja',
-            3 => 'Śniadanie',
-            4 => 'Podwieczorek',
-            5 => 'Owsianka',
+            'Obiad',
+            'Kolacja',
+            'Śniadanie',
+            'Podwieczorek',
+            'Owsianka',
         ];
 
         foreach ($categories as $key => $category) {
-            DB::table('categories')->insert([
-                // stałe id
-                'id' => $key,
-                // losowy wyraz
-                'name' => $category,
+            \App\Models\Category::factory()->create([
+                'name' => $category
             ]);
         }
     }

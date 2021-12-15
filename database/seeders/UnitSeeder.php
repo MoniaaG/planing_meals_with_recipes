@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use App\Statements\ConstUnits;
 
 class UnitSeeder extends Seeder
 {
@@ -12,18 +13,15 @@ class UnitSeeder extends Seeder
      *
      * @return void
      */
+    //Seeder dodaje do bazy danych 3 używane w systemie jednostki produktów
     public function run()
     {
-        $units = [
-            1 => 'g',
-            2 => 'ml',
-            3 => 'szt',
-        ];
+        $units = ConstUnits::constUnits();
 
         foreach ($units as $key => $unit) {
             DB::table('units')->insert([
-                'id' => $key,
-                'unit' => $unit,
+                'id' => ($key+1),
+                'unit' => $unit[$key],
             ]);
         }
     }

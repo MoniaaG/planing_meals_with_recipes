@@ -2,6 +2,7 @@
 
 namespace App\Repositories\Interfaces;
 
+use App\Models\Recipe;
 use Illuminate\Http\Request;
 
 interface RecipeRepositoryInterface
