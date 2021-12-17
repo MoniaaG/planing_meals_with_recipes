@@ -14,7 +14,7 @@
                 <th scope="col">@lang('product.proposition_product_name')</th>
                 <th scope="col">@lang('product.product_category')</th>
                 <th scope="col">@lang('product.unit')</th>
-                <th scope="col">@lang('product.product_pgoto')</th>
+                <th scope="col">@lang('product.product_photo')</th>
                 <th scope="col">@lang('product.actions')</th>
                 </tr>
             </thead>

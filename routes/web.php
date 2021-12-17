@@ -96,6 +96,9 @@ Route::group(['middleware' => ['auth']], function(){
 
         Route::group(['middleware' => 'admin'], function(){
             Route::prefix('dashboard')->group(function() {
+
+                /* Recipe */
+                Route::get('/recipes/index', [RecipeController::class, 'indexDashboard'])->name('dashboard.recipe.index');
                 /* Product category */
                 Route::get('/product_category/index', [ProductCategoryController::class, 'index'])->name('product_category.index');
                 Route::get('/product_category/create', [ProductCategoryController::class, 'create'])->name('product_category.create');

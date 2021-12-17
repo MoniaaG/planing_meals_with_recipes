@@ -7,6 +7,7 @@
 <div class="container dashboard mt-5">
     <div class="row justify-content-center">
         <div class="col-md-12">
+            <a href="{{route('product_category.create')}}" class="btn btn-primary col-md-8 offset-md-3 col-lg-12 offset-lg-1 mb-2">Dodaj kategorię produktu</a>
             <table class="table col-md-8 offset-md-3 col-lg-12 offset-lg-1">
             <thead class="thead-dark">
                 <tr>

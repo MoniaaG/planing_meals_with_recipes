@@ -1,3 +1,14 @@
+$light-color: #273045;
+$dark-color: #1f2535;
+body {
+    background: rgb(168,86,122);
+    background: radial-gradient(circle, rgba(168,86,122,1) 13%, rgba(102,141,186,1) 80%); 
+    height: 100%;
+    margin: 0;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
 .fa-heart {
     color: red;
     padding: 10px;
@@ -8,9 +19,28 @@
     background-color: hsla(0,0,0,0.5);
 } 
 
+.card {
+    //background-color: $dark-color;
+    color: white;
+    border: 1px solid $dark-color;
+
+    &-body {
+        background-color: $light-color;
+    }
+}
+
+input, select, textarea {
+    background-color: $dark-color !important;
+    color: white !important;
+}
+
+.form-control {
+    border-radius: 2rem;
+}
+
 .card-img-top {
     position: relative;
-    background-color: white;
+    background-color: $dark-color;
   }
 
 .footer{
@@ -88,15 +118,15 @@
 }
 
 .bg-dark {
-    background-color:  	#00076f !important;
+    background-color:  $dark-color !important;
 }
 
 .thead-dark tr th {
-    background-color: #24346c !important;
+    background-color: $dark-color !important;
 }
 
 .fc-col-header-cell >.fc-scrollgrid-sync-inner {
-    background-color: #24346c !important;
+    background-color: $dark-color !important;
     color: white;
 }
 
@@ -106,11 +136,13 @@ th > div > .fc-col-header-cell-cushion {
 
 .fc-daygrid-day-number {
     font-weight: 600;
+    color: white;
+    background-color: $light-color;
 }
 
 .fc-direction-ltr .fc-button-group > .fc-button:not(:last-child), .fc .fc-button-primary:not(:disabled).fc-button-active {
     background-color: #FFE4F2 !important;
-    color: #f03ec9 !important;
+    color: #ad78a2 !important;
     border-color: #FFE4F2 !important;
     &:hover {
         background-color: #f8acd4 !important;
@@ -118,18 +150,79 @@ th > div > .fc-col-header-cell-cushion {
 }
 
 .fc .fc-daygrid-day.fc-day-today {
-    background-color: #FFE4F2 !important;
+    background: rgb(168,86,122) !important;
     .fc-daygrid-day-number {
-        color: #f03ec9;
+        color: $dark-color;
     }
 }
 
+.fc-daygrid-day-number {
+    background: transparent;
+}
+
 .btn-success, .btn-primary {
-    background-color: #f8acd4 !important;
-    border-color: #f8acd4 !important;
-        color: #f03ec9;
+    background: rgb(168,86,122) !important;
+    border-color: rgb(153, 75, 109) !important;
+        color: white;
     &:hover {
-        background-color: #FFE4F2 !important;
-        color: #f03ec9;
+        background-color: rgb(153, 75, 109) !important;
+        color: gray;
+    }
+}
+
+table tbody {
+    background-color: $light-color;
+    color: white;
+    &:hover {
+        color: red;
+    }
+}
+
+.table {
+    color: white;
+}
+.table-hover {
+    color: white;
+}
+
+.table-hover tbody tr:hover {
+    color: rgb(155, 91, 144);
+}
+
+.media {
+    background-color: #273045;
+    border-radius: 2rem;
+    margin-bottom: 10px;
+    &-body {
+        padding: 1rem;
+        padding-left: 2rem;
+        padding-right: 2rem;
+        padding-bottom: 0;
+        color: white;
+    }
+}
+
+.comments {
+    .card {
+        border-radius: 2rem;
+
+        &-body {
+            border-radius: 2rem;
+        }
+    }
+}
+
+.select2-container--default .select2-selection--single, .select2-dropdown, .select2-container--default .select2-selection--single .select2-selection__rendered {
+    background-color: $dark-color !important;
+    color: white !important;
+}
+
+.modal {
+    color: white;
+    &-header, &-footer {
+        background-color: $dark-color;
+    }
+    &-body {
+        background-color: $light-color;
     }
 }

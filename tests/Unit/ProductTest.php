@@ -48,7 +48,7 @@ class ProductTest extends TestCase
         $response->assertStatus(302);
     }
 
-    public function testacceptProductProposition() {
+    public function testAcceptProductProposition() {
         $user = User::factory()->create(['name' => 'user', 'email' => 'user@user.pl', 'password' => Hash::make('12345678')]); 
         $user->assignRole('moderator');
         $unit = Unit::factory()->create(['unit' => ConstUnits::constUnits()[0]]);
@@ -58,12 +58,12 @@ class ProductTest extends TestCase
             'product_category_id' => $product_category->id,
             'added' => 1,
         ]);
-
+        $user->notify( new \App\Notifications\AddProductProposition($product_proposition, $user->id,$product_proposition->id));
         $response = $this->actingAs($user)->json('POST', route('dashboard.product_proposition.accept', ['product' => $product_proposition]));
-        $response->assertStatus(302);
+        $response->assertStatus(200);
     }
 
-    public function testrejectProductProposition() {
+    public function testRejectProductProposition() {
         $user = User::factory()->create(['name' => 'user', 'email' => 'user@user.pl', 'password' => Hash::make('12345678')]); 
         $user->assignRole('user');
         $unit = Unit::factory()->create(['unit' => ConstUnits::constUnits()[0]]);
@@ -75,9 +75,10 @@ class ProductTest extends TestCase
             'product_category_id' => $product_category->id,
             'added' => 1,
         ]);
+        $user->notify( new \App\Notifications\AddProductProposition($product_proposition, $user->id,$product_proposition->id));
         $user->assignRole('moderator');
         $response = $this->actingAs($user)->json('DELETE', route('dashboard.product_proposition.reject', ['product' => $product_proposition]));
-        $response->assertStatus(302);
+        $response->assertStatus(200);
     }
 
     public function testAddProductsToPantry() {
@@ -90,7 +91,7 @@ class ProductTest extends TestCase
             'product_category_id' => $product_category->id,
             'added' => 0,
         ]);
-        
+
         $products[0]['id'] = $product_proposition->id;
         $products[0]['barcode'] = "null";
         $products[0]['quantity'] = 250;

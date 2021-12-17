@@ -7,6 +7,7 @@
 <div class="container dashboard mt-5">
     <div class="row justify-content-center">
         <div class="col-md-12">
+            <a href="{{route('recipe_category.create')}}" class="btn btn-primary col-md-8 offset-md-4 col-lg-11 offset-lg-1 mb-2">Dodaj kategorię przepisu</a>
             <table class="table table-sm-responsive table-md-responsive col-md-8 offset-md-4 col-lg-11 offset-lg-1">
             <thead class="thead-dark">
                 <tr>

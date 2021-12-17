@@ -103,9 +103,9 @@ class ProductController extends Controller
             $product->save();
             $user = User::where('id', $notification->user_id)->first();
             $user->notify(new \App\Notifications\ProductPropositionAccept($product, $notification->user_id, $product->id));
-            return redirect()->route('dashboard.product_proposition.index');
+            return response()->json(['status' => 'success'], 200);
         }catch (Exception $error) {
-            return back();
+            return response()->json(['status' => 'fail'], 404);
         }
     }
 
@@ -116,9 +116,9 @@ class ProductController extends Controller
             $user = User::where('id', $notification->user_id)->first();
             $user->notify(new \App\Notifications\ProductPropositionReject($product, $notification->user_id, $product->id));
             $product->delete();
-            return redirect()->route('dashboard.product_proposition.index');
+            return response()->json(['status' => 'success'], 200);
         }catch (Exception $error) {
-            return back();
+            return response()->json(['status' => 'fail'], 404);
         }
     }
 }

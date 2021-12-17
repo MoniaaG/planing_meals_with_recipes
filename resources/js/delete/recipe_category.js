@@ -18,6 +18,9 @@ $(document).ready(function() {
             callback: function(confirm) {
                 if( confirm ) {
                     $.ajax({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
                         url: url,
                         type: 'DELETE',
                         success: function(result) {
@@ -25,7 +28,7 @@ $(document).ready(function() {
                                 title: 'Kategoria przepisu usunieta',
                                 message: `<div class="modal-icon"><i class="fa fa-check text-success"></i><span>Usunieto</span></div>`,
                                 callback: function(confirm) {
-                                    $(location).attr("href", '/recipe_category/index');
+                                    $(location).attr("href", '/dashboard/recipe_category/index');
                                 },
                             });
                         },

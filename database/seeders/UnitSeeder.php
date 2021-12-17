@@ -21,7 +21,7 @@ class UnitSeeder extends Seeder
         foreach ($units as $key => $unit) {
             DB::table('units')->insert([
                 'id' => ($key+1),
-                'unit' => $unit[$key],
+                'unit' => $unit,
             ]);
         }
     }

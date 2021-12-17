@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\ProductCategory;
 use App\Repositories\Interfaces\ProductCategoryRepositoryInterface;
+use Exception;
 use Illuminate\Http\Request;
 
 class ProductCategoryController extends Controller
@@ -26,7 +27,7 @@ class ProductCategoryController extends Controller
     }
 
     public function create() {
-        return view('product_category.create');
+        return view('dashboard.product_category.create');
     }
 
     public function store(Request $request) {
@@ -36,7 +37,7 @@ class ProductCategoryController extends Controller
 
     public function edit(ProductCategory $product_category) {
         $edit = true;
-        return view('product_category.create', compact('product_category', 'edit'));
+        return view('dashboard.product_category.create', compact('product_category', 'edit'));
     }
 
     public function update(ProductCategory $product_category, Request $request) {
@@ -44,10 +45,9 @@ class ProductCategoryController extends Controller
         return redirect()->route('product_category.index');
     }
 
-    public function destroy(ProductCategory $product_category, Request $request) {
-        //before deleting category add recipes from that to another !!!!
+    public function destroy(ProductCategory $product_category) {
         try {
-            dd($product_category->delete());
+            $product_category->delete();
             return response()->json(['status' => 'success'], 200);
         } catch (Exception $error) {
             return response()->json(['status' => 'fail'], 404);

@@ -18,6 +18,9 @@ $(document).ready(function() {
             callback: function(confirm) {
                 if( confirm ) {
                     $.ajax({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
                         url: url,
                         type: 'DELETE',
                         success: function(result) {
@@ -25,14 +28,14 @@ $(document).ready(function() {
                                 title: 'Kategoria przepisu usunieta',
                                 message: `<div class="modal-icon"><i class="fa fa-check text-success"></i><span>Usunieto</span></div>`,
                                 callback: function(confirm) {
-                                    $(location).attr("href", '/product_category/index');
+                                    $(location).attr("href", '/dashboard/product_category/index');
                                 },
                             });
                         },
                         error: function() {
                             bootbox.alert({
                                 title: 'Nie mozna usunac',
-                                message: `<div class="modal-icon"><i class="fa fa-times text-danger"></i><span></span></div>`,
+                                message: `<div class="modal-icon"><i class="fa fa-times text-danger"></i><span>Nie można usunąć kategorii produktu ponieważ istnieją produkty do niej przypisane!</span></div>`,
                             });
                         },
                     });
@@ -40,4 +43,5 @@ $(document).ready(function() {
             }
         });
     })
+    
 });

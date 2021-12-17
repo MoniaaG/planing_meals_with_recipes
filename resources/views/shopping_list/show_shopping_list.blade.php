@@ -50,11 +50,15 @@
                     @if(!$product->pivot['added_to_pantry']) <button type="submit" class="btn btn-success btn_add" id="btn_add-{{$key}}" data-href="{{route('pantry.addProductToPantryFromList')}}">@lang('shopping_list.add')</button> @else <button class="btn btn-success" disabled>Dodaj</button> @endif
                 </td>
                 </tr>
-            
         </div>
     </div>  
 </form>
 @endforeach
+@if(count($shoppinglist->products) == 0) 
+<tr>
+    <td colspan="4"><h5>Brak produktów na liście</h5></td>
+</tr>
+@endif
 </tbody>
 </table>
 
@@ -84,6 +88,11 @@
             </td>
         </tr>
     @endforeach
+    @if(count($shoppinglist->products) == 0) 
+        <tr>
+            <td colspan="4"><h4>Brak produktów na liście zakupów</h4></td>
+        </tr>
+    @endif
     </tbody>
 </table> 
     </div>

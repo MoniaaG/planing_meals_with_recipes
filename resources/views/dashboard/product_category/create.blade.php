@@ -1,7 +1,7 @@
-@extends('layouts.app')
+@extends('dashboard.welcome')
 
 @section('content')
-<div class="container">
+<div class="container dashboard mt-5">
     <div class="row justify-content-center">
         <div class="col-md-6">
             <form action="@if(isset($edit)) {{route('product_category.update', ['product_category' => $product_category]) }}@else  {{route('product_category.store')}} @endif" method="post">

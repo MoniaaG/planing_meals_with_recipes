@@ -24,7 +24,7 @@ class CategoriesController extends Controller
     }
 
     public function create() {
-        return view('recipe_category.create');
+        return view('dashboard.recipe_category.create');
     }
 
     public function store(RequestsStoreCategoryRequest $request) {
@@ -36,7 +36,7 @@ class CategoriesController extends Controller
 
     public function edit(Category $recipe_category) {
         $edit = true;
-        return view('recipe_category.create', compact('edit', 'recipe_category'));
+        return view('dashboard.recipe_category.create', compact('edit', 'recipe_category'));
     }
 
     public function update(Category $recipe_category, UpdateCategoryRequest $request) {

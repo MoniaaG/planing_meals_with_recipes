@@ -58,7 +58,7 @@ class RecipeRepository implements RecipeRepositoryInterface
     public function update(Recipe $recipe, Request $request) {
         $recipe = Recipe::findOrFail($recipe->id);
         $recipe->user_id = Auth::id();
-        $recipe->share ? $recipe->share = true : $recipe->share = $request->share;
+        $request->share == true ? $recipe->share = true : $recipe->share = false;
         $recipe->description = $request->description;
         $recipe->short_description = $request->short_description;
         $recipe->name = $request->name;

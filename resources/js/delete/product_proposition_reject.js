@@ -20,7 +20,7 @@ $(document).ready(function() {
                     $.ajax({
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                          },
+                        },
                         url: url,
                         type: 'DELETE',
                         success: function(result) {

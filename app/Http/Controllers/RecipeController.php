@@ -58,6 +58,11 @@ class RecipeController extends Controller
         return view('recipe.indexAll', compact('recipes'));
     }
 
+    public function indexDashboard() {
+        $recipes = Recipe::all()->paginate(10);
+        return view('dashboard.recipe.recipe_index', compact('recipes'));
+    }
+
     public function recipes_shared() {
         $recipes = Recipe::where('share', 1)->where('user_id','!=', Auth::id())->paginate(15);
         return view('recipe.favourities', compact('recipes'));
@@ -138,7 +143,6 @@ class RecipeController extends Controller
                 return response()->json(['status' => 'success'], 200);
             }
         }catch(Exception $error){
-            dd($error);
             return response()->json(['status' => 'fail'], 404);
         }
     }
