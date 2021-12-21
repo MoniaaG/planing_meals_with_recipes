@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use \App\Models\Pantry;
 use \App\Models\Calendar;
+use App\Models\Category;
 use \App\Models\Shoppinglist;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -51,5 +52,65 @@ class CategoryTest extends TestCase
             'name' => "Nowa kategoria przepisu 1", 
         ]);
         $response->assertStatus(302);
+    }
+
+    public function testCategoryUpdate()
+    { 
+        // Testowanie edycji kategorii przepisu w zależności od uprawnień dla danej roli
+        //user i userModerator nie mają uprawnień do zapisywania, userAdmin posiada
+        $user = User::factory()->create(['name' => 'user', 'email' => 'user@user.pl', 'password' => Hash::make('12345678')]); 
+        $user->assignRole('user');
+        Pantry::factory()->create(['owner_id' => $user->id]);
+        Calendar::factory()->create(['owner_id' => $user->id]);
+        Shoppinglist::factory()->create(['owner_id' => $user->id]);
+        $category = Category::factory()->create(['name' => 'Kategoria przepisu']);
+        $response = $this->actingAs($user)->json('PUT', route('recipe_category.update', ['recipe_category' => $category]), [
+            'name' => "Edytowana kategoria przepisu", 
+        ]);
+        $response->assertStatus(403);
+
+        $userModerator = $user;
+        $userModerator->assignRole('moderator');
+        $response = $this->actingAs($userModerator)->json('PUT', route('recipe_category.update',['recipe_category' => $category]), [
+            'name' => "Nowa kategoria przepisu 2", 
+        ]);
+        $response->assertStatus(403);
+
+        $userAdmin = $user;
+        $userAdmin->assignRole('admin');
+        $response = $this->actingAs($user)->json('PUT', route('recipe_category.update',['recipe_category' => $category]), [
+            'name' => "Nowa kategoria przepisu 1", 
+        ]);
+        $response->assertStatus(302);
+    }
+
+    public function testCategoryDelete()
+    { 
+        // Testowanie usuwania kategorii przepisu w zależności od uprawnień dla danej roli
+        //user i userModerator nie mają uprawnień do zapisywania, userAdmin posiada
+        $user = User::factory()->create(['name' => 'user', 'email' => 'user@user.pl', 'password' => Hash::make('12345678')]); 
+        $user->assignRole('user');
+        Pantry::factory()->create(['owner_id' => $user->id]);
+        Calendar::factory()->create(['owner_id' => $user->id]);
+        Shoppinglist::factory()->create(['owner_id' => $user->id]);
+        $category = Category::factory()->create(['name' => 'Kategoria przepisu']);
+        $response = $this->actingAs($user)->json('DELETE', route('recipe_category.destroy', ['recipe_category' => $category]), [
+            'name' => "Nowa kategoria przepisu", 
+        ]);
+        $response->assertStatus(403);
+
+        $userModerator = $user;
+        $userModerator->assignRole('moderator');
+        $response = $this->actingAs($userModerator)->json('DELETE', route('recipe_category.destroy', ['recipe_category' => $category]), [
+            'name' => "Nowa kategoria przepisu 2", 
+        ]);
+        $response->assertStatus(403);
+
+        $userAdmin = $user;
+        $userAdmin->assignRole('admin');
+        $response = $this->actingAs($user)->json('DELETE', route('recipe_category.destroy', ['recipe_category' => $category]), [
+            'name' => "Nowa kategoria przepisu 1", 
+        ]);
+        $response->assertStatus(200);
     }
 }

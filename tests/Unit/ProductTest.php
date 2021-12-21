@@ -98,4 +98,48 @@ class ProductTest extends TestCase
         $response = $this->actingAs($user)->json('POST', route('pantry.storeProduct', ['products' => $products]));
         $response->assertStatus(302);
     }
+
+    public function testUpdateProductQuantityInPantry() {
+        $user = User::factory()->create(['name' => 'user', 'email' => 'user@user.pl', 'password' => Hash::make('12345678')]); 
+        $user->assignRole('user');
+        $pantry = Pantry::factory()->create(['owner_id' => $user->id]);
+        $unit = Unit::factory()->create(['unit' => ConstUnits::constUnits()[0]]);
+        $product_category = ProductCategory::factory()->create(['name' => 'Kategoria produktu']);
+        $product_proposition = Product::factory()->create([
+            'unit_id' => $unit->id,
+            'product_category_id' => $product_category->id,
+            'added' => 0,
+        ]);
+
+        $products[0]['id'] = $product_proposition->id;
+        $products[0]['barcode'] = "null";
+        $products[0]['quantity'] = 250;
+        $response = $this->actingAs($user)->json('POST', route('pantry.storeProduct', ['products' => $products]));
+
+        $pantry_product = $pantry->products()->where([['product_id', $product_proposition->id],['pantry_id', $pantry->id] ])->first();
+        $response = $this->actingAs($user)->json('POST', route('pantry.product.update', ['pantry_product' => $pantry_product->pivot->id, 'quantity' => 600]));
+        $response->assertStatus(200);
+    }
+
+    public function testDeleteProductFromPantry() {
+        $user = User::factory()->create(['name' => 'user', 'email' => 'user@user.pl', 'password' => Hash::make('12345678')]); 
+        $user->assignRole('user');
+        $pantry = Pantry::factory()->create(['owner_id' => $user->id]);
+        $unit = Unit::factory()->create(['unit' => ConstUnits::constUnits()[0]]);
+        $product_category = ProductCategory::factory()->create(['name' => 'Kategoria produktu']);
+        $product_proposition = Product::factory()->create([
+            'unit_id' => $unit->id,
+            'product_category_id' => $product_category->id,
+            'added' => 0,
+        ]);
+
+        $products[0]['id'] = $product_proposition->id;
+        $products[0]['barcode'] = "null";
+        $products[0]['quantity'] = 250;
+        $response = $this->actingAs($user)->json('POST', route('pantry.storeProduct', ['products' => $products]));
+
+        $pantry_product = $pantry->products()->where([['product_id', $product_proposition->id],['pantry_id', $pantry->id] ])->first();
+        $response = $this->actingAs($user)->json('DELETE', route('pantry.destroy_pantry_product', ['pantry_product' => $pantry_product->pivot->id]));
+        $response->assertStatus(200);
+    }
 }

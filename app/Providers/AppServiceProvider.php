@@ -73,8 +73,12 @@ class AppServiceProvider extends ServiceProvider
             return $recipe->user_id == $user->id || ($recipe->user_id != $user->id && $recipe->share);
         });
 
-        Gate::define('recipe-edit-destroy', function(User $user, Recipe $recipe) {
+        Gate::define('recipe-edit', function(User $user, Recipe $recipe) {
             return $recipe->user_id == $user->id;
+        });
+
+        Gate::define('recipe-destroy', function(User $user, Recipe $recipe) {
+            return $recipe->user_id == $user->id && $recipe->share == false;
         });
 
         Gate::define('recipe-like-opinion', function(User $user, Recipe $recipe) {

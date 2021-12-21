@@ -29,11 +29,11 @@
 
                 <div class="form-group">
                     <label for="short_description">@lang('recipe.recipe_short_description')</label>
-                    <input type="short_description" class="form-control" id="short_description" name="short_description" placeholder="Podaj krótki opis przepisu">
+                    <textarea type="short_description" class="form-control" id="short_description" name="short_description" placeholder="Podaj krótki opis przepisu"></textarea>
                 </div>
                 <div class="form-group">
                     <label for="description">@lang('recipe.recipe_description')</label>
-                    <input type="description" class="form-control" id="description" name="description" placeholder="Podaj opis przepisu">
+                    <textarea type="description" class="form-control" id="description" name="description" placeholder="Podaj opis przepisu"></textarea>
                 </div>
                 <div class="form-group">
                     <label for="category_id">@lang('recipe.recipe_category')</label>

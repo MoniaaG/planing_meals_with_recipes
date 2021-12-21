@@ -58,31 +58,24 @@ class RecipeRepository implements RecipeRepositoryInterface
     public function update(Recipe $recipe, Request $request) {
         $recipe = Recipe::findOrFail($recipe->id);
         $recipe->user_id = Auth::id();
-        $request->share == true ? $recipe->share = true : $recipe->share = false;
+        if(!$recipe->share == true)
+            $request->share == true ? $recipe->share = true : $recipe->share = false;
         $recipe->description = $request->description;
         $recipe->short_description = $request->short_description;
         $recipe->name = $request->name;
         $recipe->category_id = $request->category_id;
         if($request->small_image) {
-            //working system to delete existing file from storage and replace on new one
-            /*$recipe1 = Recipe::find(Recipe::max('id'));
-            Storage::delete((str_replace("/storage/", "/public/",$recipe1->small_image)));
-            */
-            //$recipe1 you could get to single line because you will work with the same object in next if
-            //Storage::delete($recipe->small_image);
             $file = $request->file('small_image');
             $filename = time() . '.' . $file->getClientOriginalExtension();
             $file->storeAs('/public/recipe/small_image', $filename);
             $recipe->small_image = '/storage/recipe/small_image/' . $filename;
         }
         if($request->big_image) {
-            //Storage::delete($recipe->big_image);
             $file = $request->file('big_image');
             $filename = time() . '.' . $file->getClientOriginalExtension();
             $file->storeAs('/public/recipe/big_image', $filename);
             $recipe->big_image = '/storage/recipe/big_image/' . $filename;
         }
-        //$recipe->products()->sync($request->products)//ids
         $recipe->save();
         return $recipe;
     }

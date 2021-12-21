@@ -56,7 +56,7 @@
 @endforeach
 @if(count($shoppinglist->products) == 0) 
 <tr>
-    <td colspan="4"><h5>Brak produktów na liście</h5></td>
+    <td colspan="4"><h4>Brak produktów na liście</h4></td>
 </tr>
 @endif
 </tbody>

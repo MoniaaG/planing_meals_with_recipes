@@ -4,7 +4,7 @@ $(document).ready(function() {
         console.log(url);
         bootbox.confirm({
             title: 'title',
-            message: `<div class="modal-icon"><i class="far fa-trash-alt"></i><span>Czy chcesz usunąć ten przepis?</span></div>`,
+            message: `<div class="modal-icon"><i class="far fa-trash-alt"></i><span>Czy chcesz usunąć ten przepis? To działanie trwale usunie nawet zaplanowane w Twoim kalendarzu pomysły na dania! </span></div>`,
             buttons: {
                 confirm: {
                     label: `<i class="fa fa-check mr-1"></i> Usuń`,

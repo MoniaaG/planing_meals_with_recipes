@@ -19,7 +19,7 @@ class Calendar extends Model
 
     public function recipes()
     {
-        return $this->belongsToMany('App\Models\Recipe')->withPivot('start_at', 'end_at', 'text_color', 'background_color','cooked');
+        return $this->belongsToMany('App\Models\Recipe')->withPivot('id', 'start_at', 'end_at', 'text_color', 'background_color','cooked');
     }
 
     public function recipes_events()

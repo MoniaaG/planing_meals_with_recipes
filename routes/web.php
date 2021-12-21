@@ -23,12 +23,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-
-Route::get('/test', function () {
-    //return OpenFoodFacts::find('pomidor');//['quantity'];//['categories'];
-    return OpenFoodFacts::barcode('3838800040578');
-});
-
 Auth::routes();
 
 //Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -133,6 +127,3 @@ Route::get('/', function () {
 })->name('homepage');
 
 Route::get('/search',[RecipeController::class, 'search'])->name('recipe.search');
-Route::get('/testt', function() {
-    return view('recipe.xdd');
-});

@@ -7,6 +7,7 @@ use App\Models\Calendar;
 use App\Models\Pantry;
 use App\Models\Recipe;
 use App\Repositories\Interfaces\CalendarRepositoryInterface;
+use Exception;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -68,21 +69,10 @@ class CalendarController extends Controller
 
     public function assign_recipe(int $id)
     {
-        try {
-            $this->calendar_repository->assign_recipe($this->calendar, $id);
-            return response()->json(['status' => 'success'], 200);
-        } catch (Exception $error) {
-            return response()->json(['status' => 'fail'], 404);
-        }
+        return $this->calendar_repository->assign_recipe($this->calendar, $id);
     }
 
     public function unsign_recipe(int $id){
-        try {
-            $this->calendar_repository->unsign_recipe($this->calendar, $id);
-            return response()->json(['status' => 'success'], 200);
-        }catch(Exception $error){
-            return response()->json(['status' => 'fail'], 404);
-        }
-
+        return $this->calendar_repository->unsign_recipe($this->calendar, $id);
     }
 }

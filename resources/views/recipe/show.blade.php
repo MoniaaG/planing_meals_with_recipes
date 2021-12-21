@@ -22,14 +22,17 @@
         @endif
         @endauth
             <div class="col-12 mt-3">
+                <div class="col-12">
+                    <h2 class="text-white bg-dark p-3" style="border-radius: 2rem;">{{$recipe->name}}</h2>
+                </div>
                 <div class="ingredients col-12">
-                    <h1 class="text-white bg-dark p-2">@lang('recipe.ingredients'):</h1>
+                    <h3 class="text-white bg-dark p-3" style="border-radius: 2rem;">@lang('recipe.ingredients'):</h3>
                     @foreach ($recipe->products as $recipe_product)
-                        <h4>{{ ucfirst($recipe_product->name) }}  :  {{ $recipe_product->pivot->quantity }} {{ $recipe_product->unit->unit}}</h4>
+                        <h4 class="pl-3">{{ ucfirst($recipe_product->name) }}  :  {{ $recipe_product->pivot->quantity }} {{ $recipe_product->unit->unit}}</h4>
                     @endforeach
                 </div>
                 <div class="col-12 mt-3">
-                <h5 class="bg-dark text-white p-2">{{ $recipe->description }}</h5>
+                <h5 class="bg-dark text-white p-3" style="border-radius: 2rem;">{{ $recipe->description }}</h5>
                 </div>
             </div>
             <div class="col-12">

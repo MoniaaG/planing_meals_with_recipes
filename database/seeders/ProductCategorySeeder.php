@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Statements\ConstProductCategory;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -18,6 +19,7 @@ class ProductCategorySeeder extends Seeder
         $product_categories = [
             'owoce',
             'warzywa',
+            ConstProductCategory::INNA,
         ];
 
         foreach ($product_categories as $product_category) {

@@ -86,14 +86,14 @@ class RecipeController extends Controller
     }
 
     public function edit(Recipe $recipe) {
-        if(!Gate::allows('recipe-edit-destroy', $recipe))
+        if(!Gate::allows('recipe-edit', $recipe))
             abort(403);
         $categories = Category::all();
         return view('recipe.edit', compact('recipe', 'categories'));
     }
 
     public function update(Recipe $recipe, Request $request) {
-        if(!Gate::allows('recipe-edit-destroy', $recipe))
+        if(!Gate::allows('recipe-edit', $recipe))
             abort(403);
         $recipe = $this->recipe_repository->update($recipe, $request);
         if(!$recipe->share)

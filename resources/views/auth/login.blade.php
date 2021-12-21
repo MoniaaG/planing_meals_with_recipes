@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header bg-dark text-white">@lang('/auth/login_register.login')</div>
+                <div class="card-header bg-dark font-weight-bold text-white">@lang('/auth/login_register.login')</div>
 
                 <div class="card-body">
                     <form method="POST" action="{{ route('login') }}">

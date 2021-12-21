@@ -9,7 +9,7 @@ $(document).ready(function () {
     var object = $(this);
     bootbox.confirm({
       title: 'title',
-      message: "<div class=\"modal-icon\"><i class=\"far fa-trash-alt\"></i><span>Czy chcesz oznaczy\u0107 przpis jako ugotowany></span></div>",
+      message: "<div class=\"modal-icon\"><i class=\"far fa-trash-alt\"></i><span>Czy chcesz oznaczy\u0107 przepis jako ugotowany?</span></div>",
       buttons: {
         confirm: {
           label: "<i class=\"fa fa-check mr-1\"></i> Oznacz jako ugotowany",
@@ -30,7 +30,7 @@ $(document).ready(function () {
               $(object[0].children[0]).removeClass('far');
               bootbox.alert({
                 title: 'Przepis oznaczono jako ugotowany!',
-                message: "<div class=\"modal-icon\"><i class=\"fa fa-check text-success\"></i><span>Oznaczono</span></div>",
+                message: "<div class=\"modal-icon\"><i class=\"fa fa-check text-success\"></i><span>Oznaczono jako ugotowany!</span></div>",
                 callback: function callback(confirm) {
                   $(location).attr("href", '/calendar/show');
                 }

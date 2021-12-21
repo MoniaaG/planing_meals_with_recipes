@@ -100,7 +100,7 @@ document.addEventListener('DOMContentLoaded', function() {
       </div>
       <div class="modal-footer" style="display: inline;">
       <div class="modal-header">
-        <div id="modal_title" class="modal-title">@lang('calendar.add_dish')</div>
+        <div id="modal_title" class="modal-title font-weight-bold">@lang('calendar.add_dish')</div>
       </div>
         <form id="dayClick" action="{{ route('calendar_recipe.store') }}" method="post">
             @csrf

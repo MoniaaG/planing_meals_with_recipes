@@ -7,20 +7,13 @@ use App\Http\Requests\ShoppingListRequest;
 use App\Models\Calendar;
 use App\Models\Pantry;
 use App\Models\Product;
-use App\Models\ProductCategory;
 use App\Models\Shoppinglist;
-use App\Models\Unit;
-use App\Models\User;
 use App\Repositories\Interfaces\ProductRepositoryInterface;
-use App\Statements\ConstProductCategory;
-use App\Statements\ProductsFromAPI;
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Date;
-use OpenFoodFacts\Laravel\Facades\OpenFoodFacts;
-use Psy\VarDumper\Dumper;
 
 class PantryController extends Controller
 {
@@ -54,7 +47,7 @@ class PantryController extends Controller
     {
         return view('pantry.addProductsToPantry');
     }
- 
+
     public function addProductToPantry(AddProductQuantityRequest $request)
     {
         $this->product_repository->saveProductsToRecipeOrPantry($request, null,$this->pantry);
@@ -64,15 +57,23 @@ class PantryController extends Controller
     public function addProductToPantryFromList(AddProductQuantityRequest $request)
     {
         try {
-        foreach($request->products as $product){
-            $savedProduct = Product::findOrFail($product['id']);
-            $this->pantry->products()->attach($savedProduct->id, ['quantity' => $product['quantity']]);
-            $this->shoppinglist->products()->where('product_id',$savedProduct->id)->update(['added_to_pantry' => 1]);
-        }
-        toastr()->success('Dodano produkty z listy do spiżarni');}catch(Exception $error){
-            toastr()->success('Błąd dodawania produktu z listy do spiżarni');
-        }
-        return redirect()->back();
+            foreach($request->products as $product){
+                $savedProduct = Product::findOrFail($product['id']);
+                $this->pantry->products()->attach($savedProduct->id, ['quantity' => $product['quantity']]);
+                $quantity = $this->shoppinglist->products()->where('product_id',$savedProduct->id)->first()->pivot->quantity - $product['quantity'];
+                if($quantity > 0){
+                    $this->shoppinglist->products()->where('product_id',$savedProduct->id)->update(['quantity' => $quantity]);
+                    toastr()->warning('Dodano produkty z listy do spiżarni ale nie wystarczającą ilość!');
+                }
+                else
+                    $this->shoppinglist->products()->where('product_id',$savedProduct->id)->update(['added_to_pantry' => 1]);
+            }
+            toastr()->success('Dodano produkty z listy do spiżarni');
+            return redirect()->route('pantry.showList');
+        }catch(Exception $error){
+            toastr()->error('Błąd dodawania produktu z listy do spiżarni');
+            return redirect()->back();
+        } 
     }
 
     public function searchShoppingList() 
@@ -189,7 +190,7 @@ class PantryController extends Controller
             $productToBuy = collect($productToBuy);
         }
         else {
-            //toastr błędne dane podaj właściwe
+            toastr()->error('Podane dane są nieprawidłowe!');
         }
         
         $shoppinglist = Shoppinglist::where('owner_id' ,'=', Auth::id())->first();
@@ -212,7 +213,9 @@ class PantryController extends Controller
     {
         try {
             $this->pantry->products()->wherePivot('id', $pantry_product)->update(['quantity' => $request->quantity]);
+            return response()->json(['status' => 'success'], 200);
         } catch (Exception $error) {
+            return response()->json(['status' => 'fail'], 404);
         }
 
     }

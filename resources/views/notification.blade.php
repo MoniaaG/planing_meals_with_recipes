@@ -63,7 +63,7 @@
 
 
                             </span>
-                            <button href="{{route('markNotification')}}" type="button" class="close"
+                            <button href="{{route('markNotification', ['id' => $notification->id])}}" type="button" class="close"
                                 data-dismiss="alert" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -89,12 +89,11 @@
     $('.notify-title').html('Powiadomienia');
     let buttons = $(".notify_body button.close");
     $(".notify_body button.close").click(function () {
-        $("#notifications").html(($("#notifications").html().replace("(", "").replace(")", "") -1));
+        $("#notifications").html(`(${$("#notifications").html().replace("(", "").replace(")", "") -1})`);
         if ($("#notifications").html() === "(0)") {
             $(".notifications").addClass('nothing-to-display');
             $(".notifications-bell").removeClass('d-inline');
             $("#notificationValue").html('Brak nowych powiadomień');
-
         }
     });
 

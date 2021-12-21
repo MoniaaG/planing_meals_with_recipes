@@ -126,6 +126,7 @@ class ProductRepository implements ProductRepositoryInterface
         foreach($request->products as $product) {
             $savedProduct = $product;
             
+            
             if($product['barcode'] != "null")
             {
                 $productFromAPI = Product::where('barcode', $product['barcode'])->count();
@@ -160,6 +161,9 @@ class ProductRepository implements ProductRepositoryInterface
             if(isset($recipe)) {
                 $recipe->products()->attach($savedProduct->id, ['quantity' => $product['quantity']]);
             }
+        }
+        if(isset($pantry)) {
+            toastr()->success('Dodano produkty do spiżarni!');
         }
         return;
     }

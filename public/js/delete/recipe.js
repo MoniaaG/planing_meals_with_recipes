@@ -9,7 +9,7 @@ $(document).ready(function () {
     console.log(url);
     bootbox.confirm({
       title: 'title',
-      message: "<div class=\"modal-icon\"><i class=\"far fa-trash-alt\"></i><span>Czy chcesz usun\u0105\u0107 ten przepis?</span></div>",
+      message: "<div class=\"modal-icon\"><i class=\"far fa-trash-alt\"></i><span>Czy chcesz usun\u0105\u0107 ten przepis? To dzia\u0142anie trwale usunie nawet zaplanowane w Twoim kalendarzu pomys\u0142y na dania! </span></div>",
       buttons: {
         confirm: {
           label: "<i class=\"fa fa-check mr-1\"></i> Usu\u0144",

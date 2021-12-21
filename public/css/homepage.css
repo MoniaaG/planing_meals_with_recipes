@@ -158,21 +158,26 @@ th > div > .fc-col-header-cell-cushion {
   background: #a8567a !important;
   border-color: #994b6d !important;
   color: white;
+  border-radius: 2rem;
 }
 .btn-success:hover, .btn-primary:hover {
   background-color: #994b6d !important;
-  color: gray;
+  color: #1f2535;
+}
+
+.btn-danger, .btn-info, .btn-white, .btn-outline-success, .allClose, .btn-outline-secondary, .fc-dayGridMonth-button, .fc-toolbar-chunk, .fc-daygrid-event {
+  border-radius: 2rem !important;
 }
 
 table tbody {
   background-color: #273045;
   color: white;
 }
-table tbody:hover {
-  color: red;
+table tbody td {
+  border-top: none !important;
 }
 
-.table {
+.table, .modal-header .close {
   color: white;
 }
 
@@ -203,6 +208,9 @@ table tbody:hover {
 .comments .card-body {
   border-radius: 2rem;
 }
+.comments .alert {
+  border-radius: 2rem;
+}
 
 .select2-container--default .select2-selection--single, .select2-dropdown, .select2-container--default .select2-selection--single .select2-selection__rendered {
   background-color: #1f2535 !important;
@@ -217,4 +225,34 @@ table tbody:hover {
 }
 .modal-body {
   background-color: #273045;
+}
+
+.dropdown-menu, .dropdown-menu-right {
+  border-radius: 1rem;
+  background-color: #1f2535;
+}
+
+.dropdown-item {
+  border-radius: 2rem;
+  color: white;
+}
+.dropdown-item:hover {
+  background-color: #273045;
+  color: white;
+}
+
+.navbar {
+  position: sticky;
+  z-index: 9999999;
+  top: 0;
+}
+
+.fc-prev-button {
+  border-top-left-radius: 2rem !important;
+  border-bottom-left-radius: 2rem !important;
+}
+
+.fc-today-button {
+  border-top-right-radius: 2rem !important;
+  border-bottom-right-radius: 2rem !important;
 }

@@ -4,7 +4,7 @@ $(document).ready(function() {
         let object = $(this);
         bootbox.confirm({
             title: 'title',
-            message: `<div class="modal-icon"><i class="far fa-trash-alt"></i><span>Czy chcesz zmienić przepis na nieugotowany?></span></div>`,
+            message: `<div class="modal-icon"><i class="far fa-trash-alt"></i><span>Czy chcesz zmienić przepis na nieugotowany?</span></div>`,
             buttons: {
                 confirm: {
                     label: `<i class="fa fa-check mr-1"></i> Oznacz jako nieugotowany!`,
@@ -25,7 +25,7 @@ $(document).ready(function() {
                             $(object[0].children[0]).removeClass('fas');
                             bootbox.alert({
                                 title: 'Przepis oznaczono jako nieugotowany!',
-                                message: `<div class="modal-icon"><i class="fa fa-check text-success"></i><span>Oznaczono</span></div>`,
+                                message: `<div class="modal-icon"><i class="fa fa-check text-success"></i><span>Oznaczono jako nieugotowany!</span></div>`,
                                 callback: function(confirm) {
                                     $(location).attr("href", '/calendar/show');
                                 },
