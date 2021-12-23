@@ -177,6 +177,8 @@ class RecipeTest extends TestCase
     public function testUpdateRecipe() {
         $user = User::factory()->create(['name' => 'user', 'email' => 'user@user.pl', 'password' => Hash::make('12345678')]); 
         $user->assignRole('user');
+        $pantry = Pantry::factory()->create(['owner_id' => $user->id]);
+        $calendar = Calendar::factory()->create(['owner_id' => $user->id]);
         $category = Category::factory()->create(['name' => 'new recipe category']);
         $unit = Unit::factory()->create(['unit' => ConstUnits::constUnits()[0]]);
         $product_category = ProductCategory::factory()->create(['name' => 'Kategoria produktu']);
@@ -188,12 +190,16 @@ class RecipeTest extends TestCase
         $recipe = Recipe::factory()->create(['category_id' => $category->id, 'user_id' => $user->id, 'share' => false]);
         $recipe->products()->attach($product_proposition->id, ['quantity' => 150]);
         
+        $products[0]['id'] = $product_proposition->id;
+        $products[0]['barcode'] = null;
+        $products[0]['quantity'] = 250;
         $response = $this->actingAs($user)->json('PUT', route('recipe.update', [ 'recipe' => 
         $recipe]), [
             'name' => 'edit product name',
             'short_description' => $recipe->short_description,
             'description' => 'edit description',
-            'category_id' => $category->id
+            'category_id' => $category->id, 
+            'products' => $products
         ]);
         $response->assertStatus(302);
     }
@@ -201,6 +207,8 @@ class RecipeTest extends TestCase
     public function testDeleteRecipe() {
         $user = User::factory()->create(['name' => 'user', 'email' => 'user@user.pl', 'password' => Hash::make('12345678')]); 
         $user->assignRole('user');
+        $pantry = Pantry::factory()->create(['owner_id' => $user->id]);
+        $calendar = Calendar::factory()->create(['owner_id' => $user->id]);
         $category = Category::factory()->create(['name' => 'new recipe category']);
         $unit = Unit::factory()->create(['unit' => ConstUnits::constUnits()[0]]);
         $product_category = ProductCategory::factory()->create(['name' => 'Kategoria produktu']);
