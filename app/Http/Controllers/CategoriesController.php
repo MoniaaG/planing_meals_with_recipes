@@ -47,7 +47,6 @@ class CategoriesController extends Controller
     }
 
     public function destroy(Category $recipe_category, Request $request) {
-        //before deleting category add recipes from that to another !!!!
         try {
             $recipe_category->delete();
             return response()->json(['status' => 'success'], 200);

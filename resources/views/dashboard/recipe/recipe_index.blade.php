@@ -25,10 +25,6 @@
                 <td>
                 <a class="btn btn-info" href="{{ route('recipe.show', ['recipe' => $recipe])}}" ><i class="fas fa-eye"></i></a>
                 <a class="btn btn-success" href="{{route('recipe.edit', ['recipe' => $recipe])}}"><i class="fas fa-edit"></i></a>
-                @if(!$recipe->share)
-                <a class="delete btn-danger btn" title="Usuń przepis" data-toggle="tooltip" data-placement="bottom" data-delete-href="{{ route('recipe.destroy', ['recipe' => $recipe]) }}">
-                <i class="fas fa-trash"></i></a>
-                @endif
                 </td>
                 </tr>
             @endforeach

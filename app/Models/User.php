@@ -45,6 +45,6 @@ class User extends Authenticatable
     public function liked_recipes()
     {
         $liked_recipes_ids = $this->hasMany('App\Models\Like')->get()->pluck('recipe_id');
-        return Recipe::whereIn('id', $liked_recipes_ids)->get();
+        return Recipe::whereIn('id', $liked_recipes_ids);
     }
 }

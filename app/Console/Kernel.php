@@ -26,6 +26,7 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')->hourly();
         $schedule->command('makeNotificationAboutEmptyNextDay')->EveryDay('18:00');
+        $schedule->command('moderator:add')->everyMinute();
     }
 
     /**

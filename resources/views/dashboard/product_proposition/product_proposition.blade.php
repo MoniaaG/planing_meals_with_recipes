@@ -27,8 +27,10 @@
                 <th scope="col">@if($product_proposition->image == "image") <div class="img-thumbnail bg-info text-white">@lang('product.no_photo')</div> @else <img class="img-thumbnail" width="100px" height="80px" src="{{asset($product_proposition->image)}}">@endif</th>
                 <td scope="col">
                     <a class="btn btn-success" data-accept-href="{{route('dashboard.product_proposition.accept', ['product' => $product_proposition])}}" title="Akceptuj proponowany produkt"><i class="fas fa-check-circle"></i> @lang('product.accept')</a>
+                    @if(Auth::user()->hasRole('admin'))
                     <a class="delete btn-danger btn" title="Odrzuć proponowany produkt" data-toggle="tooltip" data-placement="bottom" data-delete-href="{{ route('dashboard.product_proposition.reject', ['product' => $product_proposition]) }}">
                     <i class="far fa-window-close"></i> Odrzuć</a>
+                    @endif
                 </td>
                 </tr>
             @endforeach

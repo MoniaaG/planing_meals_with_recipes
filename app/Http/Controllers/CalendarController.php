@@ -45,8 +45,9 @@ class CalendarController extends Controller
     {
         if(isset($this->calendar)) {
             $this->calendar_repository->calendar_recipe_store($this->calendar, $request);
+            toastr()->success('Danie zapisane w kalendarzu');
         }else {
-            //send error message 
+            toastr()->success('Danie nie zostało zapisane w kalendarzu!');
         }
         return redirect()->back();
     }

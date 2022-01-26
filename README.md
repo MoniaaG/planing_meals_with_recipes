@@ -60,3 +60,15 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+Do uruchomienia projektu w srodowisku lokalnym potrzebny jest serwer xampp i jego właczenie
+Projekt umieszczamy w folderze xampp/htdocs/(tutaj_nazwa_folderu_projektu)
+W narzędziu phpMyadmin zazwyczaj pod adresem localhost/phpmyadmin trzeba utworzyć pusta bazę danych
+Nazwę bazy należy uzupełnić w pliku .env a jesli takiego nie ma trzeba go powielić kopiujac plik .env example
+composer install
+npm install
+php artisan migrate --seed / php artisan migrate:fresh --seed
+php artisan permission:assign
+
+Aby uruchomić serwer należy w konsoli wpisać komendę : php artisan serve
+Oraz aby wygenerować style aplikacji i zaimportować wszystkie konieczne komponenty : npm run dev

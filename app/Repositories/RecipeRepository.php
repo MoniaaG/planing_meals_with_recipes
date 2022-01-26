@@ -12,16 +12,17 @@ class RecipeRepository implements RecipeRepositoryInterface
 {
     public function searchRecipes(Request $request) {
         $response = [];
-        $recipes = Recipe::where('user_id', Auth::id())->get();
+        $recipes = Recipe::where('user_id', Auth::id());
         $liked_recipes = Auth::user()->liked_recipes();
-        if(count($recipes))
-            $recipes->concat($liked_recipes);
+        if(count($recipes->get()) > 0){
+            $recipes = $recipes->unionAll($liked_recipes);
+        }
         else 
             $recipes = $liked_recipes;
         if($request->search != "")
-            $recipes->where('name', 'like', '%' . $request->search . '%');
-        
-        foreach($recipes as $recipe){
+        $recipes = $recipes->where('name', 'like', "%$request->search%");
+
+        foreach($recipes->get() as $recipe){
             $response[] = array(
                 'id' => $recipe['id'],
                 'text' => $recipe['name'],

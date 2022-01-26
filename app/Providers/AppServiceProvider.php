@@ -74,7 +74,7 @@ class AppServiceProvider extends ServiceProvider
         });
 
         Gate::define('recipe-edit', function(User $user, Recipe $recipe) {
-            return $recipe->user_id == $user->id;
+            return $recipe->user_id == $user->id || $user->hasRole('admin');
         });
 
         Gate::define('recipe-destroy', function(User $user, Recipe $recipe) {

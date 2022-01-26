@@ -59,7 +59,7 @@ class RecipeController extends Controller
     }
 
     public function indexDashboard() {
-        $recipes = Recipe::all()->paginate(10);
+        $recipes = Recipe::where('share', true)->paginate(10);
         return view('dashboard.recipe.recipe_index', compact('recipes'));
     }
 

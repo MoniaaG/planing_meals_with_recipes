@@ -30,8 +30,6 @@ class ProductController extends Controller
 
     public function index()
     {
-        // zapytanie do bazy plus zapytanie do API
-
         $products = Product::all();
     }
 
