@@ -1,0 +1,60 @@
+.fa-heart {
+  color: red;
+  padding: 10px;
+  position: absolute;
+  right: 0px;
+  top: 0px;
+  margin-left: 20px;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.card-img-top {
+  position: relative;
+  background-color: white;
+}
+
+.footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin-top: 20px;
+}
+
+#aNotification {
+  color: white;
+}
+
+.notifications {
+  border-radius: 100%;
+  color: white;
+  position: relative;
+  transition: all .3s ease-in-out;
+  font-size: 14px;
+  font-weight: 500;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  top: -15px !important;
+  left: -5px !important;
+  padding: 5px;
+  background-color: #d20000;
+}
+
+.notifications:hover {
+  color: white;
+  opacity: .7;
+}
+
+.notifications i {
+  display: none;
+  font-size: 18px;
+}
+
+.notifications.nothing-to-display {
+  background-color: #05dddd;
+  top: -15px !important;
+  left: -5px !important;
+  padding: 5px;
+  font-size: 14px !important;
+}

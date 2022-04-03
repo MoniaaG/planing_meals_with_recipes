@@ -20,6 +20,7 @@ class CreatePantryProductTable extends Migration
             $table->unsignedBigInteger('product_id');
             $table->foreign('product_id')->references('id')->on('products');
             $table->decimal('quantity',8,2);
+            $table->date('expiration_date')->nullable();
             $table->timestamps();
         });
     }

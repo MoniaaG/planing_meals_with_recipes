@@ -1,0 +1,25 @@
+<?php
+
+return [
+    'add_recipe' => 'Dodaj przepis',
+    'edit_recipe' => 'Edytuj przepis',
+    'recipe_name' => 'Nazwa przepisu',
+    'recipe_short_description' => 'Krótki opis przepisu',
+    'recipe_description' => 'Opis przepisu',
+    'recipe_category' => 'Kategoria przepisu',
+    'small_image' => 'Małe zdjęcie dania',
+    'big_image' => 'Duże zdjęcie dania',
+    'share_ask' => 'Czy udostępnić przepis publicznie?',
+    'share_attention' => ' UWAGA! Ta operacja jest nieodwracalna.',
+    'search_ingredient' => 'Szukaj składnika',
+    'select_products' => 'Wybierz produkty',
+    'add_ingredient' => 'Dodaj składnik',
+    'ingredients' => 'Składniki',
+    'products_info' => 'W tym miejscu wymagane jest podanie ilości wybranych składników',
+    'recipe_photo' => 'Zdjęcie przepisu',
+    'no_results' => 'Brak wyników wyszukiwania',
+    'shared' => 'Udostępniony',
+    'average_grade' => 'Średnia ocena: ',
+    'add_recipe_category' => 'Dodaj kategorię przepisu',
+    'edit_recipe_category' => 'Edytuj kategorię przepisu',
+];

@@ -25,6 +25,8 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         // $schedule->command('inspire')->hourly();
+        $schedule->command('makeNotificationAboutEmptyNextDay')->EveryDay('18:00');
+        $schedule->command('moderator:add')->everyMinute();
     }
 
     /**

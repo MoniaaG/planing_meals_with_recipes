@@ -20,6 +20,8 @@ class CreateProductsTable extends Migration
             $table->string('name');
             $table->unsignedBigInteger('unit_id');
             $table->foreign('unit_id')->references('id')->on('units');
+            $table->unsignedBigInteger('product_category_id');
+            $table->foreign('product_category_id')->references('id')->on('product_categories');
             $table->boolean('added')->default(false);
             $table->timestamps();
         });

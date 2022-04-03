@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class Opinion extends Model
 {
     use HasFactory;
+
+    protected $fillable = ['creator_id', 'recipe_id', 'opinion'];
 }
